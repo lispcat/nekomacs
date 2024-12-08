@@ -42,3 +42,7 @@
 ;; quilt
 ;; BROKEN, DONT USE
 ;; (use-package quilt)
+
+(use-package auto-sudoedit)
+
+(use-package nix-mode)

@@ -24,7 +24,7 @@
 
 ;;; Function: sets a random theme.
 
-(defun mimi/set-random-theme ()
+(defun ne/set-random-theme ()
   (interactive)
   (let* ((available-themes (custom-available-themes))
 	 (current-theme (car custom-enabled-themes))
@@ -44,7 +44,7 @@
 (mimi/leader-define-key
  "T" '(:ignore t :which-key "Themes")
  "Tt" '(+load-theme :which-key "load-theme")
- "Tr" '(mimi/set-random-theme :which-key "set-random-theme")
+ "Tr" '(ne/set-random-theme :which-key "set-random-theme")
  )
 
 ;;; (Note: actually setting a theme should be done after loading this file).

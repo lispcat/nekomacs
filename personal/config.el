@@ -11,7 +11,7 @@
   ;; (+load-theme 'ef-dream t)
   ;; (+load-theme 'kaolin-temple t)
   ;; (+load-theme 'leuven-dark t)
-  (mimi/set-random-theme))
+  (ne/set-random-theme))
 
 ;;; Anki :::
 
@@ -73,8 +73,10 @@
     (interactive)
     (meow-insert-exit)
     ;; (yas-abort-snippet)
-    (save-buffer)
-    (keyboard-quit))
+    (when (buffer-modified-p (current-buffer))
+      (save-buffer))
+    ;; (keyboard-quit)
+    )
   (defvar ri/meow-insert-default-modes
     '(vterm-mode
       eshell-mode)
@@ -89,11 +91,12 @@
   ;; set some keys for insert-mode
   (meow-define-keys 'insert
     '("C-g" . meow-insert-exit)
-    '("C-M-g" . ri/meow-exit-all-and-save))
+    ;; '("C-M-g" . ri/meow-exit-all-and-save)
+    )
 
   ;; start certain modes in insert-mode
-  (dolist (mode ri/meow-insert-default-modes)
-    (add-to-list 'meow-mode-state-list `(,mode . insert)))
+  ;; (dolist (mode ri/meow-insert-default-modes)
+  ;;   (add-to-list 'meow-mode-state-list `(,mode . insert)))
 
   ;; disable meow-keypad (space key) on certain modes
   (defun ri/meow-SPC-ignore ()
@@ -108,5 +111,6 @@
 	      (lookup-key (current-local-map) (kbd "SPC"))))
 	(funcall cmd-to-replace)
       (meow-keypad)))
-  (meow-motion-overwrite-define-key
-   '("SPC" . ri/meow-SPC-ignore)))
+  ;; (meow-motion-overwrite-define-key
+  ;;  '("SPC" . ri/meow-SPC-ignore))
+  )

@@ -18,14 +18,15 @@
       '((tool-bar-lines . 0) ; disable tool bar
 	(menu-bar-lines . 0) ; disable menu bar
 	(vertical-scroll-bars) ; disable vertical scroll bar
-	(left-fringe . 8)   ; set left fringe (def: 8)
-	(right-fringe . 13) ; set right fringe (def: 8)
-	(internal-border-width . 15) ; box border around buffer+modeline
+	(left-fringe . 10)   ; set left fringe (def: 8) (then: 8)
+	(right-fringe . 10) ; set right fringe (def: 8) (then: 13)
+	(drag-internal-border . t)
+	(internal-border-width . 15) ; box border around buffer+modeline (creates gap)
         (fullscreen . maximized) ; TODO: ???
 	))
-(setq tool-bar-mode nil ; disable tool bar
-      menu-bar-mode nil ; disable menu bar
-      scroll-bar-mode nil ; disable vertical scroll bar
+(setq tool-bar-mode nil			; disable tool bar
+      menu-bar-mode nil			; disable menu bar
+      scroll-bar-mode nil		; disable vertical scroll bar
       )
 
 ;; prevent toolbar setup from running (optimization)
@@ -69,6 +70,16 @@
 (defun nekomini-enable-init-transparency ()
   (unless (assoc 'alpha-background default-frame-alist)
     (add-to-list 'default-frame-alist (cons 'alpha-background nekomimi-transparency-value))))
+
+;;; Fixes
+
+;; changes the eln-cache dir to be inside a subdir for cleanliness
+(when (and (fboundp 'startup-redirect-eln-cache)
+           (fboundp 'native-comp-available-p)
+           (native-comp-available-p))
+  (startup-redirect-eln-cache
+   (convert-standard-filename
+    (expand-file-name  "var/eln-cache/" user-emacs-directory))))
 
 ;;; Load early-config.el:
 
