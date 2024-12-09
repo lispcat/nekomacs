@@ -1,4 +1,9 @@
 
+;;; Modeline ;;;
+(use-package mood-line
+  :config
+  (mood-line-mode 1))
+
 ;;; Theme ;;;
 
 (use-package emacs
