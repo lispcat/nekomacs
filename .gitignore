@@ -1,0 +1,15 @@
+
+*
+
+!.gitignore
+
+!components/
+!components/**
+!personal/
+!personal/**
+
+!local/
+
+!README.org
+!early-init.el
+!init.el
