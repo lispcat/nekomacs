@@ -2,7 +2,7 @@
 
 ;;;;;; Completion ;;;;;;
 
-;; (+require 'neko-vertico-meta)
+;; (+require 'neko-meta-vertico)
 (+require 'neko-vertico)
 (+require 'neko-orderless)
 (+require 'neko-marginalia)
