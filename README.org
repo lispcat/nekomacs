@@ -2,6 +2,11 @@
 
 * wip
 
+* Names
+neko-emacs
+nekomacs
+nekomimi
+
 * Notes
 + Info on use-package `:custom` vs `:config setq` ::
   - ~:custom~ always evaluates block at the beginning reguardless of deferred loading.
