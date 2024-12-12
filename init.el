@@ -27,8 +27,8 @@
 (require 'module-loading-macros)
 
 ;;; load necessary components (lexigraphically load all components in
-;;; components/init/ that are prefixed by two numbers.)
-(let* ((dir (concat nekomimi-components-dir "init/"))
+;;; components/core/ that are prefixed by two numbers.)
+(let* ((dir (concat nekomimi-components-dir "core/"))
        (paths (sort (directory-files dir t "^[0-9][0-9]-.*$") #'string<)))
   (dolist (path paths)
     (when (file-regular-p path) ; Only load regular files, not directories

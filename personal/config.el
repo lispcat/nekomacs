@@ -42,6 +42,9 @@
 	 "\\(?:\\(\\[[ X-]\\]\\)\\(?:[ 	]+\\|$\\)\\)?"
 	 "\\(?:\\(.*\\)[ 	]+::\\(?:[ 	]+\\|$\\)\\)?")))
 
+(use-package toc-org
+  :hook org-mode)
+
 ;;; Workflow ;;;
 
 (use-package-local org-agenda

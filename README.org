@@ -1,14 +1,6 @@
 #+title: Emacs
 
-* Name ideas
-:PROPERTIES:
-:VISIBILITY: folded
-:END:
-
-nekomimi
-nekomacs/neko-emacs
-nekomaki
-nekomacs
+* wip
 
 * Notes
 + Info on use-package `:custom` vs `:config setq` ::
