@@ -1,5 +1,5 @@
 
 ;;;;;; Loads after early-init.el, before init.el ;;;;;;
 
-(setq nekomimi-benchmark t)
+(setq neko-benchmark t)
 

@@ -16,7 +16,7 @@
                       ;; Also handle undocumented (<active> <inactive>) form.
                       ((numberp (cadr alpha)) (cadr alpha)))
 		100)
-           nekomimi-transparency-value
+           neko-transparency-value
 	 100)))))
 
 (defun mimi/set-transparency (value)

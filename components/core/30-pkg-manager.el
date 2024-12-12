@@ -1,6 +1,6 @@
 
 
-(pcase nekomimi-package-manager
+(pcase neko-package-manager
   ('straight (+require 'pkg-manager--straight))
   ('package  (+require 'pkg-manager--package))
   ('elpaca   (+require 'pkg-manager--elpaca)))

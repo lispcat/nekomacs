@@ -29,7 +29,7 @@
       (cons '(:benchmark
 	      '(t)
 	      ;; use-package-benchmark-by-default
-	      nekomimi-benchmark
+	      neko-benchmark
 	      )
 	    use-package-defaults))
 

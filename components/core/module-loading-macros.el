@@ -10,7 +10,7 @@
 Benchmarking is ran with `+benchmark-action'."
   (condition-case-unless-debug e
       (let ((body (lambda () (load file noerror nomessage nosuffix must-suffix))))
-	(if nekomimi-benchmark
+	(if neko-benchmark
 	    (+benchmark-action file 'load
 	      (funcall body))
 	  (progn
@@ -22,7 +22,7 @@ Benchmarking is ran with `+benchmark-action'."
 Benchmarking is ran with `+benchmark-action'."
   (condition-case-unless-debug e
       (let ((body (lambda () (require feature filename noerror))))
-	(if nekomimi-benchmark
+	(if neko-benchmark
 	    (+benchmark-action feature 'require
 	      (funcall body))
 	  (progn

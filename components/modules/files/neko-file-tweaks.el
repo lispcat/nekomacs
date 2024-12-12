@@ -3,7 +3,7 @@
 
 ;; TODO: consider moving some of these to neko-history.el?
 
-;; TODO: create a custom nekomimi-lazy-load-hook for clarity?
+;; TODO: create a custom neko-lazy-load-hook for clarity?
 
 ;; track recently opened files
 (use-package-local recentf

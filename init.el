@@ -3,7 +3,7 @@
 ;; gc
 (add-hook 'after-init-hook
 	  (lambda ()
-	    (setq gc-cons-threshold nekomimi-after-init-gc-cons-threshold)))
+	    (setq gc-cons-threshold neko-after-init-gc-cons-threshold)))
 
 ;;; crash if unmet reqs
 (let ((min-ver 28))
@@ -17,18 +17,18 @@
     (let ((default-directory path))
       (normal-top-level-add-to-load-path '("."))
       (normal-top-level-add-subdirs-to-load-path))))
-(add-subdirs-to-load-path nekomimi-components-dir)
-(add-subdirs-to-load-path nekomimi-personal-dir)
+(add-subdirs-to-load-path neko-components-dir)
+(add-subdirs-to-load-path neko-personal-dir)
 
 ;;; set user-emacs-directory to local dir
-(setq user-emacs-directory nekomimi-local-dir)
+(setq user-emacs-directory neko-local-dir)
 
 ;;; load module-loading macros (+require, +load, ...)
 (require 'module-loading-macros)
 
 ;;; load necessary components (lexigraphically load all components in
 ;;; components/core/ that are prefixed by two numbers.)
-(let* ((dir (concat nekomimi-components-dir "core/"))
+(let* ((dir (concat neko-components-dir "core/"))
        (paths (sort (directory-files dir t "^[0-9][0-9]-.*$") #'string<)))
   (dolist (path paths)
     (when (file-regular-p path) ; Only load regular files, not directories
@@ -41,14 +41,14 @@
   (+load custom-file))
 
 ;;; load my-components-config.el file
-(let ((file nekomimi-modules-config))
+(let ((file neko-modules-config))
   (when (file-exists-p file)
     (+load file)))
 
 ;;; load all in personal-dir recursively and lexigraphically
 ;;; (excludes special-config-dir and things beginning with "_").
-(let* ((dir nekomimi-personal-dir)
-       (excluded-dir nekomimi-special-config-dir)
+(let* ((dir neko-personal-dir)
+       (excluded-dir neko-special-config-dir)
        (paths (directory-files-recursively dir "^[^_].*\\.el$")))
   (dolist (path paths)
     (unless (string-match-p (regexp-quote excluded-dir) path)
