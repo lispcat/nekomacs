@@ -3,8 +3,13 @@
 
 !.gitignore
 
-!components/
-!components/**
+!docs/
+!docs/**
+
+!core/
+!core/**
+!modules/
+!modules/**
 !personal/
 !personal/**
 
