@@ -17,7 +17,8 @@
     (let ((default-directory path))
       (normal-top-level-add-to-load-path '("."))
       (normal-top-level-add-subdirs-to-load-path))))
-(add-subdirs-to-load-path neko-components-dir)
+(add-subdirs-to-load-path neko-core-dir)
+(add-subdirs-to-load-path neko-modules-dir)
 (add-subdirs-to-load-path neko-personal-dir)
 
 ;;; set user-emacs-directory to local dir
@@ -26,9 +27,9 @@
 ;;; load module-loading macros (+require, +load, ...)
 (require 'module-loading-macros)
 
-;;; load necessary components (lexigraphically load all components in
-;;; components/core/ that are prefixed by two numbers.)
-(let* ((dir (concat neko-components-dir "core/"))
+;;; load core files (lexigraphically load all core files that are
+;;; prefixed by two numbers.)
+(let* ((dir neko-core-dir)
        (paths (sort (directory-files dir t "^[0-9][0-9]-.*$") #'string<)))
   (dolist (path paths)
     (when (file-regular-p path) ; Only load regular files, not directories
@@ -40,7 +41,7 @@
 (when (file-exists-p custom-file)
   (+load custom-file))
 
-;;; load my-components-config.el file
+;;; load user-side modules.el file
 (let ((file neko-modules-config))
   (when (file-exists-p file)
     (+load file)))
@@ -57,4 +58,3 @@
 
 ;;; End
 (message "Emacs initialized!")
-(put 'upcase-region 'disabled nil)

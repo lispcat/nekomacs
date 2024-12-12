@@ -29,10 +29,11 @@
 
 ;;;;;; Languages ;;;;;;
 
-(+require 'neko-languages)
-(+require 'neko-eglot)
-(+require 'neko-lisp)
-(+require 'neko-lisp-adv)
+(+require 'neko-code-general)
+;; (+require '_neko-eglot)
+(+require 'neko-lsp-mode)
+(+require 'neko-lisp-general)
+(+require 'neko-lisp-advanced)
 (+require 'neko-scheme)
 
 ;;;;;; Org ;;;;;;
