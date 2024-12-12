@@ -8,7 +8,7 @@ neko-emacs (aka. nekomacs)
 
 * Why another emacs distribution?
 
-Besides creating a very nice personal configuration, I found myself frustrated with all the Emacs distributions out there I've tried. Most of them have a very thick layer of abstraction over vanilla Emacs, which makes both debugging and understanding Emacs on a deeper level much harder. I also wanted an ideal Emacs distribution I can point to for friends wanting to try out Emacs---one that I understand every nook and cranny of. Which led me to turn my personal configuration into this project.
+Besides creating a very nice personal configuration, I found myself frustrated with all the Emacs distributions out there that I've tried. Most of them have a very thick layer of abstraction over vanilla Emacs, which makes both debugging and understanding Emacs on a deeper level much harder to do. I also wanted an ideal Emacs distribution I could point to for friends wanting to try out Emacs---a distro I understand every nook and cranny of. Which led me to turn my personal configuration into this distribution.
 
 * Ideology
 
@@ -21,7 +21,7 @@ Aims for this distro:
 - Make user-facing modules loadable in any order and without issue.
 - Keep startup times relatively fast.
 
-The pathway for most Emacs users is starting off with a very "just-works" disto, then switching over to something more minimal, or vanilla Emacs entirely. I wanted to ease this transition as much as possible by making everything as modular and easily hackable as possible, allowing the user to get as close to vanilla Emacs as possible if they so wish. Think of this as something similar to a pre-made NixOS configuration, wherein you can blacklist, replace, or write and add modules to your setup.
+The pathway for most Emacs users (including myself) is starting off with a very "just-works" disto, then switching over to something more minimal, or vanilla Emacs entirely. I wanted to ease this transition as much as possible by making everything as modular and easily hackable as possible, allowing the user to get as close to vanilla Emacs as possible while staying on this distribution. Think of this project as something similar to a pre-made NixOS configuration, wherein you can easily blacklist, replace, or write and add modules to your setup, making it so you can slowly tweak it into your own.
 
 * Personal
 ** Notes
