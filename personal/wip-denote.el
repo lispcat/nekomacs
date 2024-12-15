@@ -1,19 +1,110 @@
 
+;; Sample config:
 ;; https://protesilaos.com/emacs/denote#h:5d16932d-4f7b-493d-8e6a-e5c396b15fd6
 (use-package denote
   :config
+
   (setq denote-directory (expand-file-name "~/Notes/denote"))
-  (setq denote-known-keywords '("emacs" "class" "ideas" "art" "hobbies" "random"))
-  ;; (setq denote-prompts '(title keywords subdirectory)) ; cannot interact with rest
+  (setq denote-known-keywords '("emacs" "class" "ideas" "art"
+				"hobbies" "random"))
+  (setq denote-prompts '(title keywords subdirectory))
+  
+  ;; exclude Archive dirs
+  (setq denote-excluded-directories-regexp "/Archive[d]*")
+
+  ;; misc settings
+  (setq denote-rename-confirmations '(rewrite-front-matter))
+
+  ;; rename buffer
+  
+  (denote-rename-buffer-mode 1)
+  (setq denote-rename-buffer-format "[D] %t%b  __%k")
+
+  ;; text files
+  
+  (add-hook 'text-mode-hook #'denote-fontify-links-mode-maybe)
+
+  ;; journal
+
+  (require 'denote-journal-extras)
+  (setq denote-journal-extras-directory
+	(expand-file-name "journal" denote-directory))
+
+  ;; dired fontify
+  (add-hook 'dired-mode-hook #'denote-dired-mode)
 
   ;; silos
-  (require 'denote-silo-extras)
-  (setq denote-silo-extras-directories
-	(list denote-directory
-	      (expand-file-name "~/School/classes/denote")))
   
+  (require 'denote-silo-extras)
+  
+  ;; (defvar my/denote-school-silo
+  ;;   (expand-file-name "~/School/classes/denote"))
+  
+  ;; (setq denote-silo-extras-directories
+  ;; 	(list denote-directory
+  ;; 	      my/denote-school-silo))
+
+  ;; silo functions
+
+  (defun my/denote-silo-extras-dired-to-silo (silo)
+    "Switch to SILO directory using `dired'.
+SILO is a file path from `denote-silo-extras-directories'.
+
+When called from Lisp, SILO is a file system path to a directory that
+conforms with `denote-silo-extras-path-is-silo-p'."
+    (interactive (list (denote-silo-extras-directory-prompt)))
+    (denote-silo-extras-with-silo silo
+      (dired silo)))
+
+  (defun my/denote-silo-extras-cd-to-silo (silo)
+    "Switch to SILO directory using `cd'.
+SILO is a file path from `denote-silo-extras-directories'.
+
+When called from Lisp, SILO is a file system path to a directory that
+conforms with `denote-silo-extras-path-is-silo-p'."
+    (interactive (list (denote-silo-extras-directory-prompt)))
+    (denote-silo-extras-with-silo silo
+      (cd silo)))
+
+  ;; capture
+
+  (with-eval-after-load 'org-capture
+    (add-to-list 'org-capture-templates
+		 '("n" "New note (with Denote)" plain
+                   (file denote-last-path)
+                   #'denote-org-capture
+                   :no-save t
+                   :immediate-finish nil
+                   :kill-buffer t
+                   :jump-to-captured t)))
+
+  ;; which-key
 
   (mimi/leader-define-key
-    "n" '(:ignore t :which-key t)
+    "n" '(:ignore t :which-key "denote")
     "nn" 'denote
-    "nl" 'denote-link))
+    "ns" 'denote-subdirectory		; for school notes
+    "no" 'denote-open-or-create
+    
+    "ni" '(:ignore t :which-key "silo")
+    "nid" '(my/denote-silo-extras-dired-to-silo :which-key "dired")
+    "nic" '(denote-silo-extras-select-silo-then-command :which-key "command")
+    "nin" '(denote-silo-extras-create-note :which-key "create")
+    "nio" '(denote-silo-extras-open-or-create :which-key "open")
+
+    "nl" '(:ignore t :which-key "link")
+    "nll" '(denote-link :which-key "create link") 
+    "nlf" '(denote-find-link :which-key "find links in file")
+    "nla" '(denote-add-links :which-key "add links for meta")
+    
+    "nb" '(:ignore t :which-key "backlink")
+    "nbb" '(denote-backlinks :which-key "show backlinks")
+    "nbf" '(denote-find-backlink :which-key "find backlinks")
+
+    "nj" '(:ignore t :which-key "journal")
+    "njn" '(denote-journal-extras-new-entry :which-key "new entry")
+    "njl" '(denote-journal-extras-link-or-create-entry :which-key "link entry")
+    "njo" '(denote-journal-extras-new-or-existing-entry :which-key "open today")
+    "njj" '(denote-journal-extras-new-or-existing-entry :which-key "open today")
+
+    ))

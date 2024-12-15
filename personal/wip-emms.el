@@ -9,20 +9,21 @@
 ;; TODO: 
 (use-package emms
   :config
-  (require 'emms-setup)
-  (require 'emms-player-mpd)
-  (require 'emms-player-mpv)
   (emms-all)
+  (require 'emms-player-mpd)
   
   ;; variables
   
   (setq emms-source-file-default-directory "~/Music/library/")
+  
   ;; emms-player-mpv-parameters '("--no-audio-display=no"); broken
   (setq emms-browser-covers #'emms-browser-cache-thumbnail-async)
   ;; sort by natural order
   (setq emms-playlist-sort-function #'emms-playlist-sort-by-natural-order)
-  ;; sort album by natural order
-  (setq  emms-browser-album-sort-function #'emms-playlist-sort-by-natural-order)
+  ;; ;; sort album by natural order
+  ;; ;; (setq  emms-browser-album-sort-function #'emms-playlist-sort-by-natural-order)
+  ;; this actually sorts by natural order upon adding
+  (add-hook 'emms-playlist-source-inserted-hook #'emms-playlist-sort-by-natural-order)
 
   ;; backends
   
@@ -40,7 +41,7 @@
 
   ;; enable playerctl pausing
   
-  (require 'emms-mpris)
+  ;; (require 'emms-mpris)
   (emms-mpris-enable)
 
   ;; (setq emms-player-list '(emms-player-mpd))
