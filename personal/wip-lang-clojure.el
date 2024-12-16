@@ -1,2 +1,3 @@
 
-(use-package clojure-mode)
+(use-package clojure-mode
+  :defer t)

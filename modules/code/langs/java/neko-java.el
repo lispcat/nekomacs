@@ -4,3 +4,5 @@
 
 ;; (with-eval-after-load 'lsp-mode
 ;;   (+require 'neko-java-lsp-mode))
+
+(provide 'neko-java.el)

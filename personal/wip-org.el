@@ -1,7 +1,8 @@
 
 ;;; Anki :::
 
-(use-package anki-editor)
+(use-package anki-editor
+  :defer t)
 
 ;;; Org ;;;
 

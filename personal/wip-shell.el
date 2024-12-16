@@ -2,8 +2,9 @@
 ;;; eshell ;;;
 (use-package eshell
   :defer t
-  :bind
-  ("C-c p e" . eshell))
+  :general
+  (neko/leader-definer
+   "a e" 'eshell))
 
 ;;; eat ;;;
 
@@ -14,5 +15,6 @@
   :config
   (setq eat-term-name "xterm-256color")
   (setq eat-kill-buffer-on-exit t)
-  :bind
-  ("C-c p p" . eat))
+  :general
+  (neko/leader-definer
+    "a a" 'eat))

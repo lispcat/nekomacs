@@ -3,6 +3,7 @@
   :mode "\\.sld\\'")
 
 (use-package geiser
+  :defer t
   :custom
   (geiser-default-implementation 'guile)
   (geiser-active-implementations '(guile))

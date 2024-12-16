@@ -10,9 +10,8 @@
   (add-hook 'after-init-hook #'ne/start-server-if-not-running))
 
 (neko/leader-definer
-  "q" '(:ignore t :which-key "server")
-  "qq" 'delete-frame
-  "qQ" 'save-buffers-kill-emacs)
+  "q" 'delete-frame
+  "Q" 'save-buffers-kill-emacs)
 
 
 (provide 'neko-server)

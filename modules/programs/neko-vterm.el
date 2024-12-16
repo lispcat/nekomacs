@@ -39,7 +39,7 @@
   ;; :custom (multi-vterm-dedicated-window-height-percent 30)
   :general
   (neko/leader-definer
-    "pt" 'vterm
-    "pmm" 'multi-vterm-dedicated-toggle))
+    "at" 'vterm
+    "amm" 'multi-vterm-dedicated-toggle))
 
 (provide 'neko-vterm)

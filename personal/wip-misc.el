@@ -5,6 +5,7 @@
 ;;; Elfeed ;;;
 
 (use-package elfeed
+  :defer t
   :config
   ;; set `elfeed-feeds' to all files in `my/elfeed-feeds-dir'.
   (defvar my/elfeed-feeds-dir "~/feeds")

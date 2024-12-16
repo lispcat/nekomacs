@@ -9,11 +9,12 @@
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
   ;; use trash if trash executable is found
   (when (executable-find "trash")
-    (setq delete-by-moving-to-trash t)))
+    (setq delete-by-moving-to-trash t))
 
-(neko/leader-definer
-  "d" '(:ignore t :which-key "dired")
-  "dd" 'find-file
-  "dj" 'dired-jump)
+  :general
+  (neko/leader-definer
+    "d" '(:ignore t :which-key "dired")
+    "dd" 'find-file
+    "dj" 'dired-jump))
 
 (provide 'neko-dired)

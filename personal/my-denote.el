@@ -1,14 +1,18 @@
 
 ;; Sample config:
 ;; https://protesilaos.com/emacs/denote#h:5d16932d-4f7b-493d-8e6a-e5c396b15fd6
+
+;; Note:
+;; - dired: "% m" then "t" then `k' to kill and filter down results
+
 (use-package denote
   :defer t
   :general
   (neko/leader-definer
     "n" '(:ignore t :which-key "denote")
     "nn" 'denote
-    "ns" 'denote-subdirectory		; for school notes
-    "no" 'denote-open-or-create
+    "ns" 'denote-subdirectory
+    "nf" 'denote-open-or-create
     
     "ni" '(:ignore t :which-key "silo")
     "nid" '(my/denote-silo-extras-dired-to-silo :which-key "dired")
@@ -25,6 +29,10 @@
     "nbb" '(denote-backlinks :which-key "show backlinks")
     "nbf" '(denote-find-backlink :which-key "find backlinks")
 
+    "no" '(:ignore t :which-key "org")
+    "nol" 'denote-org-extras-dblock-insert-links
+    "noa" 'my/denote-insert-file-local-dblock-auto-update
+
     "nj" '(:ignore t :which-key "journal")
     "njn" '(denote-journal-extras-new-entry :which-key "new entry")
     "njl" '(denote-journal-extras-link-or-create-entry :which-key "link entry")
@@ -38,11 +46,21 @@
 				"hobbies" "random"))
   (setq denote-prompts '(title keywords subdirectory))
   
-  ;; exclude Archive dirs
-  (setq denote-excluded-directories-regexp "/Archive[d]*")
+  ;; exclude dirs: /Archive, /Archived, /Exclude, /Excluded, ^_
+  (setq denote-excluded-directories-regexp
+	"/[aA]rchived?\\|/[eE]xcluded?\\|/^_.*")
 
   ;; misc settings
   (setq denote-rename-confirmations '(rewrite-front-matter))
+
+  ;; dblocks
+  (defun my/denote-insert-file-local-dblock-auto-update ()
+    (interactive)
+    (if (eq major-mode 'org-mode)
+	(add-file-local-variable
+	 'eval
+	 '(add-hook 'before-save-hook #'org-update-all-dblocks nil t))
+      (message "Not in an org-mode buffer")))
 
   ;; rename buffer
   

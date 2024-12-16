@@ -4,6 +4,7 @@
 ;; https://github.com/emacs-rustic/rustic
 
 (use-package rustic
+  :defer t
   :custom
   (rustic-cargo-use-last-stored-arguments t) ; ?
   :config

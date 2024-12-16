@@ -6,9 +6,13 @@
   :config
   (electric-pair-mode 1))
 
-(use-package compile
+(use-package-local compile
   :custom
   (compilation-scroll-output t))
+
+;; move elsewhere?
+(global-prettify-symbols-mode 1)
+
 
 ;; TODO: consider adding lang to every filename?
 
