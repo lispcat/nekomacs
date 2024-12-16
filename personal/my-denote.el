@@ -6,13 +6,17 @@
 ;; - dired: "% m" then "t" then `k' to kill and filter down results
 
 (use-package denote
-  :defer t
-  :general
+  :demand t
+  :general ; this defers
   (neko/leader-definer
     "n" '(:ignore t :which-key "denote")
     "nn" 'denote
     "ns" 'denote-subdirectory
+    
     "nf" 'denote-open-or-create
+
+    "nd" '(:ignore t :which-key "directory")
+    "ndj" '(my/denote-directory-jump :which-key "jump to denote dir")
     
     "ni" '(:ignore t :which-key "silo")
     "nid" '(my/denote-silo-extras-dired-to-silo :which-key "dired")
@@ -30,8 +34,10 @@
     "nbf" '(denote-find-backlink :which-key "find backlinks")
 
     "no" '(:ignore t :which-key "org")
-    "nol" 'denote-org-extras-dblock-insert-links
-    "noa" 'my/denote-insert-file-local-dblock-auto-update
+    "nol" '(denote-org-extras-dblock-insert-links :which-key "dblock links")
+    "nof" '(denote-org-extras-dblock-insert-files :which-key "dblock files")
+    "nob" '(denote-org-extras-dblock-insert-backlinks :which-key "dblock backlinks")
+    "noa" '(my/denote-insert-file-local-dblock-auto-update :which-key "insert file-local dblock auto-update")
 
     "nj" '(:ignore t :which-key "journal")
     "njn" '(denote-journal-extras-new-entry :which-key "new entry")
@@ -46,9 +52,13 @@
 				"hobbies" "random"))
   (setq denote-prompts '(title keywords subdirectory))
   
-  ;; exclude dirs: /Archive, /Archived, /Exclude, /Excluded, ^_
+  ;; exclude any subdir: [ Archive[d]?, Exclude[d]?, _.* ] where "(^|/).*(/|$)"
   (setq denote-excluded-directories-regexp
-	"/[aA]rchived?\\|/[eE]xcluded?\\|/^_.*")
+	(concat
+	 "\\(^\\|/\\)" "[aA]rchived?" "\\(/\\|$\\)" "\\|"
+	 "\\(^\\|/\\)" "[eE]xcluded?" "\\(/\\|$\\)" "\\|"
+	 "\\(^\\|/\\)" "_.*"          "\\(^\\|/\\)"
+	 ))
 
   ;; misc settings
   (setq denote-rename-confirmations '(rewrite-front-matter))
@@ -64,8 +74,8 @@
 
   ;; rename buffer
   
+  (setq denote-rename-buffer-format "[D] %t%b  _%k")
   (denote-rename-buffer-mode 1)
-  (setq denote-rename-buffer-format "[D] %t%b  __%k")
 
   ;; text files
   
@@ -92,6 +102,10 @@
   ;; 	      my/denote-school-silo))
 
   ;; silo functions
+
+  (defun my/denote-directory-jump ()
+    (interactive)
+    (dired denote-directory))
 
   (defun my/denote-silo-extras-dired-to-silo (silo)
     "Switch to SILO directory using `dired'.
