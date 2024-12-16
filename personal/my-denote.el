@@ -25,13 +25,15 @@
     "nio" '(denote-silo-extras-open-or-create :which-key "open")
 
     "nl" '(:ignore t :which-key "link")
-    "nll" '(denote-link :which-key "create link") 
+    "nll" '(denote-find-link :which-key "find links in file")
     "nlf" '(denote-find-link :which-key "find links in file")
+    "nln" '(denote-link :which-key "create link")
     "nla" '(denote-add-links :which-key "add links for meta")
     
     "nb" '(:ignore t :which-key "backlink")
-    "nbb" '(denote-backlinks :which-key "show backlinks")
+    "nbb" '(denote-find-backlink :which-key "find backlinks")
     "nbf" '(denote-find-backlink :which-key "find backlinks")
+    "nbl" '(denote-backlinks :which-key "list backlinks")
 
     "no" '(:ignore t :which-key "org")
     "nol" '(denote-org-extras-dblock-insert-links :which-key "dblock links")

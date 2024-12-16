@@ -62,9 +62,10 @@
   (emms-player-mpd-connect)
 
   ;; enable playerctl pausing
-  
-  ;; (require 'emms-mpris)
-  (emms-mpris-enable)
+
+  ;; DISABLE LATER when using mpd-mpris service
+  (require 'emms-mpris)
+  (emms-mpris-enable) ;; (will make emacs hog mpris media playing active)
 
   ;; (setq emms-player-list '(emms-player-mpd))
   ;; (add-to-list 'emms-info-functions 'emms-info-mpd)
