@@ -7,6 +7,7 @@
               ;; ("C-k" . corfu-previous)
               ("TAB" . corfu-insert)
               ([tab] . corfu-insert)	; TODO: why repeat??
+	      ("RET" . nil)
               ;; ("C-f" . corfu-insert)
 	      )
   :custom

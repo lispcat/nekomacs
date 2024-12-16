@@ -8,16 +8,15 @@
   (defun ri/meow-exit-all-and-save ()
     "When run, exit meow insert mode, exit snippet, then save buffer."
     (interactive)
-    (meow-insert-exit)
-    ;; (yas-abort-snippet)
+    (execute-kbd-macro (kbd "<escape>"))
     (when (buffer-modified-p (current-buffer))
-      (save-buffer))
-    ;; (keyboard-quit)
-    )
+      (save-buffer)))
+  
   (defvar ri/meow-insert-default-modes
     '(vterm-mode
       eshell-mode)
     "Start these modes in meow-insert-mode.")
+  
   (defvar ri/meow-SPC-ignore-list
     '(Info-mode
       gnus-summary-mode
@@ -28,7 +27,7 @@
   ;; set some keys for insert-mode
   (meow-define-keys 'insert
     '("C-g" . meow-insert-exit)
-    ;; '("C-M-g" . ri/meow-exit-all-and-save)
+    '("C-M-g" . ri/meow-exit-all-and-save)
     )
 
   ;; start certain modes in insert-mode

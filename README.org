@@ -51,6 +51,7 @@ It's composed of the following parts (loaded in order):
 + M-TAB is C-M-i (HUGE)
 + C-c M-x is M-x but only for mode (HUGE)
 + C-M-SPC for selection (HUGE)
++ consult-ripgrep is very op
 
 ** Ideas/todo
 
@@ -62,6 +63,9 @@ and instead of
 : "sn" 'consult-notes
 do
 : (define-key 'search-map (kbd "n") #'consult-notes)
+
+^
+actually, lets just use ~"sn" 'consult-notes~ for everything. ~M-s~ is barely even used for anything useful anyways.
 
 
 instead of ~neko/~, use ~neko-~, so it looks and feels more like a package rather than an abstraction layer.
