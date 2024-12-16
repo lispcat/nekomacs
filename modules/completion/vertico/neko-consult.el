@@ -65,6 +65,9 @@
 
 ;; used to go to a file in a bookmarked dir n stuff (one ex)
 (use-package consult-dir
+  :general
+  (mimi/leader-define-key
+    "fd" 'consult-dir)
   :bind (("C-x C-d" . consult-dir)	; default?
          :map vertico-map
          ("C-x C-d" . consult-dir)
@@ -72,8 +75,7 @@
   ;; :custom
   ;; (consult-dir-project-list-function nil)
   )
-(mimi/leader-define-key
-  "fd" 'consult-dir)
+
 
 
 ;; TODO: do i even need to do this here?

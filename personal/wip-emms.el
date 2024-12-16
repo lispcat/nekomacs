@@ -8,10 +8,32 @@
 
 ;; TODO: 
 (use-package emms
+  :defer t
+  :general
+  (neko/leader-definer
+    "e" '(:ignore t :which-key "wao")
+    "e e" 'emms
+    "e n" 'emms-next
+    "e p" 'emms-previous
+    "e s" 'emms-seek-to
+    
+    "e i" '(:ignore t :which-key "info")
+    "e i i" 'emms-show
+    "e i a" 'emms-show-all
+    
+    "e b" '(:ignore t :which-key "browse")
+    "e b b" 'emms-browser
+    "e b a" 'emms-browse-by-album
+    "e b A" 'emms-browse-by-artist)
+  
+  :general-config
+  (neko/leader-definer
+    "e S" emms-playlist-sort-map)
+  
   :config
   (emms-all)
   (require 'emms-player-mpd)
-  
+
   ;; variables
   
   (setq emms-source-file-default-directory "~/Music/library/")
@@ -47,7 +69,9 @@
   ;; (setq emms-player-list '(emms-player-mpd))
   ;; (add-to-list 'emms-info-functions 'emms-info-mpd)
   ;; (add-to-list 'emms-player-list 'emms-player-mpd)
- 
+
+  ;; browser
+  
   ;; TODO: add this function to emms-info-functions (hard to implement?)
   ;; (instead make my own function that runs ffprobe and gets info? might be better)
   (defun my/emms-show-album-cover-in-emacs ()
@@ -75,7 +99,8 @@
 		     (pop-to-buffer (current-buffer))))
 		  (t
 		   (message "Error: ffmpeg cover at cover-path not found.")))))
-      (message "No song currently playing"))))
+      (message "No song currently playing")))
 
-;; Hook to display album cover in Emacs when the track changes
-;; (add-hook 'emms-player-started-hook 'emms-show-album-cover-in-emacs)
+  ;; Hook to display album cover in Emacs when the track changes
+  ;; (add-hook 'emms-player-started-hook 'emms-show-album-cover-in-emacs)
+  )

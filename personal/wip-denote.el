@@ -2,6 +2,35 @@
 ;; Sample config:
 ;; https://protesilaos.com/emacs/denote#h:5d16932d-4f7b-493d-8e6a-e5c396b15fd6
 (use-package denote
+  :defer t
+  :general
+  (neko/leader-definer
+    "n" '(:ignore t :which-key "denote")
+    "nn" 'denote
+    "ns" 'denote-subdirectory		; for school notes
+    "no" 'denote-open-or-create
+    
+    "ni" '(:ignore t :which-key "silo")
+    "nid" '(my/denote-silo-extras-dired-to-silo :which-key "dired")
+    "nic" '(denote-silo-extras-select-silo-then-command :which-key "command")
+    "nin" '(denote-silo-extras-create-note :which-key "create")
+    "nio" '(denote-silo-extras-open-or-create :which-key "open")
+
+    "nl" '(:ignore t :which-key "link")
+    "nll" '(denote-link :which-key "create link") 
+    "nlf" '(denote-find-link :which-key "find links in file")
+    "nla" '(denote-add-links :which-key "add links for meta")
+    
+    "nb" '(:ignore t :which-key "backlink")
+    "nbb" '(denote-backlinks :which-key "show backlinks")
+    "nbf" '(denote-find-backlink :which-key "find backlinks")
+
+    "nj" '(:ignore t :which-key "journal")
+    "njn" '(denote-journal-extras-new-entry :which-key "new entry")
+    "njl" '(denote-journal-extras-link-or-create-entry :which-key "link entry")
+    "njo" '(denote-journal-extras-new-or-existing-entry :which-key "open today")
+    "njj" '(denote-journal-extras-new-or-existing-entry :which-key "open today"))
+  
   :config
 
   (setq denote-directory (expand-file-name "~/Notes/denote"))
@@ -80,31 +109,4 @@ conforms with `denote-silo-extras-path-is-silo-p'."
 
   ;; which-key
 
-  (mimi/leader-define-key
-    "n" '(:ignore t :which-key "denote")
-    "nn" 'denote
-    "ns" 'denote-subdirectory		; for school notes
-    "no" 'denote-open-or-create
-    
-    "ni" '(:ignore t :which-key "silo")
-    "nid" '(my/denote-silo-extras-dired-to-silo :which-key "dired")
-    "nic" '(denote-silo-extras-select-silo-then-command :which-key "command")
-    "nin" '(denote-silo-extras-create-note :which-key "create")
-    "nio" '(denote-silo-extras-open-or-create :which-key "open")
-
-    "nl" '(:ignore t :which-key "link")
-    "nll" '(denote-link :which-key "create link") 
-    "nlf" '(denote-find-link :which-key "find links in file")
-    "nla" '(denote-add-links :which-key "add links for meta")
-    
-    "nb" '(:ignore t :which-key "backlink")
-    "nbb" '(denote-backlinks :which-key "show backlinks")
-    "nbf" '(denote-find-backlink :which-key "find backlinks")
-
-    "nj" '(:ignore t :which-key "journal")
-    "njn" '(denote-journal-extras-new-entry :which-key "new entry")
-    "njl" '(denote-journal-extras-link-or-create-entry :which-key "link entry")
-    "njo" '(denote-journal-extras-new-or-existing-entry :which-key "open today")
-    "njj" '(denote-journal-extras-new-or-existing-entry :which-key "open today")
-
-    ))
+  )

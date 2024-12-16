@@ -14,6 +14,6 @@
 
 ;; org capture
 (use-package-local org-capture
-  :config
-  (mimi/leader-define-key
+  :general
+  (neko/leader-definer
     "oc" 'org-capture))
