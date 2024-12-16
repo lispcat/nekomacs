@@ -39,7 +39,9 @@ It's composed of the following parts (loaded in order):
     The user-side configuration directory. Any elisp files placed here will be loaded.
 
 * Personal
+
 ** Notes
+
 + Info on use-package `:custom` vs `:config setq` ::
   - ~:custom~ always evaluates block at the beginning reguardless of deferred loading.
   - ~:config setq~ is deferred if use-package is deferred.
@@ -49,6 +51,29 @@ It's composed of the following parts (loaded in order):
 + M-TAB is C-M-i (HUGE)
 + C-c M-x is M-x but only for mode (HUGE)
 + C-M-SPC for selection (HUGE)
+
+** Ideas/todo
+
+: "s" search-map
+: "bs" 'save-buffer
+(and also ~"S" 'save-buffer~)
+
+and instead of
+: "sn" 'consult-notes
+do
+: (define-key 'search-map (kbd "n") #'consult-notes)
+
+
+instead of ~neko/~, use ~neko-~, so it looks and feels more like a package rather than an abstraction layer.
+
+
+~(nekowrap~: literally just progn but with soft-error handling.
+- instead of having a modules file, just throw in the requires by hand into files of your own choosing.
+- this'll make it so my module system is more scattered and sporadic, and letting the end user use modules not as a whole thing, but as big snippets to smoothen out and get sane defaults that work nicely.
+- and in my docs, i can have a listing of all the submodules of modules that add extra extra functionality, like java-eglot.el. And i can write an interactive function to search throught modules and jump to definitions!!!!!!
+
+
+
 * Organization
 
 instead of depending on a crazy procedure to change variables in the future, what about just load a specific file? would GREATLY simplify.

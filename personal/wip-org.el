@@ -9,14 +9,17 @@
 (use-package-local org
   ;; :after org
   :config
-  ;; Failed experiment
-  (setq org-list-full-item-re ;; TODO: add "- e.g." and "->" ?
-	(concat
-	 "^[ 	]*"
-	 "\\(\\(?:[-+*/]\\|\\(?:[0-9]+\\|[A-Za-z]\\)[.)]\\)\\(?:[ 	]+\\|$\\)\\)"
-	 "\\(?:\\[@\\(?:start:\\)?\\([0-9]+\\|[A-Za-z]\\)\\][ 	]*\\)?"
-	 "\\(?:\\(\\[[ X-]\\]\\)\\(?:[ 	]+\\|$\\)\\)?"
-	 "\\(?:\\(.*\\)[ 	]+::\\(?:[ 	]+\\|$\\)\\)?")))
+  ;; org directory
+  (setq org-directory "~/Notes/org")
+  ;; ;; Failed experiment
+  ;; (setq org-list-full-item-re ;; TODO: add "- e.g." and "->" ?
+  ;; 	(concat
+  ;; 	 "^[ 	]*"
+  ;; 	 "\\(\\(?:[-+*/]\\|\\(?:[0-9]+\\|[A-Za-z]\\)[.)]\\)\\(?:[ 	]+\\|$\\)\\)"
+  ;; 	 "\\(?:\\[@\\(?:start:\\)?\\([0-9]+\\|[A-Za-z]\\)\\][ 	]*\\)?"
+  ;; 	 "\\(?:\\(\\[[ X-]\\]\\)\\(?:[ 	]+\\|$\\)\\)?"
+  ;; 	 "\\(?:\\(.*\\)[ 	]+::\\(?:[ 	]+\\|$\\)\\)?"))
+  )
 
 (use-package toc-org
   :hook org-mode)

@@ -18,12 +18,6 @@
     "nd" '(:ignore t :which-key "directory")
     "ndj" '(my/denote-directory-jump :which-key "jump to denote dir")
     
-    "ni" '(:ignore t :which-key "silo")
-    "nid" '(my/denote-silo-extras-dired-to-silo :which-key "dired")
-    "nic" '(denote-silo-extras-select-silo-then-command :which-key "command")
-    "nin" '(denote-silo-extras-create-note :which-key "create")
-    "nio" '(denote-silo-extras-open-or-create :which-key "open")
-
     "nl" '(:ignore t :which-key "link")
     "nll" '(denote-find-link :which-key "find links in file")
     "nlf" '(denote-find-link :which-key "find links in file")
@@ -39,7 +33,8 @@
     "nol" '(denote-org-extras-dblock-insert-links :which-key "dblock links")
     "nof" '(denote-org-extras-dblock-insert-files :which-key "dblock files")
     "nob" '(denote-org-extras-dblock-insert-backlinks :which-key "dblock backlinks")
-    "noa" '(my/denote-insert-file-local-dblock-auto-update :which-key "insert file-local dblock auto-update")
+    "noa" '(my/denote-insert-file-local-dblock-update-mode
+	    :which-key "insert file-local dblock mode")
 
     "nj" '(:ignore t :which-key "journal")
     "njn" '(denote-journal-extras-new-entry :which-key "new entry")
@@ -48,7 +43,7 @@
     "njj" '(denote-journal-extras-new-or-existing-entry :which-key "open today"))
   
   :config
-
+  
   (setq denote-directory (expand-file-name "~/Notes/denote"))
   (setq denote-known-keywords '("emacs" "class" "ideas" "art"
 				"hobbies" "random"))
@@ -65,13 +60,22 @@
   ;; misc settings
   (setq denote-rename-confirmations '(rewrite-front-matter))
 
-  ;; dblocks
-  (defun my/denote-insert-file-local-dblock-auto-update ()
+  ;; org-dblocks
+  
+  (define-minor-mode org-dblock-update-minor-mode
+    "A minor mode that automatically updates Org mode dynamic blocks before saving."
+    :lighter " OrgDBlocks"
+    :global nil
+    (if (and org-dblock-update-minor-mode (eq major-mode 'org-mode))
+	(add-hook 'before-save-hook #'org-update-all-dblocks nil t)
+      (remove-hook 'before-save-hook #'org-update-all-dblocks t)))
+  
+  (defun my/denote-insert-file-local-dblock-update-mode ()
     (interactive)
     (if (eq major-mode 'org-mode)
 	(add-file-local-variable
 	 'eval
-	 '(add-hook 'before-save-hook #'org-update-all-dblocks nil t))
+	 '(org-dblock-update-minor-mode))
       (message "Not in an org-mode buffer")))
 
   ;; rename buffer
@@ -89,45 +93,15 @@
   (setq denote-journal-extras-directory
 	(expand-file-name "journal" denote-directory))
 
-  ;; dired fontify
-  (add-hook 'dired-mode-hook #'denote-dired-mode)
+  ;; dired
+  
+  (add-hook 'dired-mode-hook #'denote-dired-mode) ; fontify
 
-  ;; silos
-  
-  (require 'denote-silo-extras)
-  
-  ;; (defvar my/denote-school-silo
-  ;;   (expand-file-name "~/School/classes/denote"))
-  
-  ;; (setq denote-silo-extras-directories
-  ;; 	(list denote-directory
-  ;; 	      my/denote-school-silo))
-
-  ;; silo functions
+  ;; functions
 
   (defun my/denote-directory-jump ()
     (interactive)
     (dired denote-directory))
-
-  (defun my/denote-silo-extras-dired-to-silo (silo)
-    "Switch to SILO directory using `dired'.
-SILO is a file path from `denote-silo-extras-directories'.
-
-When called from Lisp, SILO is a file system path to a directory that
-conforms with `denote-silo-extras-path-is-silo-p'."
-    (interactive (list (denote-silo-extras-directory-prompt)))
-    (denote-silo-extras-with-silo silo
-      (dired silo)))
-
-  (defun my/denote-silo-extras-cd-to-silo (silo)
-    "Switch to SILO directory using `cd'.
-SILO is a file path from `denote-silo-extras-directories'.
-
-When called from Lisp, SILO is a file system path to a directory that
-conforms with `denote-silo-extras-path-is-silo-p'."
-    (interactive (list (denote-silo-extras-directory-prompt)))
-    (denote-silo-extras-with-silo silo
-      (cd silo)))
 
   ;; capture
 
@@ -139,8 +113,70 @@ conforms with `denote-silo-extras-path-is-silo-p'."
                    :no-save t
                    :immediate-finish nil
                    :kill-buffer t
-                   :jump-to-captured t)))
+                   :jump-to-captured t))))
 
-  ;; which-key
 
+(use-package consult-notes
+  :commands (consult-notes
+	     consult-notes-search-in-all-notes)
+  :after denote org
+  :bind ("M-s n" . consult-notes)
+  :general (neko/leader-definer
+	     "nf" 'consult-notes
+	     "ng" 'consult-notes-search-in-all-notes)
+  :config
+  (with-eval-after-load 'denote
+    (consult-notes-denote-mode 1)))
+
+;; docs: https://lucidmanager.org/productivity/denote-explore/
+(use-package denote-explore
+  :after denote
+  :general
+  (neko/leader-definer
+    "ne" '(:ignore t :which-key "explore")
+    
+    ;; random walks
+    "new" '(:ignore t :which-key "random walks")
+    "newl" '(denote-explore-random-link :which-key "random link")
+    "newr" '(denote-explore-random-regex :which-key "random regex")
+    "newk" '(denote-explore-random-keyword :which-key "random keyword")
+
+    ;; janitor
+    "nej" '(:ignore t :which-key "janitor")
+    "nejj" '(denote-explore-sync-metadata :which-key "sync filenames from metadata")
+    "nejm" '(denote-explore-sync-metadata :which-key "sync filenames from metadata")
+    "nejs" '(denote-explore-sort-keywords :which-key "sort order of all keywords")
+    "nejr" '(denote-explore-rename-keyword :which-key "rename keyword")
+    "nej0" '(denote-explore-zero-keywords :which-key "0 keywords")
+    "nej1" '(denote-explore-single-keywords :which-key "1 keywords")
+
+    ;; visualize
+    "nen" '(:ignore t :which-key "network")
+    "nenn" '(denote-explore-network :which-key "network")
+    "nenr" '(denote-explore-network-regenerate :which-key "network regenerate")
+    "nend" '(denote-explore-degree-barchart :which-key "degree barchart")
+
+    ;; stats
+    "nes" '(:ignore t :which-key "stats")
+    "nesk" '(denote-explore-barchart-keywords :which-key "barchart keywords")
+    "nese" '(denote-explore-barchart-filetypes :which-key "barchart filetypes"))
+  
+  :config
+  ;; (setq denote-explore-network-format )
+  ;; TODO: make denote-explore-network / browse-url-browser-function
+  
   )
+
+;; denote-menu
+(use-package denote-menu
+  :after denote
+  :general
+  (neko/leader-definer
+    "nm" 'list-denotes)
+  :bind
+  (:map denote-menu-mode-map
+	("c" . denote-menu-clear-filters)
+	("/ r" . denote-menu-filter)
+	("/ k" . denote-menu-filter-by-keyword)
+	("/ o" . denote-menu-filter-out-keyword)
+	("e" . denote-menu-export-to-dired)))

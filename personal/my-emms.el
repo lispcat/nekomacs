@@ -13,6 +13,7 @@
   (neko/leader-definer
     "e" '(:ignore t :which-key "wao")
     "e e" 'emms
+    "e P" 'emms-pause
     "e n" 'emms-next
     "e p" 'emms-previous
     "e s" 'emms-seek-to
@@ -45,7 +46,12 @@
   ;; ;; sort album by natural order
   ;; ;; (setq  emms-browser-album-sort-function #'emms-playlist-sort-by-natural-order)
   ;; this actually sorts by natural order upon adding
-  (add-hook 'emms-playlist-source-inserted-hook #'emms-playlist-sort-by-natural-order)
+  (add-hook 'emms-playlist-source-inserted-hook
+	    #'emms-playlist-sort-by-natural-order)
+
+  ;; persistent playlists
+  ;; (require 'emms-history)
+  (emms-history-load)
 
   ;; backends
   
@@ -60,6 +66,9 @@
   (setq emms-player-mpd-server-port "6600")
   (setq emms-player-mpd-music-directory "\~/Music/library")
   (emms-player-mpd-connect)
+
+  ;; display
+  (emms-mode-line-mode 0)
 
   ;; enable playerctl pausing
 
