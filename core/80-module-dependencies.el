@@ -1,7 +1,7 @@
 
 (use-package general
   :config
-  (general-create-definer mimi/leader-define-key
+  (general-create-definer neko/leader-definer
     :prefix "C-c")
   (general-create-definer neko/leader-definer
     :prefix "C-c"))

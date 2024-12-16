@@ -41,7 +41,7 @@
 
 ;;; Leader-key binds:
 
-(mimi/leader-define-key
+(neko/leader-definer
   "pt" 'vterm
   "pmm" 'multi-vterm-dedicated-toggle)
 

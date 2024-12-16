@@ -9,7 +9,7 @@
       (message "Emacsclient Server started!")))
   (add-hook 'after-init-hook #'ne/start-server-if-not-running))
 
-(mimi/leader-define-key
+(neko/leader-definer
   "q" '(:ignore t :which-key "server")
   "qq" 'delete-frame
   "qQ" 'save-buffers-kill-emacs)

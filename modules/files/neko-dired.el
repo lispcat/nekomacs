@@ -11,7 +11,7 @@
   (when (executable-find "trash")
     (setq delete-by-moving-to-trash t)))
 
-(mimi/leader-define-key
+(neko/leader-definer
   "d" '(:ignore t :which-key "dired")
   "dd" 'find-file
   "dj" 'dired-jump)

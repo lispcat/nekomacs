@@ -3,7 +3,7 @@
   ;; :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
   :defer t)
 
-(mimi/leader-define-key
+(neko/leader-definer
   "v" '(:ignore t :which-key "magit")
   "V" 'magit
   "vv" 'magit)

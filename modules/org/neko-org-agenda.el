@@ -2,7 +2,7 @@
 (use-package-local org-agenda
   :after org)
 
-(mimi/leader-define-key
+(neko/leader-definer
   "oa" 'org-agenda)
 
 

@@ -66,7 +66,7 @@
 ;; used to go to a file in a bookmarked dir n stuff (one ex)
 (use-package consult-dir
   :general
-  (mimi/leader-define-key
+  (neko/leader-definer
     "fd" 'consult-dir)
   :bind (("C-x C-d" . consult-dir)	; default?
          :map vertico-map
@@ -100,18 +100,18 @@
 	     (lambda () ,@body))))))
 
 (mi/eval-now-and-after-load 'neko-themes
-  (mimi/leader-define-key
+  (neko/leader-definer
     "Tt" 'consult-theme))
 
 (mi/eval-now-and-after-load 'neko-buffers
-  (mimi/leader-define-key
+  (neko/leader-definer
     "bb" 'consult-buffer))
 
 (mi/eval-now-and-after-load 'neko-dired
-  (mimi/leader-define-key
+  (neko/leader-definer
     "fr" 'consult-recent-file))
 
-(mimi/leader-define-key
+(neko/leader-definer
   "fm" 'consult-bookmark)
 
 

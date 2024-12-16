@@ -4,7 +4,7 @@
   :commands (lsp lsp-deferred)
   :hook ((lsp-mode . lsp-enable-which-key-integration))
   :config
-  (mimi/leader-define-key
+  (neko/leader-definer
     "l" lsp-command-map)
 
   ;; if corfu is installed

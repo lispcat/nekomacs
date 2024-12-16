@@ -7,7 +7,7 @@
 
 ;;; Set leader-key binds:
 
-(mimi/leader-define-key
+(neko/leader-definer
  "f" '(:ignore t :which-key "files")
  "ff" 'find-file
  "fp" 'mimi/open-neko-personal-dir)

@@ -32,7 +32,7 @@ If in a list, inserts a new sublist after the current list."
   (add-to-list 'org-structure-template-alist '("gcc" . "src c"))
   (add-to-list 'org-structure-template-alist '("java" . "src java")))
 
-(mimi/leader-define-key
+(neko/leader-definer
  "o" '(:ignore t :which-key "org"))
 
 

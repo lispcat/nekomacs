@@ -12,7 +12,7 @@
 
 ;;; Leader-key binds
 
-(mimi/leader-define-key
+(neko/leader-definer
   "w" '(:ignore t :which-key "window")
   "wd" 'delete-window
   "w+" 'balance-windows

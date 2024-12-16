@@ -1,6 +1,6 @@
 
 
-(mimi/leader-define-key
+(neko/leader-definer
   "k" 'kill-current-buffer
   "b" '(:ignore t :which-key "buffer")
   "bk" 'kill-current-buffer

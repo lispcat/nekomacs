@@ -41,7 +41,7 @@
 
 ;;; Leader-key binds:
 
-(mimi/leader-define-key
+(neko/leader-definer
  "T" '(:ignore t :which-key "Themes")
  "Tt" '(+load-theme :which-key "load-theme")
  "Tr" '(ne/set-random-theme :which-key "set-random-theme")
