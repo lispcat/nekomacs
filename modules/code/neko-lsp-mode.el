@@ -3,7 +3,7 @@
   :init (setq lsp-keymap-prefix "C-c l")
   :commands (lsp lsp-deferred)
   :hook ((lsp-mode . lsp-enable-which-key-integration))
-  :config
+  :general-config
   (neko/leader-definer
     "l" lsp-command-map)
 

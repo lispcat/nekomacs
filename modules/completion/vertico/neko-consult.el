@@ -68,6 +68,7 @@
   :general
   (neko/leader-definer
     "fd" 'consult-dir)
+  
   :bind (("C-x C-d" . consult-dir)	; default?
          :map vertico-map
          ("C-x C-d" . consult-dir)

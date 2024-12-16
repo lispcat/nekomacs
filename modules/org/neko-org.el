@@ -30,10 +30,11 @@ If in a list, inserts a new sublist after the current list."
   (add-to-list 'org-structure-template-alist '("conf" . "src conf"))
   (add-to-list 'org-structure-template-alist '("clang" . "src c"))
   (add-to-list 'org-structure-template-alist '("gcc" . "src c"))
-  (add-to-list 'org-structure-template-alist '("java" . "src java")))
+  (add-to-list 'org-structure-template-alist '("java" . "src java"))
 
-(neko/leader-definer
- "o" '(:ignore t :which-key "org"))
+  :general 
+  (neko/leader-definer
+    "o" '(:ignore t :which-key "org")))
 
 
 (provide 'neko-org)

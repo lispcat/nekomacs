@@ -1,14 +1,16 @@
 
 (use-package general
+  :demand t
   :config
-  (general-create-definer neko/leader-definer
-    :prefix "C-c")
   (general-create-definer neko/leader-definer
     :prefix "C-c"))
 
-(use-package diminish)
+(use-package diminish
+  :demand t)
 
 (use-package which-key
+  :after diminish
+  :demand t
   :diminish which-key-mode
   :config
   (setq which-key-idle-delay 0.3)

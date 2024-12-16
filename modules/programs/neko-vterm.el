@@ -37,12 +37,9 @@
 (use-package multi-vterm
   :after vterm
   ;; :custom (multi-vterm-dedicated-window-height-percent 30)
-  )
-
-;;; Leader-key binds:
-
-(neko/leader-definer
-  "pt" 'vterm
-  "pmm" 'multi-vterm-dedicated-toggle)
+  :general
+  (neko/leader-definer
+    "pt" 'vterm
+    "pmm" 'multi-vterm-dedicated-toggle))
 
 (provide 'neko-vterm)
