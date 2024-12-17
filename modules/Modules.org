@@ -9,7 +9,7 @@ The =modules= directory contains a large number of code snippets that can be eva
 
 ** about: ~+require~
 
-The ~+require~ function loads a module (aka "feature") if it hasn't been loaded yet. It searches for the module in the paths set in ~load-path~.
+The ~+require~ function loads a module (aka "feature") if it hasn't been loaded yet. It searches for the module in the variable ~load-path~.
 
 The ~+require~ function is also just a wrapper around the ~require~ function, with added soft-error handling---to prevent Emacs from outright crashing at startup if it errors---and optional benchmarking---prints how long it took to evaluate.
 
