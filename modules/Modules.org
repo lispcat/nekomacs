@@ -1,0 +1,105 @@
+#+title: Modules
+
+* Subdirectories
+
+** code
+
+*** neko-lsp-mode.el
+
+*** neko-code-general.el
+
+*** langs
+
+**** java
+
+***** neko-java.el
+
+***** neko-java-eglot.el
+
+**** lisp
+
+***** neko-lisp-general.el
+
+- TODO: i should rename this to just neko-lisp.el
+
+***** neko-advanced.el
+
+***** neko-scheme.el
+
+** completion
+
+*** vertico
+
+**** neko-cape.el
+
+**** neko-consult.el
+
+**** neko-corfu.el
+
+**** neko-embark.el
+
+**** neko-marginalia.el
+
+**** neko-orderless.el
+
+**** neko-vertico-meta.el
+
+**** neko-vertico.el
+
+**** neko-yasnippet.el
+
+** enhancements
+
+*** neko-enhancements.el
+
+** files
+
+*** neko-buffers.el
+
+*** neko-dired.el
+
+*** neko-file-tweaks.el
+
+*** neko-files.el
+
+** keybinds
+
+*** neko-meow-dvp.el
+
+*** neko-meow.el
+
+** org
+
+*** neko-org-agenda.el
+
+*** neko-org.el
+
+** prettify
+
+*** neko-themes.el
+
+*** neko-transparency.el
+
+** programs
+
+*** neko-magit.el
+
+*** neko-vterm.el
+
+** special
+
+*** neko-server.el
+
+** tweaks
+
+*** neko-sane-defs.el
+
+** ui
+
+*** neko-line.el
+
+*** neko-modeline.el
+
+*** neko-scroll.el
+
+*** neko-windows.el

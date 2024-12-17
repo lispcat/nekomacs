@@ -18,3 +18,4 @@
   :general
   (neko/leader-definer
     "oc" 'org-capture))
+

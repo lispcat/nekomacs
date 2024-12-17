@@ -5,6 +5,9 @@
 (use-package meow
   ;; :after meow
   :config
+  ;; bug, temp workaround:
+  (setq meow-keypad-leader-dispatch "C-c")
+
   (defun ri/meow-exit-all-and-save ()
     "When run, exit meow insert mode, exit snippet, then save buffer."
     (interactive)
