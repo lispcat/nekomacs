@@ -24,7 +24,15 @@ The pathway for most Emacs users (including myself) is starting off with a very 
 
 * Installing
 
+* Documentation
+
+There is extensive documentation in the following files:
+- [[file:DOCS.org][DOCS.org]] :: general docs
+- [[file:modules/Modules.org][modules/Modules.org]] :: in-depth docs on each provided module
+
 * Technical overview
+
+For more technical info, refer to [[file:Info.org][Info.org]]
 
 It's composed of the following parts (loaded in order):
 - [[file:early-init.el][early-init.el]] ::
@@ -77,6 +85,11 @@ instead of ~neko/~, use ~neko-~, so it looks and feels more like a package rathe
 - and in my docs, i can have a listing of all the submodules of modules that add extra extra functionality, like java-eglot.el. And i can write an interactive function to search throught modules and jump to definitions!!!!!!
 
 
+get rid of modules fil, use config.el in dir (or maybe a file for each dir and call it config-code.el
+
+
+create an examples dir, and make it so you can pass an arg to load the example (in case you bork your config).
+also create a backups dir, that you can load into with arg and argument. have _backups dir (underscore to exclude).
 
 * Organization
 

@@ -1,5 +1,69 @@
 #+title: Modules
+#+startup: content
 
+* Table of Contents :TOC_10:
+- [[#info][Info]]
+  - [[#about-require][About ~+require~]]
+- [[#subdirectories][Subdirectories]]
+  - [[#code][code]]
+    - [[#neko-lsp-modeel][neko-lsp-mode.el]]
+    - [[#neko-code-generalel][neko-code-general.el]]
+    - [[#langs][langs]]
+      - [[#java][java]]
+        - [[#neko-javael][neko-java.el]]
+        - [[#neko-java-eglotel][neko-java-eglot.el]]
+      - [[#lisp][lisp]]
+        - [[#neko-lisp-generalel][neko-lisp-general.el]]
+        - [[#neko-advancedel][neko-advanced.el]]
+        - [[#neko-schemeel][neko-scheme.el]]
+  - [[#completion][completion]]
+    - [[#vertico][vertico]]
+      - [[#neko-capeel][neko-cape.el]]
+      - [[#neko-consultel][neko-consult.el]]
+      - [[#neko-corfuel][neko-corfu.el]]
+      - [[#neko-embarkel][neko-embark.el]]
+      - [[#neko-marginaliael][neko-marginalia.el]]
+      - [[#neko-orderlessel][neko-orderless.el]]
+      - [[#neko-vertico-metael][neko-vertico-meta.el]]
+      - [[#neko-verticoel][neko-vertico.el]]
+      - [[#neko-yasnippetel][neko-yasnippet.el]]
+  - [[#enhancements][enhancements]]
+    - [[#neko-enhancementsel][neko-enhancements.el]]
+  - [[#files][files]]
+    - [[#neko-buffersel][neko-buffers.el]]
+    - [[#neko-diredel][neko-dired.el]]
+    - [[#neko-file-tweaksel][neko-file-tweaks.el]]
+    - [[#neko-filesel][neko-files.el]]
+  - [[#keybinds][keybinds]]
+    - [[#neko-meow-dvpel][neko-meow-dvp.el]]
+    - [[#neko-meowel][neko-meow.el]]
+  - [[#org][org]]
+    - [[#neko-org-agendael][neko-org-agenda.el]]
+    - [[#neko-orgel][neko-org.el]]
+  - [[#prettify][prettify]]
+    - [[#neko-themesel][neko-themes.el]]
+    - [[#neko-transparencyel][neko-transparency.el]]
+  - [[#programs][programs]]
+    - [[#neko-magitel][neko-magit.el]]
+    - [[#neko-vtermel][neko-vterm.el]]
+  - [[#special][special]]
+    - [[#neko-serverel][neko-server.el]]
+  - [[#tweaks][tweaks]]
+    - [[#neko-sane-defsel][neko-sane-defs.el]]
+  - [[#ui][ui]]
+    - [[#neko-lineel][neko-line.el]]
+    - [[#neko-modelineel][neko-modeline.el]]
+    - [[#neko-scrollel][neko-scroll.el]]
+    - [[#neko-windowsel][neko-windows.el]]
+
+* Preface
+
+** Tips
+
+- For any ~function~ or ~variable~ name, you can pull up further documentation by typing =C-h f= for functions and =C-h v= for variables.
+- You can also type =C-h h= with the text cursor on the function or variable name to directly pull up its documentation.
+  - A Small Caviat: for some reason, may not work correctly for ~+require~ and other names that start with =+= (for example, =C-h h= on ~+require~ will bring up ~require~ instead).
+    
 * Info
 
 The =modules= directory contains a large number of code snippets that can be evaluated with
@@ -9,9 +73,11 @@ The =modules= directory contains a large number of code snippets that can be eva
 
 ** About ~+require~
 
-The ~+require~ function loads a module (aka "feature") if it hasn't been loaded yet. It searches for the module in the variable ~load-path~.
+The ~+require~ function loads a module (aka "feature") if it hasn't been loaded yet. It searches for it in the ~load-path~.
 
-~+require~ is also just a wrapper around the ~require~ function, with added soft-error handling---to prevent Emacs from outright crashing at startup if it errors---and optional benchmarking---prints how long it took to evaluate.
+~+require~ is also just a wrapper around the ~require~ function, with added soft-error handling---to prevent Emacs from outright crashing at startup if it errors---and optional benchmarking (prints how long it took to evaluate if the variable ~neko-benchmark~ is enabled).
+
+For more info, type =C-h= then search for =+require= to pull up further documentation.
 
 * Subdirectories
 
