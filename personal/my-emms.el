@@ -8,11 +8,6 @@
 
 ;; TODO: 
 (use-package emms
-  :init
-  (setq
-   emms-source-file-exclude-regexp "\\`\\(#.*#\\|.*,v\\|.*~\\|\\.\\.?\\|\\.#.*\\|,.*\\|.*zip\\)\\'\\|/\\(CVS\\|RCS\\|\\.arch-ids\\|{arch}\\|,.*\\|\\.svn\\|.*zip\\|_darcs\\)\\(/\\|\\'\\)"
-   )
-  
   :config
   (emms-all)
   (require 'emms-player-mpv)
@@ -279,6 +274,10 @@ a buffer-local variable `emms-playlistedit-orig-path'."
   ;;     - proceed?
   ;;       - if yes, overwrite playlist file with new changes, then delete "TMP-%s".
   ;;       - if no, delete "TMP-%s" and cancel.
+
+
+
+  ;; maybe switch to mpv (mpd is too jank) (usempvScripts.mpris)
 
 
   :general

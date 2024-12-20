@@ -91,6 +91,28 @@ get rid of modules fil, use config.el in dir (or maybe a file for each dir and c
 create an examples dir, and make it so you can pass an arg to load the example (in case you bork your config).
 also create a backups dir, that you can load into with arg and argument. have _backups dir (underscore to exclude).
 
+
+~+catch~ to catch errors
+
+: (neko-progn
+:   (tab-bar-mode 1))
+
+
+- casual-dired
+- casual-ibuffer : C-c b l : select and delete a bunch of buffers (incredible buffer managerment!!!) (kill all help buffers)
+- have a neko-casual-dired.el below neko-dired.el
+- casual-info
+- casual-calc
+- RE-BUILDER
+- casual-agenda
+
+
+for finding files in a project: project-dired... or consult-buffer + =p SPC=. (very helpful)
+
+
+have tangle block for the +require expression (to config-example.el)
+
+
 * Organization
 
 instead of depending on a crazy procedure to change variables in the future, what about just load a specific file? would GREATLY simplify.
