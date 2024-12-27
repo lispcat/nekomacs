@@ -11,11 +11,3 @@
 ;; epub reader
 
 ;; (use-package calibredb)
-
-;; org capture
-(use-package-local org-capture
-  :after org
-  :general
-  (neko/leader-definer
-    "oc" 'org-capture))
-

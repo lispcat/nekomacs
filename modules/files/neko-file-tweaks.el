@@ -24,6 +24,8 @@
 ;; update dired and file buffers when changed in filesystem
 (use-package-local autorevert
   :diminish autorevert-mode
+  :init
+  (global-auto-revert-mode 1)
   :custom
   (global-auto-revert-non-file-buffers t)
   (auto-revert-interval 5))

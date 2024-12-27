@@ -2,7 +2,7 @@
 ;; TODO: add to guide: "(" to show details
 (use-package-local dired
   :custom
-  (dired-listing-switches "-a -h -l --group-directories-first") ; -o is -l without groups
+  (dired-listing-switches "-Ahl --group-directories-first -X") ; -o is -l without groups
   (dired-auto-revert-buffer t) ; auto update file changes
   :config
   ;; hide details by default

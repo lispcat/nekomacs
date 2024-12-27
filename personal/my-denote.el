@@ -53,11 +53,12 @@
     "noa" '(my/denote-insert-file-local-dblock-update-mode :which-key "insert file-local dblock mode")
 
     ;; journal
+    "oj" '(denote-journal-extras-new-or-existing-entry :which-key "denote-journal")
     "nj" '(:ignore t :which-key "journal")
-    "njn" '(denote-journal-extras-new-entry :which-key "new entry")
-    "njl" '(denote-journal-extras-link-or-create-entry :which-key "link entry")
+    "njj" '(denote-journal-extras-new-or-existing-entry :which-key "open today")
     "njo" '(denote-journal-extras-new-or-existing-entry :which-key "open today")
-    "njj" '(denote-journal-extras-new-or-existing-entry :which-key "open today"))
+    "njn" '(denote-journal-extras-new-entry :which-key "new entry")
+    "njl" '(denote-journal-extras-link-or-create-entry :which-key "link entry"))
   
   :config
 

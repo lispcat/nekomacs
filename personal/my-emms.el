@@ -34,17 +34,20 @@
 
   ;; backends
   
-  (setq emms-player-list '(emms-player-mpd emms-player-mpv))
+  (setq emms-player-list '(
+			   ;; emms-player-mpd
+			   emms-player-mpv
+			   ))
 
   ;; get info from mpd
-  (add-to-list 'emms-info-functions 'emms-info-mpd)
+  ;; (add-to-list 'emms-info-functions 'emms-info-mpd)
   ;; ? show current song when next song starts?
   ;; (add-hook 'emms-player-started-hook #'emms-show)
   ;; connect to mpd
-  (setq emms-player-mpd-server-name "localhost")
-  (setq emms-player-mpd-server-port "6600")
-  (setq emms-player-mpd-music-directory "\~/Music/library")
-  (emms-player-mpd-connect)
+  ;; (setq emms-player-mpd-server-name "localhost")
+  ;; (setq emms-player-mpd-server-port "6600")
+  ;; (setq emms-player-mpd-music-directory "\~/Music/library")
+  ;; (emms-player-mpd-connect)
 
   ;; persistent playlists
   ;; (require 'emms-history)
@@ -306,7 +309,7 @@ a buffer-local variable `emms-playlistedit-orig-path'."
 
     ;; info
     "e i" '(:ignore t :which-key "info")
-    "e i i" 'emms-player-mpd-show
+    "e i i" 'emms-show
     "e i a" 'emms-show-all
 
     ;; sort

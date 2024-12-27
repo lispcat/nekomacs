@@ -1,20 +1,23 @@
-
-(use-package flycheck
-  :defer t)
-
-(use-package-local elec-pair
-  :config
-  (electric-pair-mode 1))
-
 (use-package-local compile
   :custom
   (compilation-scroll-output t))
 
-;; move elsewhere?
-(global-prettify-symbols-mode 1)
+(use-package-local elec-pair
+  :config
+  ;; disable "<" pair expansion
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (setq-local electric-pair-inhibit-predicate
+                          `(lambda (c)
+                             (if (char-equal c ?<)
+                                 t
+                               (,electric-pair-inhibit-predicate c))))))
+  ;; global
+  (electric-pair-mode 1))
 
+(use-package flycheck
+  :defer t)
 
 ;; TODO: consider adding lang to every filename?
-
 
 (provide 'neko-code-general)

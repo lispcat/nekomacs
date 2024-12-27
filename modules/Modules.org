@@ -79,31 +79,17 @@ The ~+require~ function loads a module (aka "feature") if it hasn't been loaded 
 
 For more info, type =C-h= then search for =+require= to pull up further documentation.
 
+* Personal notes
+
+- organize dirs in terms of leader key bind prefix
+
 * Subdirectories
 
 ** code
-
-*** neko-lsp-mode.el
-
-*** neko-code-general.el
+[[file:code/README.org]]
 
 *** langs
-
-**** java
-
-***** neko-java.el
-
-***** neko-java-eglot.el
-
-**** lisp
-
-***** neko-lisp-general.el
-
-- TODO: i should rename this to just neko-lisp.el
-
-***** neko-advanced.el
-
-***** neko-scheme.el
+[[file:code/langs/README.org]]
 
 ** completion
 
