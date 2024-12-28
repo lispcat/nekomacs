@@ -1,5 +1,4 @@
 #+title: Modules
-#+startup: content
 
 * Table of Contents :TOC_10:
 - [[#info][Info]]
@@ -88,8 +87,8 @@ For more info, type =C-h= then search for =+require= to pull up further document
 ** code
 [[file:code/README.org]]
 
-*** langs
-[[file:code/langs/README.org]]
+*** lang
+[[file:code/lang/README.org]]
 
 ** completion
 

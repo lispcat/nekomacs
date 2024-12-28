@@ -1,6 +1,4 @@
-
 (use-package eglot
   :defer t)
 
-
-(provide 'neko-eglot)
+(provide 'neko-code-eglot)

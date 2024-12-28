@@ -18,6 +18,4 @@
 (use-package flycheck
   :defer t)
 
-;; TODO: consider adding lang to every filename?
-
-(provide 'neko-code-general)
+(provide 'neko-code)

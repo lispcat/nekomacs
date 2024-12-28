@@ -29,9 +29,8 @@
 
 ;;;;;; Languages ;;;;;;
 
-(+require 'neko-code-general)
-;; (+require '_neko-eglot)
-(+require 'neko-lsp-mode)
+(+require 'neko-code)
+(+require 'neko-code-lsp-mode)
 (+require 'neko-lisp-general)
 (+require 'neko-lisp-advanced)
 (+require 'neko-scheme)

@@ -1,4 +1,5 @@
 
+;; todo: support evil leader key (has to be set in early-config?)
 (use-package general
   :demand t
   :config

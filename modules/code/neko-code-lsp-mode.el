@@ -1,12 +1,16 @@
 (use-package lsp-mode
-  :init (setq lsp-keymap-prefix "C-c l")
+  ;; defer
   :defer t
   :commands (lsp lsp-deferred)
-  :hook ((lsp-mode . lsp-enable-which-key-integration))
+  ;; bind "C-c l" to lsp-command-map
+  :custom (lsp-keymap-prefix "C-c l")
   :general-config
   (neko/leader-definer
-    "l" lsp-command-map))
+    "l" lsp-command-map)
+  ;; lsp-command-map which-key integration
+  :hook (lsp-mode . lsp-enable-which-key-integration))
 
+;; TODO: move this to corfu ?
 ;; if corfu is installed
 ;; (https://github.com/minad/corfu/wiki#configuring-corfu-for-lsp-mode)
 (use-package lsp-mode
@@ -22,4 +26,4 @@
           my/lsp-mode-setup-completion-type))
   :custom (lsp-completion-provider :none))
 
-(provide 'neko-lsp-mode)
+(provide 'neko-code-lsp-mode)

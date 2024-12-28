@@ -47,12 +47,7 @@
 	  ;; Devices
 	  ("@phone" . ?P)
 	  ("@computer" . ?C)))
-  (setq org-capture-templates
-	(append
-	 org-capture-templates
-	 `(("t" "Tasks")
-	   ("tt" "Task" entry (file ,(my/get-org-path "Inbox.org"))
-	    "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1))))
+  
   )
 
 ;;; org capture
@@ -60,4 +55,11 @@
   :after org
   :general
   (neko/leader-definer
-    "oc" 'org-capture))
+    "oc" 'org-capture)
+  :config
+  (setq org-capture-templates
+	(append
+	 org-capture-templates
+	 `(("t" "Tasks")
+	   ("tt" "Task" entry (file ,(my/get-org-path "Inbox.org"))
+	    "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)))))

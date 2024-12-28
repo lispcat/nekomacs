@@ -1,0 +1,54 @@
+#+title: Modules: code: lang
+
+* java
+
+** neko-lang-java.el
+
+#+begin_src emacs-lisp :tangle neko-lang-java.el
+  
+  (with-eval-after-load 'eglot
+    (+require 'neko-java-eglot))
+
+  (with-eval-after-load 'lsp-mode
+    (+require 'neko-java-lsp-mode))
+
+  (provide 'neko-lang-java.el)
+
+#+end_src
+
+** neko-lang-java-lsp-mode.el
+
+#+begin_src emacs-lisp :tangle neko-lang-java-lsp-mode
+
+  (use-package lsp-java
+    :config
+    (add-hook 'java-mode-hook #'lsp))
+
+  (provide 'neko-lang-java-lsp-mode)
+
+#+end_src
+
+** neko-langs-java-eglot.el
+
+#+begin_src emacs-lisp
+
+  (use-package eglot-java
+    :defer t
+    :custom
+    ;; (eglot-report-progress nil)
+    )
+
+  (provide 'neko-java-eglot)
+
+#+end_src
+
+* lisp
+
+** neko-langs-lisp.el
+
+- TODO: i should rename this to just neko-lisp.el
+
+** neko-langs-advanced.el
+
+** neko-langs-scheme.el
+
