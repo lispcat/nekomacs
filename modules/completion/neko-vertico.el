@@ -1,4 +1,3 @@
-
 ;;; Vertico - a framework for minibuffer completion
 
 ;; savehist
@@ -32,10 +31,10 @@
   :init
   ;; Support opening new minibuffers from inside existing minibuffers.
   (setq enable-recursive-minibuffers t)
-  
+
   ;; Emacs 28 and newer: hide commands in M-x that do not work in the current mode.
   ;; (setq read-extended-command-predicate #'command-completion-default-include-p)
-  
+
   ;; Add prompt indicator to `completing-read-multiple'.
   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
   (defun crm-indicator (args)
@@ -46,7 +45,7 @@
                   (car args))
           (cdr args)))
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-  
+
   ;; Do not allow the cursor in the minibuffer prompt
   (setq minibuffer-prompt-properties
         '(read-only t cursor-intangible t face minibuffer-prompt))

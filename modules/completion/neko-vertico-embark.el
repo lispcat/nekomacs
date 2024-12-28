@@ -1,5 +1,3 @@
-
-
 ;; Perform a variety of actions on a thing at point
 ;; (https://github.com/oantolin/embark)
 (use-package embark
@@ -8,7 +6,7 @@
    ("C-;" . embark-dwim)
    ;; ("C-h B" . embark-bindings)
    )
-  
+
   :init
   ;; use embark for showing command prefix help
   (setq prefix-help-command #'embark-prefix-help-command)
@@ -37,5 +35,4 @@
   (embark-collect-mode . consult-preview-at-point-mode))
 
 
-
-(provide 'neko-embark)
+(provide 'neko-vertico-embark)

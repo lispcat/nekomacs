@@ -1,5 +1,3 @@
-
-
 ;; fzf-like minibuffer completion, keywords in any order
 ;; (https://github.com/oantolin/orderless)
 ;; TODO: read up on setting up for company and other packages.
@@ -13,4 +11,4 @@
   (completion-category-overrides '((file (styles partial-completion)))))
 
 
-(provide 'neko-orderless)
+(provide 'neko-vertico-orderless)

@@ -1,4 +1,3 @@
-
 ;; Docs: use M-SPC for separator
 (use-package corfu
   :demand t
@@ -7,9 +6,9 @@
               ;; ("C-k" . corfu-previous)
               ("TAB" . corfu-insert)
               ([tab] . corfu-insert)	; TODO: why repeat??
-	      ("RET" . nil)
+              ("RET" . nil)
               ;; ("C-f" . corfu-insert)
-	      )
+              )
   :custom
   (corfu-cycle t)		    ; cycle bottom/top
   (corfu-auto t)		    ; ?
@@ -27,8 +26,7 @@
       (setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
                   corfu-popupinfo-delay nil)
       (corfu-mode 1)))
-  
+
   (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer))
 
-(provide 'neko-corfu)
-
+(provide 'neko-vertico-corfu)

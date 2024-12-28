@@ -1,4 +1,4 @@
-#+title: Modules: IDE
+#+title: Modules: IDE:
 
 * Table of Contents :TOC:
 - [[#directory][Directory]]
@@ -45,7 +45,8 @@ This module configures and provides primarily IDE-related packages.
 ** neko-ide-lsp-mode.el
 
 This module installs and sets sane defaults for lsp-mode, providing an IDE-like experience through LSP support and integration with complementary packages.
-For more info:
+
+For more info on lsp-mode:
 https://emacs-lsp.github.io/lsp-mode/
 
 - lsp-mode :: LSP support for Emacs.

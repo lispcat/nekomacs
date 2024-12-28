@@ -91,33 +91,13 @@ For more info, type =C-h= then search for =+require= to pull up further document
 [[file:code/README.org]]
 
 ** lang
-[[file:code/lang/README.org]]
+[[file:lang/README.org]]
 
 ** completion
-
-*** vertico
-
-**** neko-cape.el
-
-**** neko-consult.el
-
-**** neko-corfu.el
-
-**** neko-embark.el
-
-**** neko-marginalia.el
-
-**** neko-orderless.el
-
-**** neko-vertico-meta.el
-
-**** neko-vertico.el
-
-**** neko-yasnippet.el
+[[file:completion/README.org]]
 
 ** enhancements
 
-*** neko-enhancements.el
 
 ** files
 

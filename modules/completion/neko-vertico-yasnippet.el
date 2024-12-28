@@ -1,5 +1,3 @@
-
-
 ;;; TODO: this is set up for eglot only, not lsp-mode
 
 ;; https://stackoverflow.com/questions/72601990/how-to-show-suggestions-for-yasnippets-when-using-eglot
@@ -31,6 +29,6 @@
   ;;   (with-eval-after-load 'eglot
   ;;     (add-hook 'eglot-managed-mode-hook #'mi/eglot-capf-with-yasnippet)))
   )
-  
 
-(provide 'neko-yasnippet)
+
+(provide 'neko-vertico-yasnippet)

@@ -1,4 +1,3 @@
-
 ;;; ??? ; https://github.com/minad/cape
 (use-package cape
   :demand t
@@ -25,4 +24,4 @@
   )
 
 
-(provide 'neko-cape)
+(provide 'neko-vertico-cape)

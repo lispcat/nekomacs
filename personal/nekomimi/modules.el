@@ -2,24 +2,14 @@
 
 ;;;;;; Completion ;;;;;;
 
-;; (+require 'neko-meta-vertico)
 (+require 'neko-vertico)
-(+require 'neko-orderless)
-(+require 'neko-marginalia)
-(+require 'neko-embark)
-(+require 'neko-consult) ;; TODO: try disabling consult and see what some default keybinds like C-. & C-; do?
-(+require 'neko-corfu)
-(+require 'neko-cape)
-(+require 'neko-yasnippet)
-
-;; (+require 'neko-vertico)
-;; (+require 'neko-vertico-cape)
-;; (+require 'neko-vertico-consult) ;; TODO: try disabling consult and see what some default keybinds like C-. & C-; do?
-;; (+require 'neko-vertico-corfu)
-;; (+require 'neko-vertico-embark)
-;; (+require 'neko-vertico-marginalia)
-;; (+require 'neko-vertico-orderless)
-;; (+require 'neko-vertico-yasnippet)
+(+require 'neko-vertico-cape)
+(+require 'neko-vertico-consult) ;; TODO: try disabling consult and see what some default keybinds like C-. & C-; do?
+(+require 'neko-vertico-corfu)
+(+require 'neko-vertico-embark)
+(+require 'neko-vertico-marginalia)
+(+require 'neko-vertico-orderless)
+(+require 'neko-vertico-yasnippet)
 
 ;;;;;; Enhancements ;;;;;;
 
