@@ -1,4 +1,3 @@
-
 (use-package-local scheme-mode
   :mode "\\.sld\\'")
 
@@ -12,5 +11,8 @@
 (use-package geiser-guile
   :after geiser)
 
+(use-package rainbow-delimiters
+  :hook scheme-mode)
 
-(provide 'neko-scheme)
+
+(provide 'neko-lang-scheme)

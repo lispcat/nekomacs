@@ -1,5 +1,17 @@
 ;;; Userside modules config  -*- lexical-binding: t; -*-
 
+;;;;;; IDE ;;;;;;
+
+(+require 'neko-ide)
+(+require 'neko-ide-lsp-mode)
+
+;;;;;; Languages ;;;;;;
+
+(+require 'neko-lang)
+(+require 'neko-lang-elisp)
+(+require 'neko-lang-lisp-adv)
+(+require 'neko-lang-scheme)
+
 ;;;;;; Completion ;;;;;;
 
 ;; (+require 'neko-meta-vertico)
@@ -26,14 +38,6 @@
 ;;;;;; Keybinds ;;;;;;
 
 (+require 'neko-meow-dvp)
-
-;;;;;; Languages ;;;;;;
-
-(+require 'neko-code)
-(+require 'neko-code-lsp-mode)
-(+require 'neko-lisp-general)
-(+require 'neko-lisp-advanced)
-(+require 'neko-scheme)
 
 ;;;;;; Org ;;;;;;
 

@@ -81,13 +81,16 @@ For more info, type =C-h= then search for =+require= to pull up further document
 * Personal notes
 
 - organize dirs in terms of leader key bind prefix
+- script to generate Directory heading:
+  - locate every README.org recursively from the parent directory and create TOC-like links page.
+- also create script to generate heading-based list below, with every sublist.
 
 * Subdirectories
 
 ** code
 [[file:code/README.org]]
 
-*** lang
+** lang
 [[file:code/lang/README.org]]
 
 ** completion

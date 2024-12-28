@@ -26,4 +26,5 @@
           my/lsp-mode-setup-completion-type))
   :custom (lsp-completion-provider :none))
 
-(provide 'neko-code-lsp-mode)
+
+(provide 'neko-ide-lsp-mode)

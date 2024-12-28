@@ -1,54 +1,48 @@
-#+title: Modules: code
+#+title: Modules: IDE
 
 * Table of Contents :TOC:
+- [[#directory][Directory]]
+  - [[#automate-creation-of-directory-modulesorg-readmeorg-for-each][automate creation of directory (Modules.org, README.org for each)]]
 - [[#info][Info]]
-- [[#neko-codeel][neko-code.el]]
-- [[#neko-code-lsp-modeel][neko-code-lsp-mode.el]]
-- [[#neko-code-eglotel][neko-code-eglot.el]]
+- [[#modules][Modules]]
+  - [[#neko-ideel][neko-ide.el]]
+  - [[#neko-ide-lsp-modeel][neko-ide-lsp-mode.el]]
+  - [[#neko-ide-eglotel][neko-ide-eglot.el]]
+
+* Directory
+- Modules :: [[file:../Modules.org]]
+
+** TODO automate creation of directory (Modules.org, README.org for each)
 
 * Info
 
-* neko-code.el
+* Modules
 
-This module configures miscellaneous sane defaults related to programming.
+** neko-ide.el
+
+This module configures and provides primarily IDE-related packages.
 
 - compile :: a built-in package for compilation facilities.
   * set sane defaults.
-- elec-pair :: a built-in package for automatic parenthesis pairing.
-  * tweak: disable auto-pairing "<" for all org-mode buffers (fixes an issue with org-tempo).
-  * enable globally.
 - flycheck :: improved syntax checker (better version of flymake (built-in)).
   https://github.com/flycheck/flycheck
   * defer loading.
 
-#+begin_src emacs-lisp :tangle neko-code.el
+#+begin_src emacs-lisp :tangle neko-ide.el
 
   (use-package-local compile
     :custom
     (compilation-scroll-output t))
 
-  (use-package-local elec-pair
-    :config
-    ;; disable "<" pair expansion
-    (add-hook 'org-mode-hook
-              (lambda ()
-                (setq-local electric-pair-inhibit-predicate
-                            `(lambda (c)
-                               (if (char-equal c ?<)
-                                   t
-                                 (,electric-pair-inhibit-predicate c))))))
-    ;; global
-    (electric-pair-mode 1))
-
   (use-package flycheck
     :defer t)
 
   
-  (provide 'neko-code)
+  (provide 'neko-ide)
 
 #+end_src
 
-* neko-code-lsp-mode.el
+** neko-ide-lsp-mode.el
 
 This module installs and sets sane defaults for lsp-mode, providing an IDE-like experience through LSP support and integration with complementary packages.
 For more info:
@@ -62,7 +56,7 @@ https://emacs-lsp.github.io/lsp-mode/
 - corfu integration ::
   * TODO: relocate!
 
-#+begin_src emacs-lisp :tangle neko-code-lsp-mode.el
+#+begin_src emacs-lisp :tangle neko-ide-lsp-mode.el
 
   (use-package lsp-mode
     ;; defer
@@ -93,18 +87,18 @@ https://emacs-lsp.github.io/lsp-mode/
     :custom (lsp-completion-provider :none))
 
   
-  (provide 'neko-code-lsp-mode)
+  (provide 'neko-ide-lsp-mode)
 
 #+end_src
 
-* TODO neko-code-eglot.el
+** TODO neko-ide-eglot.el
 
-#+begin_src emacs-lisp :tangle neko-code-eglot.el
+#+begin_src emacs-lisp :tangle neko-ide-eglot.el
 
   (use-package eglot
     :defer t)
 
   
-  (provide 'neko-code-eglot)
+  (provide 'neko-ide-eglot)
 
 #+end_src

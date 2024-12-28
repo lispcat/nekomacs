@@ -1,54 +1,140 @@
-#+title: Modules: code: lang
+#+title: Modules: Lang:
+
+* Table of Contents :TOC:
+- [[#neko-langel][neko-lang.el]]
+- [[#java][java]]
+  - [[#neko-lang-javael][neko-lang-java.el]]
+  - [[#neko-lang-java-lsp-modeel][neko-lang-java-lsp-mode.el]]
+  - [[#neko-lang-java-eglotel][neko-lang-java-eglot.el]]
+- [[#lisp-general][lisp (general)]]
+  - [[#neko-lang-lisp-advel][neko-lang-lisp-adv.el]]
+- [[#emacs-lisp][emacs lisp]]
+  - [[#neko-lang-elispel][neko-lang-elisp.el]]
+- [[#scheme][scheme]]
+  - [[#neko-lang-schemeel][neko-lang-scheme.el]]
+
+* neko-lang.el
+
+- elec-pair :: a built-in package for automatic parenthesis pairing.
+  * tweak: disable auto-pairing "<" for all org-mode buffers (fixes an issue with org-tempo).
+  * enable globally.
+
+#+begin_src emacs-lisp :tangle neko-lang.el
+
+  (use-package-local elec-pair
+    :config
+    ;; disable "<" pair expansion
+    (add-hook 'org-mode-hook
+              (lambda ()
+                (setq-local electric-pair-inhibit-predicate
+                            `(lambda (c)
+                               (if (char-equal c ?<)
+                                   t
+                                 (,electric-pair-inhibit-predicate c))))))
+    ;; global
+    (electric-pair-mode 1))
+
+  
+  (provide 'neko-lang)
+
+#+end_src
 
 * java
 
 ** neko-lang-java.el
 
 #+begin_src emacs-lisp :tangle neko-lang-java.el
-  
+
   (with-eval-after-load 'eglot
     (+require 'neko-java-eglot))
 
   (with-eval-after-load 'lsp-mode
     (+require 'neko-java-lsp-mode))
 
+  
   (provide 'neko-lang-java.el)
 
 #+end_src
 
 ** neko-lang-java-lsp-mode.el
 
-#+begin_src emacs-lisp :tangle neko-lang-java-lsp-mode
+#+begin_src emacs-lisp :tangle neko-lang-java-lsp-mode.el
 
   (use-package lsp-java
     :config
     (add-hook 'java-mode-hook #'lsp))
 
+  
   (provide 'neko-lang-java-lsp-mode)
 
 #+end_src
 
-** neko-langs-java-eglot.el
+** neko-lang-java-eglot.el
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle neko-lang-java-eglot.el
 
   (use-package eglot-java
-    :defer t
-    :custom
-    ;; (eglot-report-progress nil)
-    )
+    :defer t)
 
-  (provide 'neko-java-eglot)
+
+  (provide 'neko-lang-java-eglot)
 
 #+end_src
 
-* lisp
+* lisp (general)
 
-** neko-langs-lisp.el
+** neko-lang-lisp-adv.el
 
-- TODO: i should rename this to just neko-lisp.el
+#+begin_src emacs-lisp :tangle neko-lang-lisp-adv.el
 
-** neko-langs-advanced.el
+  (use-package paredit
+    :hook emacs-lisp-mode scheme-mode ; TODO: do this better
+    :bind (:map paredit-mode-map
+                ("M-s" . nil)	   ; conflicts with consult search map
+                ))
 
-** neko-langs-scheme.el
 
+  (provide 'neko-lang-lisp-adv)
+
+#+end_src
+
+* emacs lisp
+
+** neko-lang-elisp.el
+
+#+begin_src emacs-lisp :tangle neko-lang-elisp.el
+
+  (use-package rainbow-delimiters
+    :hook emacs-lisp-mode)
+
+
+  (provide 'neko-lang-elisp)
+
+#+end_src
+
+* scheme
+
+** neko-lang-scheme.el
+
+#+begin_src emacs-lisp :tangle neko-lang-scheme.el
+
+  (use-package-local scheme-mode
+    :mode "\\.sld\\'")
+
+  (use-package geiser
+    :defer t
+    :custom
+    (geiser-default-implementation 'guile)
+    (geiser-active-implementations '(guile))
+    (geiser-implementations-alist '(((regexp "\\.scm$") guile))))
+
+  (use-package geiser-guile
+    :after geiser)
+
+  (use-package rainbow-delimiters
+    :hook scheme-mode)
+
+
+  (provide 'neko-lang-scheme)
+
+#+end_src
