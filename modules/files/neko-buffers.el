@@ -8,9 +8,7 @@
   "bp" 'previous-buffer
   "bo" '(mode-line-other-buffer :which-key "last-buffer")
   "bb" 'switch-to-buffer
-  "s" '(:ignore t :which-key "save")
-  "ss" 'save-buffer
-  )
+  "bs" 'save-buffer)
 
 
 (provide 'neko-buffers)

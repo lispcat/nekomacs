@@ -1,17 +1,5 @@
 ;;; Userside modules config  -*- lexical-binding: t; -*-
 
-;;;;;; IDE ;;;;;;
-
-(+require 'neko-ide)
-(+require 'neko-ide-lsp-mode)
-
-;;;;;; Languages ;;;;;;
-
-(+require 'neko-lang)
-(+require 'neko-lang-elisp)
-(+require 'neko-lang-lisp-adv)
-(+require 'neko-lang-scheme)
-
 ;;;;;; Completion ;;;;;;
 
 ;; (+require 'neko-meta-vertico)
@@ -24,6 +12,15 @@
 (+require 'neko-cape)
 (+require 'neko-yasnippet)
 
+;; (+require 'neko-vertico)
+;; (+require 'neko-vertico-cape)
+;; (+require 'neko-vertico-consult) ;; TODO: try disabling consult and see what some default keybinds like C-. & C-; do?
+;; (+require 'neko-vertico-corfu)
+;; (+require 'neko-vertico-embark)
+;; (+require 'neko-vertico-marginalia)
+;; (+require 'neko-vertico-orderless)
+;; (+require 'neko-vertico-yasnippet)
+
 ;;;;;; Enhancements ;;;;;;
 
 (+require 'neko-enhancements)
@@ -35,9 +32,21 @@
 (+require 'neko-file-tweaks)
 (+require 'neko-buffers)
 
+;;;;;; IDE ;;;;;;
+
+(+require 'neko-ide)
+(+require 'neko-ide-lsp-mode)
+
 ;;;;;; Keybinds ;;;;;;
 
 (+require 'neko-meow-dvp)
+
+;;;;;; Languages ;;;;;;
+
+(+require 'neko-lang)
+(+require 'neko-lang-elisp)
+(+require 'neko-lang-lisp-adv)
+(+require 'neko-lang-scheme)
 
 ;;;;;; Org ;;;;;;
 
@@ -71,3 +80,4 @@
 (+require 'neko-modeline)
 (+require 'neko-scroll)
 (+require 'neko-windows)
+

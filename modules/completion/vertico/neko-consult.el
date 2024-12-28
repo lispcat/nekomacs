@@ -14,6 +14,7 @@
          ("C-x t b" . consult-buffer-other-tab)	;; switch-to-buffer-other-tab
          ("C-x r b" . consult-bookmark)		;; bookmark-jump
          ("C-x p b" . consult-project-buffer) ;; project-switch-to-buffer
+         ("C-x p C-b" . consult-project-buffer) ;; project-switch-to-buffer
 	 
          ;; Custom M-# bindings for fast register access
          ("M-#" . consult-register-store)
@@ -61,7 +62,10 @@
          :map minibuffer-local-map
          ("M-s" . consult-history) ;; next-matching-history-element
          ("M-r" . consult-history) ;; previous-matching-history-element
-	 ))
+	 )
+  :general
+  (neko/leader-definer
+    "s" search-map))
 
 ;; used to go to a file in a bookmarked dir n stuff (one ex)
 (use-package consult-dir
