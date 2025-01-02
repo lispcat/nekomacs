@@ -82,11 +82,24 @@
    (convert-standard-filename
     (expand-file-name  "var/eln-cache/" neko-local-dir))))
 
-;;; Load early-config.el:
+;;; Load early-config-pre.el:
 
-(let ((path (concat neko-special-config-dir "early-config.el")))
+(let* ((file "early-config-pre.el")
+       (path (concat neko-root-dir file)))
   (if (file-exists-p path)
       (condition-case-unless-debug e ; soft error handling if loading fails
 	  (load path)
-	(error (display-warning 'early-config.el (error-message-string e) :error)))
-    (message "Warning: early-config.el \"%s\" not found" path)))
+	(error (display-warning (make-symbol file)
+				(error-message-string e) :error)))
+    (message "Warning: %s \"%s\" not found" file path)))
+
+;;; Load early-config.el:
+
+(let* ((file "early-config.el")
+       (path (concat neko-special-config-dir file)))
+  (if (file-exists-p path)
+      (condition-case-unless-debug e ; soft error handling if loading fails
+	  (load path)
+	(error (display-warning (make-symbol file)
+				(error-message-string e) :error)))
+    (message "Warning: %s \"%s\" not found" file path)))

@@ -16,5 +16,5 @@
   ;; (+load-theme 'ef-dream t)
   ;; (+load-theme 'kaolin-temple t)
   ;; (+load-theme 'leuven-dark t)
-  (ne/set-random-theme))
+  (neko/set-random-theme))
 

@@ -1,59 +1,24 @@
 #+title: Modules
 
-* Table of Contents :TOC_10:
+* Table of Contents :TOC:
+- [[#preface][Preface]]
+  - [[#tips][Tips]]
 - [[#info][Info]]
   - [[#about-require][About ~+require~]]
+- [[#personal-notes][Personal notes]]
 - [[#subdirectories][Subdirectories]]
-  - [[#code][code]]
-    - [[#neko-lsp-modeel][neko-lsp-mode.el]]
-    - [[#neko-code-generalel][neko-code-general.el]]
-    - [[#langs][langs]]
-      - [[#java][java]]
-        - [[#neko-javael][neko-java.el]]
-        - [[#neko-java-eglotel][neko-java-eglot.el]]
-      - [[#lisp][lisp]]
-        - [[#neko-lisp-generalel][neko-lisp-general.el]]
-        - [[#neko-advancedel][neko-advanced.el]]
-        - [[#neko-schemeel][neko-scheme.el]]
   - [[#completion][completion]]
-    - [[#vertico][vertico]]
-      - [[#neko-capeel][neko-cape.el]]
-      - [[#neko-consultel][neko-consult.el]]
-      - [[#neko-corfuel][neko-corfu.el]]
-      - [[#neko-embarkel][neko-embark.el]]
-      - [[#neko-marginaliael][neko-marginalia.el]]
-      - [[#neko-orderlessel][neko-orderless.el]]
-      - [[#neko-vertico-metael][neko-vertico-meta.el]]
-      - [[#neko-verticoel][neko-vertico.el]]
-      - [[#neko-yasnippetel][neko-yasnippet.el]]
   - [[#enhancements][enhancements]]
-    - [[#neko-enhancementsel][neko-enhancements.el]]
   - [[#files][files]]
-    - [[#neko-buffersel][neko-buffers.el]]
-    - [[#neko-diredel][neko-dired.el]]
-    - [[#neko-file-tweaksel][neko-file-tweaks.el]]
-    - [[#neko-filesel][neko-files.el]]
+  - [[#ide][ide]]
   - [[#keybinds][keybinds]]
-    - [[#neko-meow-dvpel][neko-meow-dvp.el]]
-    - [[#neko-meowel][neko-meow.el]]
+  - [[#lang][lang]]
   - [[#org][org]]
-    - [[#neko-org-agendael][neko-org-agenda.el]]
-    - [[#neko-orgel][neko-org.el]]
   - [[#prettify][prettify]]
-    - [[#neko-themesel][neko-themes.el]]
-    - [[#neko-transparencyel][neko-transparency.el]]
   - [[#programs][programs]]
-    - [[#neko-magitel][neko-magit.el]]
-    - [[#neko-vtermel][neko-vterm.el]]
   - [[#special][special]]
-    - [[#neko-serverel][neko-server.el]]
   - [[#tweaks][tweaks]]
-    - [[#neko-sane-defsel][neko-sane-defs.el]]
   - [[#ui][ui]]
-    - [[#neko-lineel][neko-line.el]]
-    - [[#neko-modelineel][neko-modeline.el]]
-    - [[#neko-scrollel][neko-scroll.el]]
-    - [[#neko-windowsel][neko-windows.el]]
 
 * Preface
 
@@ -87,66 +52,28 @@ For more info, type =C-h= then search for =+require= to pull up further document
 
 * Subdirectories
 
-** code
-[[file:code/README.org]]
-
-** lang
-[[file:lang/README.org]]
-
 ** completion
 [[file:completion/README.org]]
 
 ** enhancements
 
-
 ** files
 
-*** neko-buffers.el
-
-*** neko-dired.el
-
-*** neko-file-tweaks.el
-
-*** neko-files.el
+** ide
 
 ** keybinds
 
-*** neko-meow-dvp.el
-
-*** neko-meow.el
+** lang
+[[file:lang/README.org]]
 
 ** org
 
-*** neko-org-agenda.el
-
-*** neko-org.el
-
 ** prettify
-
-*** neko-themes.el
-
-*** neko-transparency.el
 
 ** programs
 
-*** neko-magit.el
-
-*** neko-vterm.el
-
 ** special
-
-*** neko-server.el
 
 ** tweaks
 
-*** neko-sane-defs.el
-
 ** ui
-
-*** neko-line.el
-
-*** neko-modeline.el
-
-*** neko-scroll.el
-
-*** neko-windows.el

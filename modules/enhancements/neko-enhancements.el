@@ -1,4 +1,3 @@
-
 (use-package helpful
   :custom
   (counsel-describe-function-function #'helpful-callable)
@@ -13,5 +12,6 @@
   ("C-h H" . view-hello-file)	       ; command originally at "C-h h"
   ("C-h M" . which-key-show-major-mode)
   ("C-h E" . describe-keymap))
+
 
 (provide 'neko-enhancements)

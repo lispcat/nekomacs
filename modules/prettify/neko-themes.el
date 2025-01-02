@@ -20,11 +20,15 @@
   ;; enable theme
   (if (custom-theme-p theme)
       (enable-theme theme)
-    (load-theme theme :no-confirm)))
+    (load-theme theme :no-confirm))
+  ;; remove fringes
+  (set-face-attribute 'fringe nil
+                      :foreground (face-foreground 'default)
+                      :background (face-background 'default)))
 
 ;;; Function: sets a random theme.
 
-(defun ne/set-random-theme ()
+(defun neko/set-random-theme ()
   (interactive)
   (let* ((available-themes (custom-available-themes))
 	 (current-theme (car custom-enabled-themes))
@@ -37,6 +41,11 @@
     (if (custom-theme-p chosen-theme)
 	(enable-theme chosen-theme)
       (load-theme chosen-theme :no-confirm))
+    ;; remove fringes
+    (set-face-attribute 'fringe nil
+                      :foreground (face-foreground 'default)
+                      :background (face-background 'default))
+    ;; mesg
     (message "Enabled theme: %s" chosen-theme)))
 
 ;;; Leader-key binds:
@@ -44,7 +53,7 @@
 (neko/leader-definer
  "T" '(:ignore t :which-key "Themes")
  "Tt" '(+load-theme :which-key "load-theme")
- "Tr" '(ne/set-random-theme :which-key "set-random-theme")
+ "Tr" '(neko/set-random-theme :which-key "set-random-theme")
  )
 
 ;;; (Note: actually setting a theme should be done after loading this file).

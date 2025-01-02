@@ -30,6 +30,7 @@
 ;;;;;; Keybinds ;;;;;;
 
 (+require 'neko-meow-dvp)
+;; (+require 'neko-meow-qwerty) ;; for meow qwerty binds
 
 ;;;;;; Languages ;;;;;;
 
@@ -54,7 +55,8 @@
 ;;;;;; Programs ;;;;;;
 
 (+require 'neko-magit)
-(+require 'neko-vterm)
+;; (+require 'neko-vterm) ; obsolete
+(+require 'neko-eat)
 
 ;;;;;; Special ;;;;;;
 
