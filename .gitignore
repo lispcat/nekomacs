@@ -13,9 +13,14 @@
 !modules/**
 !personal/
 !personal/**
+!personal-template/
+!personal-template/**
+!snippets/
+!snippets/**
 
 !local/
 
-!README.org
 !early-init.el
+!early-config-pre.el
 !init.el
+!README.org
