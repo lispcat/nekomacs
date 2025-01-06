@@ -87,3 +87,6 @@
  '("z" . meow-pop-selection)
  '("'" . repeat)
  '("<escape>" . ignore))
+
+
+(provide' neko-meow-qwerty)
