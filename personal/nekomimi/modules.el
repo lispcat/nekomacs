@@ -37,6 +37,7 @@
 (+require 'neko-lang)
 (+require 'neko-lang-elisp)
 (+require 'neko-lang-lisp-adv)
+(+require 'neko-lang-markdown)
 (+require 'neko-lang-scheme)
 (+require 'neko-lang-rust)
 

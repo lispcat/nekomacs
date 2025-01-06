@@ -8,6 +8,8 @@
   - [[#neko-lang-java-eglotel][neko-lang-java-eglot.el]]
 - [[#lisp-general][lisp (general)]]
   - [[#neko-lang-lisp-advel][neko-lang-lisp-adv.el]]
+- [[#markdown][markdown]]
+  - [[#neko-lang-markdownel][neko-lang-markdown.el]]
 - [[#emacs-lisp][emacs lisp]]
   - [[#neko-lang-elispel][neko-lang-elisp.el]]
 - [[#rust][rust]]
@@ -95,6 +97,27 @@
 
 
   (provide 'neko-lang-lisp-adv)
+
+#+end_src
+
+* markdown
+** neko-lang-markdown.el
+#+begin_src emacs-lisp :tangle neko-lang-markdown.el
+
+  (defun neko/setup-markdown-mode ()
+    ;; (visual-fill-column-mode 1)
+    (display-line-numbers-mode 0))
+
+  (use-package markdown-mode
+    :mode (("README\\.md\\'" . gfm-mode)
+           ("\\.md\\'" . markdown-mode))
+    :config
+    ;; (setq markdown-command "marked")
+    (add-hook 'markdown-mode-hook #'neko/setup-markdown-mode)
+    (setq markdown-fontify-code-blocks-natively t))
+
+
+  (provide 'neko-lang-markdown)
 
 #+end_src
 
