@@ -1,4 +1,3 @@
-
 ;; TODO: read these:
 ;; https://robert.kra.hn/posts/rust-emacs-setup/
 ;; https://github.com/emacs-rustic/rustic
@@ -10,3 +9,5 @@
   :config
   ;; (setq rustic-lsp-client 'lsp-mode)
   (setq rustic-format-on-save nil))
+
+(provide 'neko-lang-rust)

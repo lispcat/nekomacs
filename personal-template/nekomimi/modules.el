@@ -38,6 +38,7 @@
 (+require 'neko-lang-elisp)
 (+require 'neko-lang-lisp-adv)
 (+require 'neko-lang-scheme)
+(+require 'neko-lang-rust)
 
 ;;;;;; Org ;;;;;;
 
