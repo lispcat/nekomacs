@@ -24,3 +24,8 @@
 (use-package anki-editor
   :defer t)
 
+;;; Org-download ;;;
+
+(use-package org-download
+  :config
+  (setq-default org-download-image-dir "_images"))

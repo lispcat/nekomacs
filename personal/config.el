@@ -12,6 +12,7 @@
 
 ;; move elsewhere
 (global-set-key (kbd "M-C-s") 'consult-line)
+(global-set-key (kbd "C-s") 'consult-line)
 
 ;;; direnv/envrc
 
@@ -29,3 +30,8 @@
     (interactive "fPatch file: ")
     (magit-run-git "apply" "--reject" "--whitespace=fix" "--recount"
 		   (expand-file-name file))))
+
+
+;;
+(use-package avy
+  :bind ("C-c j" . avy-goto-char))

@@ -65,7 +65,12 @@
   ;; variables
   
   (setq denote-directory (expand-file-name "~/Notes/denote"))
-  (setq denote-known-keywords '("emacs" "meta" "class" "ideas" "art" "hobbies" "random"))
+  (setq denote-known-keywords '("emacs" "meta"
+				"art" "hobbies" "ideas"
+				"class" "todo"
+				"calc1" "arthist"
+				"systemsoftware" "bio2"
+				"random"))
   (setq denote-prompts '(title keywords subdirectory))
   (setq denote-save-buffers t)
   (setq denote-excluded-directories-regexp
@@ -204,6 +209,9 @@
   :bind
   (:map denote-menu-mode-map
 	("c" . denote-menu-clear-filters)
+	("r" . denote-menu-filter)
+	("k" . denote-menu-filter-by-keyword)
+	("o" . denote-menu-filter-out-keyword)
 	("/ r" . denote-menu-filter)
 	("/ k" . denote-menu-filter-by-keyword)
 	("/ o" . denote-menu-filter-out-keyword)
