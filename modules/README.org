@@ -26,8 +26,7 @@
 
 - For any ~function~ or ~variable~ name, you can pull up further documentation by typing =C-h f= for functions and =C-h v= for variables.
 - You can also type =C-h h= with the text cursor on the function or variable name to directly pull up its documentation.
-  - A Small Caviat: for some reason, may not work correctly for ~+require~ and other names that start with =+= (for example, =C-h h= on ~+require~ will bring up ~require~ instead).
-    
+
 * Info
 
 The =modules= directory contains a large number of code snippets that can be evaluated with

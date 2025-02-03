@@ -109,7 +109,18 @@ also create a backups dir, that you can load into with arg and argument. have _b
 for finding files in a project: project-dired... or consult-buffer + =p SPC=. (very helpful)
 
 
+have big core config files instead of smaller chunks, then wrap each use-package statement in a function of a predictable naming scheme, and create a macro that given a name, runs the function.
+
 have tangle block for the +require expression (to config-example.el)
+
+
+TODO: implement optional layout file output and create a patch for river fork, for diff versions.
+
+very good resources
+https://github.com/jonnay/emagicians-starter-kit
+https://github.com/thinkhuman/writingwithemacs
+
+for early-init.el and init.el, use funcalls for setup? simplify? instead of having a bunch of files to load for init?
 
 
 * Organization

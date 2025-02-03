@@ -115,21 +115,21 @@
   
   ;; org-dblocks
   
-  (define-minor-mode org-dblock-update-minor-mode
-    "A minor mode that automatically updates Org mode dynamic blocks before saving."
-    :lighter " OrgDBlocks"
-    :global nil
-    (if (and org-dblock-update-minor-mode (eq major-mode 'org-mode))
-	(add-hook 'before-save-hook #'org-update-all-dblocks nil t)
-      (remove-hook 'before-save-hook #'org-update-all-dblocks t)))
+  ;; (define-minor-mode org-dblock-update-minor-mode
+  ;;   "A minor mode that automatically updates Org mode dynamic blocks before saving."
+  ;;   :lighter " OrgDBlocks"
+  ;;   :global nil
+  ;;   (if (and org-dblock-update-minor-mode (eq major-mode 'org-mode))
+  ;; 	(add-hook 'before-save-hook #'org-update-all-dblocks nil t)
+  ;;     (remove-hook 'before-save-hook #'org-update-all-dblocks t)))
   
-  (defun my/denote-insert-file-local-dblock-update-mode ()
-    (interactive)
-    (if (eq major-mode 'org-mode)
-	(add-file-local-variable
-	 'eval
-	 '(org-dblock-update-minor-mode))
-      (message "Not in an org-mode buffer")))
+  ;; (defun my/denote-insert-file-local-dblock-update-mode ()
+  ;;   (interactive)
+  ;;   (if (eq major-mode 'org-mode)
+  ;; 	(add-file-local-variable
+  ;; 	 'eval
+  ;; 	 '(org-dblock-update-minor-mode))
+  ;;     (message "Not in an org-mode buffer")))
 
   ;; journal
   

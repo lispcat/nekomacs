@@ -18,10 +18,10 @@
       '((tool-bar-lines . 0) ; disable tool bar
 	(menu-bar-lines . 0) ; disable menu bar
 	(vertical-scroll-bars) ; disable vertical scroll bar
-	(left-fringe . 10)   ; set left fringe (def: 8) (then: 8)
-	(right-fringe . 10) ; set right fringe (def: 8) (then: 13)
+	(left-fringe . 0)   ; set left fringe (def: 8) (then: 10)
+	(right-fringe . 0) ; set right fringe (def: 8) (then: 10)
 	(drag-internal-border . t)
-	(internal-border-width . 15) ; box border around buffer+modeline (creates gap)
+	(internal-border-width . 13) ; box border around buffer+modeline (creates gap) (prev: 15)
         (fullscreen . maximized) ; TODO: ???
 	))
 (setq tool-bar-mode nil			; disable tool bar
@@ -82,24 +82,22 @@
    (convert-standard-filename
     (expand-file-name  "var/eln-cache/" neko-local-dir))))
 
-;;; Load early-config-pre.el:
+;;; Load startup-config.el and early-config.el:
 
-(let* ((file "early-config-pre.el")
+(defmacro +safe-eval (&rest body)
+  `(condition-case-unless-debug e ; soft error handling if loading fails
+       (progn ,@body)
+    (error (display-warning (make-symbol file)
+			    (error-message-string e) :error))))
+
+(let* ((file "startup-config.el")
        (path (concat neko-root-dir file)))
   (if (file-exists-p path)
-      (condition-case-unless-debug e ; soft error handling if loading fails
-	  (load path)
-	(error (display-warning (make-symbol file)
-				(error-message-string e) :error)))
+      (+safe-eval (load path))
     (message "Warning: %s \"%s\" not found" file path)))
-
-;;; Load early-config.el:
 
 (let* ((file "early-config.el")
        (path (concat neko-special-config-dir file)))
   (if (file-exists-p path)
-      (condition-case-unless-debug e ; soft error handling if loading fails
-	  (load path)
-	(error (display-warning (make-symbol file)
-				(error-message-string e) :error)))
+      (+safe-eval (load path))
     (message "Warning: %s \"%s\" not found" file path)))

@@ -1,4 +1,46 @@
 
+;;; Fonts
+
+(defvar my-font-alist
+  `((hack . "Hack")
+    (tamzenPL-16
+     . "-Misc-TamzenForPowerline-regular-normal-normal-*-16-*-*-*-c-80-iso10646-1")
+    (ttyp0-17   .   "-UW  -Ttyp0-regular-normal-normal-*-17-*-*-*-m-*-iso8859-1")
+    (ttyp0-17-b .        "-UW-Ttyp0-bold-normal-normal-*-17-*-*-*-c-90-iso8859-1")
+    (ttyp0-16   .   "-UW  -Ttyp0-regular-normal-normal-*-16-*-*-*-m-*-iso8859-1")
+    (ttyp0-16-i .   "-UW  -Ttyp0-regular-italic-normal-*-16-*-*-*-m-*-iso10646-1")
+    (gb-16 . "-AW-Greybeard 16px-regular-normal-normal-*-16-*-*-*-c-80-iso10646-1")))
+
+;; font config
+
+;; (defun my-fontconfig ()
+;;   ;; default
+;;   (set-face-attribute 'default nil :font (alist-get 'tamzenPL-16 my-font-alist))
+;;   ;; italic, bitmap exception
+;;   (set-face-attribute 'italic  nil :font (alist-get 'ttyp0-16-i  my-font-alist)))
+
+(defun my-fontconfig ()
+  ;; default
+  (set-face-attribute 'default nil :font (alist-get 'ttyp0-16 my-font-alist)))
+
+;; (defun my-fontconfig ()
+;;   ;; default
+;;   (set-face-attribute 'default nil :font (alist-get 'gb-16 my-font-alist)))
+
+(my-fontconfig)
+
+;; hack to fix bitmap fonts on emacsclient frames
+(add-hook 'server-after-make-frame-hook #'my-fontconfig)
+
+;; variable pitch font
+
+
+
+
+
+
+;;; Misc
+
 ;; move elsewhere?
 (global-prettify-symbols-mode 1)
 
@@ -32,6 +74,22 @@
 		   (expand-file-name file))))
 
 
-;;
+;; avy
 (use-package avy
   :bind ("C-c j" . avy-goto-char))
+
+(use-package pdf-tools
+  :init
+  (pdf-loader-install)) ; On demand loading, leads to faster startup time
+
+
+;; spellchecking
+(use-package jinx
+  :hook (org-mode markdown-mode text-mode)
+  :bind (("M-$" . jinx-correct)
+	 ("C-M-$" . jinx-languages)))
+
+
+;; origami ?
+
+(use-package origami)

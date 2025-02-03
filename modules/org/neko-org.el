@@ -8,7 +8,7 @@ If in a list, inserts a new sublist after the current list."
   (org-meta-return)
   (org-metaright))
 
-(use-package-local org
+(use-package org
   :custom
   (org-hide-emphasis-markers t) ; hide formatting chars (* / ~ = etc)
   ;; (org-src-preserve-indentation t) ; no space at front of code blocks

@@ -4,9 +4,7 @@
   :defer t
   :general
   (neko/leader-definer
-    "v" '(:ignore t :which-key "magit")
-    "V" 'magit
-    "vv" 'magit))
+    "v" 'magit))
 
 
 (provide 'neko-magit)

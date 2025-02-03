@@ -29,9 +29,8 @@
   
   ;; set some keys for insert-mode
   (meow-define-keys 'insert
-    '("C-g" . meow-insert-exit)
-    '("C-M-g" . ri/meow-exit-all-and-save)
-    )
+    '("C-g" . "<escape>")
+    '("C-M-g" . ri/meow-exit-all-and-save))
 
   ;; start certain modes in insert-mode
   ;; (dolist (mode ri/meow-insert-default-modes)
@@ -52,4 +51,8 @@
       (meow-keypad)))
   ;; (meow-motion-overwrite-define-key
   ;;  '("SPC" . ri/meow-SPC-ignore))
-  )
+
+  ;; enter meow insert mode after creating new org heading
+  (add-hook 'org-insert-heading-hook 'meow-insert)
+
+  (setq meow-use-cursor-position-hack t))
