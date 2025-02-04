@@ -4,7 +4,7 @@
   :bind (;; C-c bindings in `mode-specific-map'
          ("C-c M-x" . consult-mode-command)
          ;; ("C-c )" . consult-kmacro)
-
+	 
          ;; C-x bindings in `ctl-x-map'
          ("C-x M-:" . consult-complex-command) ;; repeat-complex-command
          ("C-x b" . consult-buffer)	       ;; switch-to-buffer
@@ -14,16 +14,16 @@
          ("C-x r b" . consult-bookmark)		;; bookmark-jump
          ("C-x p b" . consult-project-buffer) ;; project-switch-to-buffer
          ("C-x p C-b" . consult-project-buffer) ;; project-switch-to-buffer
-
+	 
          ;; Custom M-# bindings for fast register access
          ("M-#" . consult-register-store)
          ;; ("C-M-#" . consult-register)
          ("C-M-#" . consult-register-load)
-
+	 
          ;; Other custom bindings
          ("M-y" . consult-yank-pop) ;; yank-pop
          ([remap Info-search] . consult-info)
-
+	 
          ;; M-g bindings in `goto-map'
          ("M-g e" . consult-compile-error)
          ("M-g f" . consult-flymake) ;; Alternative: consult-flycheck
@@ -35,7 +35,7 @@
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
          ("M-g O" . consult-org-heading)
-
+	 
          ;; M-s bindings in `search-map'
          ("M-s d" . consult-find) ;; Alternative: consult-fd
          ("M-s c" . consult-locate)
@@ -48,7 +48,7 @@
          ("M-s u" . consult-focus-lines)
          ("M-s M" . consult-man)	; T for terminal
          ("M-s I" . consult-info)
-
+	 
          ;; Isearch integration
          ("M-s e" . consult-isearch-history)
          :map isearch-mode-map
@@ -56,7 +56,7 @@
          ("M-s e" . consult-isearch-history) ;; isearch-edit-string
          ("M-s l" . consult-line) ;; Needed by: consult-line to detect isearch
          ("M-s L" . consult-line-multi)	;; Needed by: consult-line to detect isearch
-
+	 
          ;; Minibuffer history
          :map minibuffer-local-map
          ("M-s" . consult-history) ;; next-matching-history-element

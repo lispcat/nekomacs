@@ -1,3 +1,4 @@
+;; [[file:README.org::*neko-vertico-cape.el][neko-vertico-cape.el:1]]
 ;;; ??? ; https://github.com/minad/cape
 (use-package cape
   :demand t
@@ -25,3 +26,4 @@
 
 
 (provide 'neko-vertico-cape)
+;; neko-vertico-cape.el:1 ends here

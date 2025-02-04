@@ -1,3 +1,4 @@
+;; [[file:README.org::*neko-vertico.el][neko-vertico.el:1]]
 ;;; Vertico - a framework for minibuffer completion
 
 ;; savehist
@@ -53,3 +54,4 @@
 
 
 (provide 'neko-vertico)
+;; neko-vertico.el:1 ends here

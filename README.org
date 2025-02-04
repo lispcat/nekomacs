@@ -121,6 +121,15 @@ https://github.com/jonnay/emagicians-starter-kit
 https://github.com/thinkhuman/writingwithemacs
 
 for early-init.el and init.el, use funcalls for setup? simplify? instead of having a bunch of files to load for init?
+funcalls for setup:
++ Ideas:
+  - separate into big topics:
+    1. completion -
+    2. ide - 
+    3. org -
+    4. cosmetic -
+    5. programs -
+    6. misc -
 
 
 * Organization

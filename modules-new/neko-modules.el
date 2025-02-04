@@ -1,40 +1,8 @@
-#+title: Modules: Completion:
-
-* Table of Contents :TOC:
-- [[#info][Info]]
-- [[#vertico][Vertico]]
-  - [[#neko-verticoel][neko-vertico.el]]
-  - [[#neko-vertico-capeel][neko-vertico-cape.el]]
-  - [[#neko-vertico-consultel][neko-vertico-consult.el]]
-  - [[#neko-vertico-corfuel][neko-vertico-corfu.el]]
-  - [[#neko-vertico-embarkel][neko-vertico-embark.el]]
-  - [[#neko-vertico-marginaliael][neko-vertico-marginalia.el]]
-  - [[#neko-vertico-orderlessel][neko-vertico-orderless.el]]
-  - [[#neko-vertico-yasnippetel][neko-vertico-yasnippet.el]]
-
-* Info
-
-* Vertico
-
-** neko-vertico.el
-
-#+begin_src emacs-lisp :tangle neko-vertico.el :comments link
-
-  ;;; Vertico - a framework for minibuffer completion
-
-  ;; savehist
-  ;; consult
-  ;; orderless
-  ;; marginalia
-  ;; embark
-  ;; embark-consult
-  ;; project.el
-  ;; cape
-
+;; [[file:Modules.org::*Vertico][Vertico:1]]
+(defun m/vertico ()
   ;; ? : corfu, kind-icon, wgrep?, consult-dir, cape
   ;; ^ more at ~/code/cloned/daviwil-dots/.emacs.d/modules/dw-interface.el
   ;; TODO: vim keybinds for vertico completion shit (work on later) (also daviwil)
-  ;; TODO: this module has high order priority (one less than keybinds)
 
   ;; a framework for minibuffer completion
   ;; (https://github.com/minad/vertico)
@@ -53,10 +21,10 @@
     :init
     ;; Support opening new minibuffers from inside existing minibuffers.
     (setq enable-recursive-minibuffers t)
-  
+
     ;; Emacs 28 and newer: hide commands in M-x that do not work in the current mode.
     ;; (setq read-extended-command-predicate #'command-completion-default-include-p)
-  
+
     ;; Add prompt indicator to `completing-read-multiple'.
     ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
     (defun crm-indicator (args)
@@ -67,22 +35,15 @@
                     (car args))
             (cdr args)))
     (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-  
+
     ;; Do not allow the cursor in the minibuffer prompt
     (setq minibuffer-prompt-properties
           '(read-only t cursor-intangible t face minibuffer-prompt))
-    (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+    (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)))
+;; Vertico:1 ends here
 
-
-  (provide 'neko-vertico)
-
-#+end_src
-
-** neko-vertico-cape.el
-
-#+begin_src emacs-lisp :tangle neko-vertico-cape.el :comments link
-
-  ;;; ??? ; https://github.com/minad/cape
+;; [[file:Modules.org::*Cape][Cape:1]]
+(defun m/cape ()
   (use-package cape
     :demand t
     ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
@@ -105,24 +66,17 @@
     ;; ...
     ;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
     ;; ...
-    )
+    ))
+;; Cape:1 ends here
 
-
-  (provide 'neko-vertico-cape)
-
-#+end_src
-
-** neko-vertico-consult.el
-
-#+begin_src emacs-lisp :tangle neko-vertico-consult.el
-
-  ;; consult - navigation commands
-  ;; (https://github.com/minad/consult)
+;; [[file:Modules.org::*Consult][Consult:1]]
+(defun m/consult ()
+  
   (use-package consult
     :bind (;; C-c bindings in `mode-specific-map'
            ("C-c M-x" . consult-mode-command)
            ;; ("C-c )" . consult-kmacro)
-	 
+  	 
            ;; C-x bindings in `ctl-x-map'
            ("C-x M-:" . consult-complex-command) ;; repeat-complex-command
            ("C-x b" . consult-buffer)	       ;; switch-to-buffer
@@ -132,16 +86,16 @@
            ("C-x r b" . consult-bookmark)		;; bookmark-jump
            ("C-x p b" . consult-project-buffer) ;; project-switch-to-buffer
            ("C-x p C-b" . consult-project-buffer) ;; project-switch-to-buffer
-	 
+  	 
            ;; Custom M-# bindings for fast register access
            ("M-#" . consult-register-store)
            ;; ("C-M-#" . consult-register)
            ("C-M-#" . consult-register-load)
-	 
+  	 
            ;; Other custom bindings
            ("M-y" . consult-yank-pop) ;; yank-pop
            ([remap Info-search] . consult-info)
-	 
+  	 
            ;; M-g bindings in `goto-map'
            ("M-g e" . consult-compile-error)
            ("M-g f" . consult-flymake) ;; Alternative: consult-flycheck
@@ -153,7 +107,7 @@
            ("M-g i" . consult-imenu)
            ("M-g I" . consult-imenu-multi)
            ("M-g O" . consult-org-heading)
-	 
+  	 
            ;; M-s bindings in `search-map'
            ("M-s d" . consult-find) ;; Alternative: consult-fd
            ("M-s c" . consult-locate)
@@ -166,7 +120,7 @@
            ("M-s u" . consult-focus-lines)
            ("M-s M" . consult-man)	; T for terminal
            ("M-s I" . consult-info)
-	 
+  	 
            ;; Isearch integration
            ("M-s e" . consult-isearch-history)
            :map isearch-mode-map
@@ -174,7 +128,7 @@
            ("M-s e" . consult-isearch-history) ;; isearch-edit-string
            ("M-s l" . consult-line) ;; Needed by: consult-line to detect isearch
            ("M-s L" . consult-line-multi)	;; Needed by: consult-line to detect isearch
-	 
+  	 
            ;; Minibuffer history
            :map minibuffer-local-map
            ("M-s" . consult-history) ;; next-matching-history-element
@@ -183,7 +137,7 @@
     :general
     (neko/leader-definer
       "s" search-map))
-
+  
   ;; used to go to a file in a bookmarked dir n stuff (one ex)
   (use-package consult-dir
     :general
@@ -197,9 +151,9 @@
     ;; :custom
     ;; (consult-dir-project-list-function nil)
     )
-
-
-
+  
+  
+  
   ;; TODO: do i even need to do this here?
   ;; - oh wait i do since the other module might overwrite...
   ;; - but the issue is that it never gets set if those modules
@@ -208,7 +162,7 @@
   ;; if another bind isnt already there?
   ;; - is it possible to do eval-after-load 'thing OR after init?
   ;; and throw away the other autoload once one succeeds?
-
+  
   (defmacro mi/eval-now-and-after-load (feature &rest body)
     "Eval BODY, then if FEATURE is not loaded, eval BODY again after FEATURE loaded."
     (declare (indent defun))
@@ -220,190 +174,20 @@
          ,(unless (featurep f)
             `(eval-after-load ',f
                (lambda () ,@body))))))
-
+  
   (mi/eval-now-and-after-load 'neko-themes
     (neko/leader-definer
       "Tt" 'consult-theme))
-
+  
   (mi/eval-now-and-after-load 'neko-buffers
     (neko/leader-definer
       "bb" 'consult-buffer))
-
+  
   (mi/eval-now-and-after-load 'neko-dired
     (neko/leader-definer
       "fr" 'consult-recent-file))
-
+  
   (neko/leader-definer
     "fm" 'consult-bookmark)
-
-
-  (provide 'neko-vertico-consult)
-
-#+end_src
-
-** neko-vertico-corfu.el
-
-#+begin_src emacs-lisp :tangle neko-vertico-corfu.el
-
-  ;; Docs: use M-SPC for separator
-  (use-package corfu
-    :demand t
-    :bind (:map corfu-map
-                ;; ("C-j" . corfu-next)
-                ;; ("C-k" . corfu-previous)
-                ("TAB" . corfu-insert)
-                ([tab] . corfu-insert)	; TODO: why repeat??
-                ("RET" . nil)
-                ;; ("C-f" . corfu-insert)
-                )
-    :custom
-    (corfu-cycle t)		    ; cycle bottom/top
-    (corfu-auto t)		    ; ?
-    (corfu-preview-current nil)	    ; dont insert text while searching
-    ;; (corfu-quit-at-boundary t)
-    (corfu-quit-no-match t)		; quit if no matches
-
-    :config
-    (global-corfu-mode 1)
-
-    (defun corfu-enable-in-minibuffer ()
-      "Enable Corfu in the minibuffer if `completion-at-point' is bound."
-      (when (where-is-internal #'completion-at-point (list (current-local-map)))
-        ;; (setq-local corfu-auto nil) ;; Enable/disable auto completion
-        (setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
-                    corfu-popupinfo-delay nil)
-        (corfu-mode 1)))
-  
-    (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer))
-
-  (provide 'neko-vertico-corfu)
-
-#+end_src
-
-** neko-vertico-embark.el
-
-#+begin_src emacs-lisp :tangle neko-vertico-embark.el
-
-  ;; Perform a variety of actions on a thing at point
-  ;; (https://github.com/oantolin/embark)
-  (use-package embark
-    :bind
-    (("C-." . embark-act)
-     ("C-;" . embark-dwim)
-     ;; ("C-h B" . embark-bindings)
-     )
-  
-    :init
-    ;; use embark for showing command prefix help
-    (setq prefix-help-command #'embark-prefix-help-command)
-
-    ;; Show the Embark target at point via Eldoc. You may adjust the
-    ;; Eldoc strategy, if you want to see the documentation from
-    ;; multiple providers. Beware that using this can be a little
-    ;; jarring since the message shown in the minibuffer can be more
-    ;; than one line, causing the modeline to move up and down:
-
-    ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-    ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-
-    :config
-    ;; Hide the mode line of the Embark live/completions buffers
-    (add-to-list 'display-buffer-alist
-                 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                   nil
-                   (window-parameters (mode-line-format . none)))))
-
-  ;; Integration between embark and consult
-  ;; (embark will load automatically if consult is found)
-  (use-package embark-consult
-    :after (embark consult)
-    :hook
-    (embark-collect-mode . consult-preview-at-point-mode))
-
-
-  (provide 'neko-vertico-embark)
-
-#+end_src
-
-** neko-vertico-marginalia.el
-
-#+begin_src emacs-lisp :tangle neko-vertico-marginalia.el
-
-  ;; Useful annotations in minibuffer completions
-  ;; (https://github.com/minad/marginalia)
-  (use-package marginalia
-    ;; marginalia-cycle: show different amounts of info in minibuffer
-    :bind
-    (:map minibuffer-local-map
-          ("M-A" . marginalia-cycle))
-    (:map completion-list-mode-map
-          ("M-A" . marginalia-cycle))
-    :init
-    ;; must be loaded in :init (enable immediately, force load)
-    (marginalia-mode 1))
-
-  (provide 'neko-vertico-marginalia)
-
-#+end_src
-
-** neko-vertico-orderless.el
-
-#+begin_src emacs-lisp :tangle neko-vertico-orderless.el
-
-  ;; fzf-like minibuffer completion, keywords in any order
-  ;; (https://github.com/oantolin/orderless)
-  ;; TODO: read up on setting up for company and other packages.
-  (use-package orderless
-    :custom
-    ;; Configure a custom style dispatcher (see the Consult wiki)
-    ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
-    ;; (orderless-component-separator #'orderless-escapable-split-on-space)
-    (completion-styles '(orderless basic))
-    (completion-category-defaults nil)
-    (completion-category-overrides '((file (styles partial-completion)))))
-
-
-  (provide 'neko-vertico-orderless)
-
-#+end_src
-
-** neko-vertico-yasnippet.el
-
-#+begin_src emacs-lisp :tangle neko-vertico-yasnippet.el
-
-  ;;; TODO: this is set up for eglot only, not lsp-mode
-
-  ;; https://stackoverflow.com/questions/72601990/how-to-show-suggestions-for-yasnippets-when-using-eglot
-  ;; TODO: move elsewhere?:
-  (use-package yasnippet
-    :diminish yas-minor-mode
-    :hook (prog-mode . yas-minor-mode)
-    :config
-    (yas-reload-all))
-
-  (use-package yasnippet-snippets
-    :after yasnippet)
-
-  ;; yasnippet completion-at-point support
-  (use-package yasnippet-capf
-    :after cape yasnippet
-    :config
-    ;; enable yasnippet-capf everywhere
-    (progn
-      (add-to-list 'completion-at-point-functions #'yasnippet-capf))
-    ;; integrate yasnippet-capf with eglot completion
-    ;; (progn
-    ;;   (defun mi/eglot-capf-with-yasnippet ()
-    ;;     (setq-local completion-at-point-functions
-    ;;                 (list 
-    ;; 		   (cape-capf-super
-    ;; 		    #'yasnippet-capf
-    ;; 		    #'eglot-completion-at-point))))
-    ;;   (with-eval-after-load 'eglot
-    ;;     (add-hook 'eglot-managed-mode-hook #'mi/eglot-capf-with-yasnippet)))
-    )
-
-
-  (provide 'neko-vertico-yasnippet)
-
-#+end_src
+  )
+;; Consult:1 ends here

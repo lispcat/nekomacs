@@ -71,39 +71,60 @@
   (org-super-agenda-mode 1)
   (setq org-agenda-custom-commands
 	`(("m" "Main View"
-	   ((agenda nil ((org-agenda-span 'day)
-			 (org-super-agenda-groups
-			  '((:name "OVERDUE"
-				   :and (:not (:todo "DONE") :deadline past)
-				   :and (:not (:todo "DONE") :scheduled past)
-				   :transformer (--> it (propertize it 'face '(:foreground "salmon")))
-				   :order 1)
-			    (:name "HIGH PRIORITY"
-				   :and (:not (:todo "DONE") :date today :priority>= "A")
-				   :order 2)
-			    (:name "low priority"
-				   :and (:not (:todo "DONE") :date today :priority<= "C")
-				   :order 5)
-			    (:name "Done"
-				   :and (:todo "DONE" :date today)
-				   :order 10)
-			    (:name "old"
-				   :and (:todo "DONE" :deadline past)
-				   :and (:todo "DONE" :scheduled past)
-				   :order 20)
-			    (:name "Today"
-				   :time-grid t
-				   :date today
-				   :deadline today
-				   :scheduled today
-				   :order 3)
-			    (:discard (:property "FRACTION" :deadline future))
-			    (:discard (:property "FRACTION" :scheduled future))
-			    (:name "Future"
-				   :and (:not (:todo "DONE") :deadline future)
-				   :and (:not (:todo "DONE") :scheduled future)
-				   :order 4)
-			    )))))))))
+	   ((agenda
+	     nil
+	     ((org-agenda-span 'day)
+	      (org-super-agenda-groups
+	       '(
+		 ;; Done stuff
+			    
+		 (:name "Done"
+			;; :and (:todo "DONE" :date today)
+			:and (:todo "DONE" :deadline future)
+			:and (:todo "DONE" :scheduled future)
+			:order 10)
+		 (:name "old"
+			:and (:todo "DONE" :deadline past)
+			:and (:todo "DONE" :scheduled past)
+			:order 20)
+
+		 ;; past
+
+		 (:name "OVERDUE"
+			:deadline past
+			:scheduled past
+			:transformer (--> it (propertize it 'face '(:foreground "salmon")))
+			:order 1)
+
+		 ;; today: priorities
+
+		 (:name "HIGH PRIORITY"
+			:and (:date today :priority>= "A")
+			:order 2)
+		 (:name "low priority"
+			:and (:date today :priority<= "C")
+			:order 5)
+
+		 ;; today schedule and future
+			    
+		 (:name "Today"
+			:time-grid t
+			:date today
+			:deadline today
+			:scheduled today
+			:order 3)
+		 (:discard (:property "FRACTION"))
+		 (:name "Future"
+			:deadline future
+			:scheduled future
+			:order 4)
+
+		 ;; rest
+
+		 (:name "?"
+			:anything t)
+		 
+		 )))))))))
 
 (defun my/org-clone-with-fraction (days time effort)
   "Clone subtree with time shifts, prefixing each subheading with fraction prefix."

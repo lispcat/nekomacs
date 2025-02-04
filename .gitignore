@@ -18,6 +18,9 @@
 !snippets/
 !snippets/**
 
+!modules-new/
+!modules-new/**
+
 !local/
 
 !early-init.el
