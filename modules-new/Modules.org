@@ -1006,8 +1006,8 @@ https://github.com/emacs-rustic/rustic
       (interactive
        (list
 	(intern (completing-read "Load custom theme: "
-			       (mapcar #'symbol-name
-				       (custom-available-themes))))
+				 (mapcar #'symbol-name
+					 (custom-available-themes))))
 	nil nil))
       ;; disable all enabled themes
       (mapc #'disable-theme custom-enabled-themes)
@@ -1025,30 +1025,30 @@ https://github.com/emacs-rustic/rustic
     (defun neko/set-random-theme ()
       (interactive)
       (let* ((available-themes (custom-available-themes))
-	   (current-theme (car custom-enabled-themes))
+	     (current-theme (car custom-enabled-themes))
 	     (themes-except-current (remove current-theme available-themes))
-	   (chosen-theme (nth (random (length themes-except-current))
-			      themes-except-current)))
+	     (chosen-theme (nth (random (length themes-except-current))
+				themes-except-current)))
 	;; disable all enabled themes
 	(mapc #'disable-theme custom-enabled-themes)
 	;; enable randomly chosen theme
 	(if (custom-theme-p chosen-theme)
-	  (enable-theme chosen-theme)
+	    (enable-theme chosen-theme)
 	  (load-theme chosen-theme :no-confirm))
 	;; remove fringes
 	(set-face-attribute 'fringe nil
-			  :foreground (face-foreground 'default)
-			  :background (face-background 'default))
+			    :foreground (face-foreground 'default)
+			    :background (face-background 'default))
 	;; mesg
 	(message "Enabled theme: %s" chosen-theme)))
 
     ;;; Leader-key binds:
 
     (neko/leader-definer
-     "T" '(:ignore t :which-key "Themes")
-     "Tt" '(+load-theme :which-key "load-theme")
-     "Tr" '(neko/set-random-theme :which-key "set-random-theme")
-     )
+      "T" '(:ignore t :which-key "Themes")
+      "Tt" '(+load-theme :which-key "load-theme")
+      "Tr" '(neko/set-random-theme :which-key "set-random-theme")
+      )
 
     ;;; (Note: actually setting a theme should be done after loading this file).
     )

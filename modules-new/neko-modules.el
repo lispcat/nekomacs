@@ -207,7 +207,7 @@
     :bind (;; C-c bindings in `mode-specific-map'
            ("C-c M-x" . consult-mode-command)
            ;; ("C-c )" . consult-kmacro)
-  	 
+  	   
            ;; C-x bindings in `ctl-x-map'
            ("C-x M-:" . consult-complex-command) ;; repeat-complex-command
            ("C-x b" . consult-buffer)	       ;; switch-to-buffer
@@ -217,16 +217,16 @@
            ("C-x r b" . consult-bookmark)		;; bookmark-jump
            ("C-x p b" . consult-project-buffer) ;; project-switch-to-buffer
            ("C-x p C-b" . consult-project-buffer) ;; project-switch-to-buffer
-  	 
+  	   
            ;; Custom M-# bindings for fast register access
            ("M-#" . consult-register-store)
            ;; ("C-M-#" . consult-register)
            ("C-M-#" . consult-register-load)
-  	 
+  	   
            ;; Other custom bindings
            ("M-y" . consult-yank-pop) ;; yank-pop
            ([remap Info-search] . consult-info)
-  	 
+  	   
            ;; M-g bindings in `goto-map'
            ("M-g e" . consult-compile-error)
            ("M-g f" . consult-flymake) ;; Alternative: consult-flycheck
@@ -238,7 +238,7 @@
            ("M-g i" . consult-imenu)
            ("M-g I" . consult-imenu-multi)
            ("M-g O" . consult-org-heading)
-  	 
+  	   
            ;; M-s bindings in `search-map'
            ("M-s d" . consult-find) ;; Alternative: consult-fd
            ("M-s c" . consult-locate)
@@ -251,7 +251,7 @@
            ("M-s u" . consult-focus-lines)
            ("M-s M" . consult-man)	; T for terminal
            ("M-s I" . consult-info)
-  	 
+  	   
            ;; Isearch integration
            ("M-s e" . consult-isearch-history)
            :map isearch-mode-map
@@ -259,7 +259,7 @@
            ("M-s e" . consult-isearch-history) ;; isearch-edit-string
            ("M-s l" . consult-line) ;; Needed by: consult-line to detect isearch
            ("M-s L" . consult-line-multi)	;; Needed by: consult-line to detect isearch
-  	 
+  	   
            ;; Minibuffer history
            :map minibuffer-local-map
            ("M-s" . consult-history) ;; next-matching-history-element
@@ -274,7 +274,7 @@
     :general
     (neko/leader-definer
       "fd" 'consult-dir)
-  
+    
     :bind (("C-x C-d" . consult-dir)	; default?
            :map vertico-map
            ("C-x C-d" . consult-dir)
@@ -873,8 +873,8 @@ If in a list, inserts a new sublist after the current list."
     (interactive
      (list
       (intern (completing-read "Load custom theme: "
-  			     (mapcar #'symbol-name
-  				     (custom-available-themes))))
+  			       (mapcar #'symbol-name
+  				       (custom-available-themes))))
       nil nil))
     ;; disable all enabled themes
     (mapc #'disable-theme custom-enabled-themes)
@@ -892,30 +892,30 @@ If in a list, inserts a new sublist after the current list."
   (defun neko/set-random-theme ()
     (interactive)
     (let* ((available-themes (custom-available-themes))
-  	 (current-theme (car custom-enabled-themes))
+  	   (current-theme (car custom-enabled-themes))
            (themes-except-current (remove current-theme available-themes))
-  	 (chosen-theme (nth (random (length themes-except-current))
-  			    themes-except-current)))
+  	   (chosen-theme (nth (random (length themes-except-current))
+  			      themes-except-current)))
       ;; disable all enabled themes
       (mapc #'disable-theme custom-enabled-themes)
       ;; enable randomly chosen theme
       (if (custom-theme-p chosen-theme)
-  	(enable-theme chosen-theme)
+  	  (enable-theme chosen-theme)
         (load-theme chosen-theme :no-confirm))
       ;; remove fringes
       (set-face-attribute 'fringe nil
-                        :foreground (face-foreground 'default)
-                        :background (face-background 'default))
+                          :foreground (face-foreground 'default)
+                          :background (face-background 'default))
       ;; mesg
       (message "Enabled theme: %s" chosen-theme)))
   
   ;;; Leader-key binds:
   
   (neko/leader-definer
-   "T" '(:ignore t :which-key "Themes")
-   "Tt" '(+load-theme :which-key "load-theme")
-   "Tr" '(neko/set-random-theme :which-key "set-random-theme")
-   )
+    "T" '(:ignore t :which-key "Themes")
+    "Tt" '(+load-theme :which-key "load-theme")
+    "Tr" '(neko/set-random-theme :which-key "set-random-theme")
+    )
   
   ;;; (Note: actually setting a theme should be done after loading this file).
   )
