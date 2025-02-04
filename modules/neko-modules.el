@@ -12,26 +12,6 @@
   (setq sentence-end-double-space nil))
 ;; essential tweaks:1 ends here
 
-;; [[file:Modules.org::*Dired][Dired:1]]
-(defun m/dired ()
-  ;; TODO: add to guide: "(" to show details
-  (use-package-local dired
-    :custom
-    (dired-listing-switches "-Ahl --group-directories-first -X") ; -o is -l without groups
-    (dired-auto-revert-buffer t) ; auto update file changes
-    :config
-    ;; hide details by default
-    (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-    ;; use trash if trash executable is found
-    (when (executable-find "trash")
-      (setq delete-by-moving-to-trash t))
-    :general
-    (neko/leader-definer
-      "d" '(:ignore t :which-key "dired")
-      "dd" 'find-file
-      "dj" 'dired-jump)))
-;; Dired:1 ends here
-
 ;; [[file:Modules.org::*Buffers][Buffers:1]]
 (defun m/buffers ()
   ;; revert buffer when its file is changed on the filesystem
@@ -42,7 +22,6 @@
     :custom
     (global-auto-revert-non-file-buffers t)
     (auto-revert-interval 5))
-  ;; leader binds
   (neko/leader-definer
     "k" 'kill-current-buffer
     "b" '(:ignore t :which-key "buffer")
@@ -53,19 +32,6 @@
     "bb" 'switch-to-buffer
     "bs" 'save-buffer))
 ;; Buffers:1 ends here
-
-;; [[file:Modules.org::*Files][Files:1]]
-(defun m/files ()
-  (defun neko/open-neko-personal-dir ()
-    (interactive)
-    (dired neko-personal-dir))
-
-  ;; Set leader-key binds:
-  (neko/leader-definer
-    "f" '(:ignore t :which-key "files")
-    "ff" 'find-file
-    "fp" 'neko/open-neko-personal-dir))
-;; Files:1 ends here
 
 ;; [[file:Modules.org::*History][History:1]]
 (defun m/history ()
@@ -91,9 +57,8 @@
     (aw-keys '(?a ?s ?d ?f ?j ?k ?l)) ; TODO: Note: override for non-qwerty!
     ;; (aw-dispatch-always t)
     :bind
-    ("M-o" . ace-window))	; Improved window switching with "M-o"
-
-  ;; Leader-key binds
+    ("M-o" . ace-window)	; Improved window switching with "M-o"
+    )
   (neko/leader-definer
     "w" '(:ignore t :which-key "window")
     "wd" 'delete-window
@@ -112,6 +77,39 @@
     ))
 ;; Windows:1 ends here
 
+;; [[file:Modules.org::*Dired][Dired:1]]
+(defun m/dired ()
+  ;; TODO: add to guide: "(" to show details
+  (use-package-local dired
+    :custom
+    (dired-listing-switches "-Ahl --group-directories-first -X") ; -o is -l without groups
+    (dired-auto-revert-buffer t) ; auto update file changes
+    :config
+    ;; hide details by default
+    (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+    ;; use trash if trash executable is found
+    (when (executable-find "trash")
+      (setq delete-by-moving-to-trash t))
+    :general
+    (neko/leader-definer
+      "d" '(:ignore t :which-key "dired")
+      "dd" 'find-file
+      "dj" 'dired-jump)))
+;; Dired:1 ends here
+
+;; [[file:Modules.org::*Files][Files:1]]
+(defun m/files ()
+  (defun neko/open-neko-personal-dir ()
+    (interactive)
+    (dired neko-personal-dir))
+  ;;
+  ;; Set leader-key binds:
+  (neko/leader-definer
+    "f" '(:ignore t :which-key "files")
+    "ff" 'find-file
+    "fp" 'neko/open-neko-personal-dir))
+;; Files:1 ends here
+
 ;; [[file:Modules.org::*Helpful][Helpful:1]]
 (defun m/helpful ()
   (use-package helpful
@@ -129,6 +127,12 @@
     ("C-h M" . which-key-show-major-mode)
     ("C-h E" . describe-keymap)))
 ;; Helpful:1 ends here
+
+;; [[file:Modules.org::*easy editing of sudo files][easy editing of sudo files:1]]
+(defun m/auto-sudoedit ()
+  ;; sudoedit
+  (use-package auto-sudoedit))
+;; easy editing of sudo files:1 ends here
 
 ;; [[file:Modules.org::*Vertico][Vertico:1]]
 (defun m/vertico ()
@@ -277,7 +281,7 @@
 
     :bind (("C-x C-d" . consult-dir)	; default?
 	   :map vertico-map
-	   ("C-x C-d" . consult-dir)
+           ("C-x C-d" . consult-dir)
 	   ("C-x C-j" . consult-dir-jump-file))
     ;; :custom
     ;; (consult-dir-project-list-function nil)
@@ -449,6 +453,9 @@
 
 ;; [[file:Modules.org::*IDE essentials][IDE essentials:1]]
 (defun m/ide-essentials ()
+  (setq-default indent-tabs-mode nil)
+  (setq tab-always-indent 'complete) ; test
+  
   (use-package-local compile
     :custom
     (compilation-scroll-output t))
@@ -583,7 +590,7 @@
 
 ;; [[file:Modules.org::*org][org:1]]
 (defun m/org ()
-  (defun mimi/org-insert-subheading-respect-content ()
+  (defun neko/org-insert-subheading-respect-content ()
     "Insert new subheading after the current heading's body.
 If in a list, inserts a new sublist after the current list."
     (interactive)
@@ -596,15 +603,15 @@ If in a list, inserts a new sublist after the current list."
     ;; (org-src-preserve-indentation t) ; no space at front of code blocks
     (org-startup-indented t) ; indent headings and its body
     (org-startup-folded 'showall) ; default folding mode
-    :bind
-    (:map org-mode-map
-	  ("C-M-<return>" . mimi/org-insert-subheading-respect-content)))
+    :general (neko/leader-definer
+	       "o" '(:ignore t :which-key "org"))
+    :bind (:map org-mode-map
+		("C-M-<return>"
+		 . neko/org-insert-subheading-respect-content)))
 
   (use-package-local org-tempo
     :after org
-    :general 
-    (neko/leader-definer
-      "o" '(:ignore t :which-key "org"))  :config
+    :config
     ;; TODO: move most of these elsewhere, userside?
     ;; maybe in each prog-lang, `(eval-after-load 'org-tempo add to list)`
     (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
@@ -859,8 +866,7 @@ If in a list, inserts a new sublist after the current list."
 
 ;; [[file:Modules.org::*theme][theme:1]]
 (defun m/theme ()
-
-  ;;; Install themes
+  ;; Install themes
 
   ;; (use-package doom-themes)
   (use-package kaolin-themes)
@@ -923,15 +929,15 @@ If in a list, inserts a new sublist after the current list."
 
 ;; [[file:Modules.org::*transparency][transparency:1]]
 (defun m/transparency ()
-  (defun mimi/native-transparency-supported? ()
+  (defun neko/native-transparency-supported? ()
     (if (version<= "29" emacs-version)
 	t
       (message "Native transparency is not supported.")
       nil))
 
-  (defun mimi/toggle-transparency ()
+  (defun neko/toggle-transparency ()
     (interactive)
-    (when (mimi/native-transparency-supported?)
+    (when (neko/native-transparency-supported?)
       (let ((alpha (frame-parameter nil 'alpha-background)))
 	(set-frame-parameter
 	 nil 'alpha-background
@@ -943,10 +949,10 @@ If in a list, inserts a new sublist after the current list."
 	     neko-transparency-value
 	   100)))))
 
-  (defun mimi/set-transparency (value)
+  (defun neko/set-transparency (value)
     "Sets the transparency of the frame window. 0=transparent/100=opaque"
     (interactive "nTransparency Value 0 - 100 opaque: ")
-    (when (mimi/native-transparency-supported?)
+    (when (neko/native-transparency-supported?)
       (set-frame-parameter (selected-frame) 'alpha-background value))))
 ;; transparency:1 ends here
 
@@ -1015,6 +1021,13 @@ If in a list, inserts a new sublist after the current list."
     (neko/leader-definer
       "v" 'magit)))
 ;; git client:1 ends here
+
+;; [[file:Modules.org::*pdf reader][pdf reader:1]]
+(defun m/pdf-tools ()
+  (use-package pdf-tools
+    :init
+    (pdf-loader-install))) ; On demand loading, leads to faster startup time
+;; pdf reader:1 ends here
 
 ;; [[file:Modules.org::*server][server:1]]
 (defun m/server ()

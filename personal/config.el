@@ -78,10 +78,6 @@
 (use-package avy
   :bind ("C-c j" . avy-goto-char))
 
-(use-package pdf-tools
-  :init
-  (pdf-loader-install)) ; On demand loading, leads to faster startup time
-
 
 ;; spellchecking
 (use-package jinx

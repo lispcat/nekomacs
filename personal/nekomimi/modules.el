@@ -8,6 +8,7 @@
 (m/history)
 (m/windows)
 (m/helpful)
+(m/auto-sudoedit)
 
 ;;; Completion
 
@@ -59,6 +60,7 @@
 
 (m/term-eat)
 (m/magit)
+(m/pdf-tools)
 
 ;;; Misc
 

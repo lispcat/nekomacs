@@ -2,6 +2,68 @@
 #+startup:  content
 #+property: header-args :tangle neko-modules.el :comments link
 
+* Table of Contents :TOC_4:
+- [[#new][new]]
+  - [[#ideas][ideas]]
+- [[#emacs][Emacs]]
+  - [[#essential-tweaks][essential tweaks]]
+  - [[#buffers][Buffers]]
+  - [[#history][History]]
+  - [[#windows][Windows]]
+  - [[#dired][Dired]]
+  - [[#files][Files]]
+  - [[#helpful][Helpful]]
+  - [[#easy-editing-of-sudo-files][easy editing of sudo files]]
+- [[#completion][Completion]]
+  - [[#vertico][Vertico]]
+  - [[#cape][Cape]]
+  - [[#consult][Consult]]
+  - [[#corfu][Corfu]]
+  - [[#embark][Embark]]
+    - [[#embark-consult][Embark-Consult]]
+  - [[#marginalia][Marginalia]]
+  - [[#orderless][Orderless]]
+  - [[#yasnippet][Yasnippet]]
+- [[#ide][IDE]]
+  - [[#ide-essentials][IDE essentials]]
+  - [[#lsp-servers][Lsp Servers]]
+    - [[#eglot][eglot]]
+    - [[#lsp-mode][lsp-mode]]
+  - [[#languages][Languages]]
+    - [[#essentials][essentials]]
+    - [[#elisp][elisp]]
+    - [[#java][java]]
+      - [[#java-eglot][java (eglot)]]
+      - [[#java-lsp-mode][java (lsp-mode)]]
+    - [[#lisp-for-advanced-lispers][lisp for advanced lispers]]
+    - [[#markdown][markdown]]
+    - [[#rust][rust]]
+    - [[#scheme][scheme]]
+- [[#org][Org]]
+  - [[#org-1][org]]
+  - [[#org-agenda][org-agenda]]
+- [[#keyboard][Keyboard]]
+  - [[#modal-editing][Modal Editing]]
+    - [[#evil-mode][Evil-mode]]
+    - [[#meow][Meow]]
+      - [[#meow-qwerty][meow-qwerty]]
+      - [[#meow-dvp][meow-dvp]]
+- [[#ui][UI]]
+  - [[#theme][theme]]
+  - [[#transparency][transparency]]
+  - [[#line-numbers][line numbers]]
+  - [[#line-wrap][line wrap]]
+  - [[#mode-line][mode-line]]
+  - [[#scroll][scroll]]
+- [[#programs][Programs]]
+  - [[#terminal][terminal]]
+    - [[#eat][eat]]
+  - [[#git-client][git client]]
+  - [[#pdf-reader][pdf reader]]
+- [[#misc][misc]]
+  - [[#server][server]]
+- [[#ending][ending]]
+
 * new
 
 this is where i will plan out how to restructure the modules system.
@@ -30,28 +92,6 @@ put focus on making it very segmented and all over the place. piece by piece. bu
     (setq sentence-end-double-space nil))
 #+end_src
 
-** Dired
-
-#+begin_src emacs-lisp
-  (defun m/dired ()
-    ;; TODO: add to guide: "(" to show details
-    (use-package-local dired
-      :custom
-      (dired-listing-switches "-Ahl --group-directories-first -X") ; -o is -l without groups
-      (dired-auto-revert-buffer t) ; auto update file changes
-      :config
-      ;; hide details by default
-      (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-      ;; use trash if trash executable is found
-      (when (executable-find "trash")
-        (setq delete-by-moving-to-trash t))
-      :general
-      (neko/leader-definer
-        "d" '(:ignore t :which-key "dired")
-        "dd" 'find-file
-        "dj" 'dired-jump)))
-#+end_src
-
 ** Buffers
 
 #+begin_src emacs-lisp
@@ -64,7 +104,6 @@ put focus on making it very segmented and all over the place. piece by piece. bu
       :custom
       (global-auto-revert-non-file-buffers t)
       (auto-revert-interval 5))
-    ;; leader binds
     (neko/leader-definer
       "k" 'kill-current-buffer
       "b" '(:ignore t :which-key "buffer")
@@ -74,21 +113,6 @@ put focus on making it very segmented and all over the place. piece by piece. bu
       "bo" '(mode-line-other-buffer :which-key "last-buffer")
       "bb" 'switch-to-buffer
       "bs" 'save-buffer))
-#+end_src
-
-** Files
-
-#+begin_src emacs-lisp
-  (defun m/files ()
-    (defun neko/open-neko-personal-dir ()
-      (interactive)
-      (dired neko-personal-dir))
-
-    ;; Set leader-key binds:
-    (neko/leader-definer
-      "f" '(:ignore t :which-key "files")
-      "ff" 'find-file
-      "fp" 'neko/open-neko-personal-dir))
 #+end_src
 
 ** History
@@ -119,9 +143,8 @@ put focus on making it very segmented and all over the place. piece by piece. bu
       (aw-keys '(?a ?s ?d ?f ?j ?k ?l)) ; TODO: Note: override for non-qwerty!
       ;; (aw-dispatch-always t)
       :bind
-      ("M-o" . ace-window))	; Improved window switching with "M-o"
-
-    ;; Leader-key binds
+      ("M-o" . ace-window)	; Improved window switching with "M-o"
+      )
     (neko/leader-definer
       "w" '(:ignore t :which-key "window")
       "wd" 'delete-window
@@ -138,6 +161,43 @@ put focus on making it very segmented and all over the place. piece by piece. bu
       ;; misc
       "wm" 'switch-to-minibuffer
       ))
+#+end_src
+
+** Dired
+
+#+begin_src emacs-lisp
+  (defun m/dired ()
+    ;; TODO: add to guide: "(" to show details
+    (use-package-local dired
+      :custom
+      (dired-listing-switches "-Ahl --group-directories-first -X") ; -o is -l without groups
+      (dired-auto-revert-buffer t) ; auto update file changes
+      :config
+      ;; hide details by default
+      (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+      ;; use trash if trash executable is found
+      (when (executable-find "trash")
+        (setq delete-by-moving-to-trash t))
+      :general
+      (neko/leader-definer
+        "d" '(:ignore t :which-key "dired")
+        "dd" 'find-file
+        "dj" 'dired-jump)))
+#+end_src
+
+** Files
+
+#+begin_src emacs-lisp
+  (defun m/files ()
+    (defun neko/open-neko-personal-dir ()
+      (interactive)
+      (dired neko-personal-dir))
+    ;;
+    ;; Set leader-key binds:
+    (neko/leader-definer
+      "f" '(:ignore t :which-key "files")
+      "ff" 'find-file
+      "fp" 'neko/open-neko-personal-dir))
 #+end_src
 
 ** Helpful
@@ -158,6 +218,14 @@ put focus on making it very segmented and all over the place. piece by piece. bu
       ("C-h H" . view-hello-file)	       ; command originally at "C-h h"
       ("C-h M" . which-key-show-major-mode)
       ("C-h E" . describe-keymap)))
+#+end_src
+
+** easy editing of sudo files
+
+#+begin_src emacs-lisp
+  (defun m/auto-sudoedit ()
+    ;; sudoedit
+    (use-package auto-sudoedit))
 #+end_src
 
 * Completion
@@ -246,7 +314,7 @@ A suite of search and navigation commands
 
 https://github.com/minad/consult
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
   (defun m/consult ()
 
     (use-package consult
@@ -323,7 +391,7 @@ https://github.com/minad/consult
 
       :bind (("C-x C-d" . consult-dir)	; default?
   	   :map vertico-map
-  	   ("C-x C-d" . consult-dir)
+             ("C-x C-d" . consult-dir)
   	   ("C-x C-j" . consult-dir-jump-file))
       ;; :custom
       ;; (consult-dir-project-list-function nil)
@@ -531,6 +599,9 @@ https://github.com/oantolin/orderless
 
 #+begin_src emacs-lisp
   (defun m/ide-essentials ()
+    (setq-default indent-tabs-mode nil)
+    (setq tab-always-indent 'complete) ; test
+    
     (use-package-local compile
       :custom
       (compilation-scroll-output t))
@@ -698,7 +769,7 @@ https://github.com/emacs-rustic/rustic
 
 #+begin_src emacs-lisp
   (defun m/org ()
-    (defun mimi/org-insert-subheading-respect-content ()
+    (defun neko/org-insert-subheading-respect-content ()
       "Insert new subheading after the current heading's body.
   If in a list, inserts a new sublist after the current list."
       (interactive)
@@ -711,15 +782,15 @@ https://github.com/emacs-rustic/rustic
       ;; (org-src-preserve-indentation t) ; no space at front of code blocks
       (org-startup-indented t) ; indent headings and its body
       (org-startup-folded 'showall) ; default folding mode
-      :bind
-      (:map org-mode-map
-  	  ("C-M-<return>" . mimi/org-insert-subheading-respect-content)))
+      :general (neko/leader-definer
+  	       "o" '(:ignore t :which-key "org"))
+      :bind (:map org-mode-map
+  		("C-M-<return>"
+  		 . neko/org-insert-subheading-respect-content)))
 
     (use-package-local org-tempo
       :after org
-      :general 
-      (neko/leader-definer
-        "o" '(:ignore t :which-key "org"))  :config
+      :config
       ;; TODO: move most of these elsewhere, userside?
       ;; maybe in each prog-lang, `(eval-after-load 'org-tempo add to list)`
       (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
@@ -992,8 +1063,7 @@ https://github.com/emacs-rustic/rustic
 
 #+begin_src emacs-lisp
   (defun m/theme ()
-
-    ;;; Install themes
+    ;; Install themes
 
     ;; (use-package doom-themes)
     (use-package kaolin-themes)
@@ -1058,15 +1128,15 @@ https://github.com/emacs-rustic/rustic
 
 #+begin_src emacs-lisp
   (defun m/transparency ()
-    (defun mimi/native-transparency-supported? ()
+    (defun neko/native-transparency-supported? ()
       (if (version<= "29" emacs-version)
   	t
         (message "Native transparency is not supported.")
         nil))
 
-    (defun mimi/toggle-transparency ()
+    (defun neko/toggle-transparency ()
       (interactive)
-      (when (mimi/native-transparency-supported?)
+      (when (neko/native-transparency-supported?)
         (let ((alpha (frame-parameter nil 'alpha-background)))
   	(set-frame-parameter
   	 nil 'alpha-background
@@ -1078,10 +1148,10 @@ https://github.com/emacs-rustic/rustic
   	     neko-transparency-value
   	   100)))))
 
-    (defun mimi/set-transparency (value)
+    (defun neko/set-transparency (value)
       "Sets the transparency of the frame window. 0=transparent/100=opaque"
       (interactive "nTransparency Value 0 - 100 opaque: ")
-      (when (mimi/native-transparency-supported?)
+      (when (neko/native-transparency-supported?)
         (set-frame-parameter (selected-frame) 'alpha-background value))))
 #+end_src
 
@@ -1166,6 +1236,15 @@ https://abode.karthinks.com/share/eat-modes.png
       :general
       (neko/leader-definer
         "v" 'magit)))
+#+end_src
+
+** pdf reader
+
+#+begin_src emacs-lisp
+  (defun m/pdf-tools ()
+    (use-package pdf-tools
+      :init
+      (pdf-loader-install))) ; On demand loading, leads to faster startup time
 #+end_src
 
 * misc

@@ -1,6 +1,4 @@
 
-;; sudoedit
-(use-package auto-sudoedit)
 
 ;;; Elfeed ;;;
 

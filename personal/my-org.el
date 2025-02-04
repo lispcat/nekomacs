@@ -170,7 +170,26 @@ It also cleans up anki headings that don't have a priority value."
 (use-package auctex)
 
 (use-package cdlatex
-  :hook (org-mode . turn-on-org-cdlatex))
+  :hook (org-mode . turn-on-org-cdlatex)
+  :config
+  (defun org-try-cdlatex-tab ()
+    "Check if it makes sense to execute `cdlatex-tab', and do it if yes.
+It makes sense to do so if `org-cdlatex-mode' is active and if the cursor is
+  - inside a LaTeX fragment, or
+  - after the first word in a line, where an abbreviation expansion could
+    insert a LaTeX environment."
+    (when org-cdlatex-mode
+      (cond
+       ;; Before any word on the line: No expansion possible.
+       ;; ((save-excursion (skip-chars-backward " \t") (bolp)) nil)
+       ;; Just after first word on the line: Expand it.  Make sure it
+       ;; cannot happen on headlines, though.
+       ;; ((save-excursion
+       ;;    (skip-chars-backward "a-zA-Z0-9*")
+       ;;    (skip-chars-backward " \t")
+       ;;    (and (bolp) (not (org-at-heading-p))))
+       ;;  (cdlatex-tab) t)
+       ((org-inside-LaTeX-fragment-p) (cdlatex-tab) t)))))
 
 (use-package org-fragtog
   :hook org-mode)
