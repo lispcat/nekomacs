@@ -113,24 +113,15 @@ have big core config files instead of smaller chunks, then wrap each use-package
 
 have tangle block for the +require expression (to config-example.el)
 
-
-TODO: implement optional layout file output and create a patch for river fork, for diff versions.
-
 very good resources
 https://github.com/jonnay/emagicians-starter-kit
 https://github.com/thinkhuman/writingwithemacs
 
 for early-init.el and init.el, use funcalls for setup? simplify? instead of having a bunch of files to load for init?
-funcalls for setup:
-+ Ideas:
-  - separate into big topics:
-    1. completion -
-    2. ide - 
-    3. org -
-    4. cosmetic -
-    5. programs -
-    6. misc -
 
+in personal-dir, load only one file main.el (also have early-config.el in personal-dir. load modules from here. expect the end user to create subdirs dirs to organize their setup.
+
+instead of require'ing every core module at startup, turn everything into a little function, so you can choose which set of functions to evaluate during early-config. (an alist of functions to call).
 
 * Organization
 

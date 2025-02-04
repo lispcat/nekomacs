@@ -47,8 +47,6 @@
 (defvar neko-core-dir (concat neko-root-dir "core/"))
 (defvar neko-modules-dir (concat neko-root-dir "modules/"))
 (defvar neko-personal-dir (concat neko-root-dir "personal/"))
-(defvar neko-special-config-dir (concat neko-personal-dir "nekomimi/"))
-(defvar neko-modules-config (concat neko-special-config-dir "modules.el"))
 (defvar neko-local-dir (concat neko-root-dir "local/"))
 
 
@@ -97,7 +95,7 @@
     (message "Warning: %s \"%s\" not found" file path)))
 
 (let* ((file "early-config.el")
-       (path (concat neko-special-config-dir file)))
+       (path (concat neko-personal-dir file)))
   (if (file-exists-p path)
       (+safe-eval (load path))
     (message "Warning: %s \"%s\" not found" file path)))
