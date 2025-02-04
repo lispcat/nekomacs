@@ -41,30 +41,15 @@
 (when (file-exists-p custom-file)
   (+load custom-file))
 
-;;; loads functions for each modules
+;;; loads all the functions for the modules
 (+require 'neko-modules)
 
-;;; load user-side modules.el file
-;; (let ((file neko-modules-config))
-;;   (when (file-exists-p file)
-;;     (+load file)))
-
-;;; instead of below, just load main.el
-
+;;; loads main.el
 (let ((file (file-name-concat neko-personal-dir "main.el")))
   (if file
       (+load file)
     (error "main.el in `neko-personal-dir' (%s) doesn't exist" file)))
 
-;;; load all in personal-dir recursively and lexigraphically
-;;; (excludes special-config-dir and things beginning with "_").
-;; (let* ((dir neko-personal-dir)
-;;        (excluded-dir neko-special-config-dir)
-;;        (paths (directory-files-recursively dir "^[^_].*\\.el$")))
-;;   (dolist (path paths)
-;;     (unless (string-match-p (regexp-quote excluded-dir) path)
-;;       (let ((file-as-str path))
-;; 	(+load file-as-str)))))
 
 ;;; End
 (message "Emacs initialized!")

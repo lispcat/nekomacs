@@ -82,20 +82,20 @@
 
 ;;; Load startup-config.el and early-config.el:
 
-(defmacro +safe-eval (&rest body)
+(defmacro +safe-progn (&rest body)
   `(condition-case-unless-debug e ; soft error handling if loading fails
        (progn ,@body)
     (error (display-warning (make-symbol file)
 			    (error-message-string e) :error))))
 
 (let* ((file "startup-config.el")
-       (path (concat neko-root-dir file)))
+       (path (file-name-concat neko-root-dir file)))
   (if (file-exists-p path)
-      (+safe-eval (load path))
+      (+safe-progn (load path))
     (message "Warning: %s \"%s\" not found" file path)))
 
 (let* ((file "early-config.el")
-       (path (concat neko-personal-dir file)))
+       (path (file-name-concat neko-personal-dir file)))
   (if (file-exists-p path)
-      (+safe-eval (load path))
+      (+safe-progn (load path))
     (message "Warning: %s \"%s\" not found" file path)))
