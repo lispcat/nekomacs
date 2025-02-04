@@ -1,5 +1,6 @@
-#+TITLE: Modules
-#+PROPERTY: header-args :tangle neko-modules.el :comments link
+#+title:    Modules
+#+startup:  content
+#+property: header-args :tangle neko-modules.el :comments link
 
 * new
 
@@ -7,15 +8,149 @@ this is where i will plan out how to restructure the modules system.
 
 put focus on making it very segmented and all over the place. piece by piece. build like legos for the end user.
 
+** ideas
+
+- combine Emacs & Tweaks category?
+
 * Emacs
+
+** essential tweaks
+
+#+begin_src emacs-lisp
+
+  (defun m/essential-tweaks ()
+    ;; By default, the ESC key will actuate the Meta/Alt key.
+    ;; The change below makes ESC work more like expected.
+    (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+    ;; Shorten yes/no prompts to y/n
+    (defalias 'yes-or-no-p 'y-or-n-p)
+
+    ;; By default, emacs thinks two spaces after a period == a sentence.
+    ;; The change below changes that to just one space.
+    (setq sentence-end-double-space nil))
+  
+#+end_src
 
 ** Dired
 
+#+begin_src emacs-lisp
+
+  (defun m/dired ()
+    ;; TODO: add to guide: "(" to show details
+    (use-package-local dired
+      :custom
+      (dired-listing-switches "-Ahl --group-directories-first -X") ; -o is -l without groups
+      (dired-auto-revert-buffer t) ; auto update file changes
+      :config
+      ;; hide details by default
+      (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+      ;; use trash if trash executable is found
+      (when (executable-find "trash")
+        (setq delete-by-moving-to-trash t))
+      :general
+      (neko/leader-definer
+        "d" '(:ignore t :which-key "dired")
+        "dd" 'find-file
+        "dj" 'dired-jump)))
+
+#+end_src
+
 ** Buffers
+
+#+begin_src emacs-lisp
+
+  (defun m/buffers ()
+    ;; revert buffer when its file is changed on the filesystem
+    (use-package-local autorevert
+      :diminish autorevert-mode
+      :init
+      (global-auto-revert-mode 1)
+      :custom
+      (global-auto-revert-non-file-buffers t)
+      (auto-revert-interval 5))
+    ;; leader binds
+    (neko/leader-definer
+      "k" 'kill-current-buffer
+      "b" '(:ignore t :which-key "buffer")
+      "bk" 'kill-current-buffer
+      "bn" 'next-buffer
+      "bp" 'previous-buffer
+      "bo" '(mode-line-other-buffer :which-key "last-buffer")
+      "bb" 'switch-to-buffer
+      "bs" 'save-buffer))
+
+#+end_src
 
 ** Files
 
+#+begin_src emacs-lisp
+
+  (defun m/files ()
+    (defun neko/open-neko-personal-dir ()
+      (interactive)
+      (dired neko-personal-dir))
+    
+    ;; Set leader-key binds:
+    (neko/leader-definer
+      "f" '(:ignore t :which-key "files")
+      "ff" 'find-file
+      "fp" 'neko/open-neko-personal-dir))
+
+#+end_src
+
+** History
+
+#+begin_src emacs-lisp
+
+  (defun m/history ()
+    ;; remember recent files
+    (use-package-local recentf
+      :hook (emacs-startup . recentf-mode))
+    ;; go to previous location in file when reopening
+    (use-package-local saveplace
+      :config
+      (save-place-mode 1))
+    ;; persist minibuffer history over restarts
+    (use-package-local savehist
+      :config
+      (savehist-mode 1)))
+
+#+end_src
+
 ** Windows
+
+#+begin_src emacs-lisp
+
+  (defun m/windows ()
+    (use-package ace-window
+      :custom
+      (aw-scope 'frame)
+      (aw-background nil)
+      (aw-keys '(?a ?s ?d ?f ?j ?k ?l)) ; TODO: Note: override for non-qwerty!
+      ;; (aw-dispatch-always t)
+      :bind
+      ("M-o" . ace-window))	; Improved window switching with "M-o"
+
+    ;; Leader-key binds
+    (neko/leader-definer
+      "w" '(:ignore t :which-key "window")
+      "wd" 'delete-window
+      "w+" 'balance-windows
+      "wa" 'balance-windows-area
+      ;; split window
+      "wv" 'split-window-horizontally
+      "ws" 'split-window-vertically
+      ;; select window directionally
+      "wp" '(windmove-up    :which-key "select up")
+      "wn" '(windmove-down  :which-key "select down")
+      "wf" '(windmove-right :which-key "select right")
+      "wb" '(windmove-left  :which-key "select left")
+      ;; misc
+      "wm" 'switch-to-minibuffer
+      ))
+
+#+end_src
 
 * Completion
 
@@ -29,7 +164,7 @@ a framework for minibuffer completion
     ;; ? : corfu, kind-icon, wgrep?, consult-dir, cape
     ;; ^ more at ~/code/cloned/daviwil-dots/.emacs.d/modules/dw-interface.el
     ;; TODO: vim keybinds for vertico completion shit (work on later) (also daviwil)
-
+    ;;
     ;; a framework for minibuffer completion
     ;; (https://github.com/minad/vertico)
     (use-package vertico
@@ -41,16 +176,15 @@ a framework for minibuffer completion
       ;; (vertico-resize t) ; Grow and shrink the Vertico minibuffer
       ;; (vertico-cycle t) ; Enable cycling for `vertico-next/previous'
       )
-
     ;; A few more useful configurations...
     (use-package emacs
       :init
       ;; Support opening new minibuffers from inside existing minibuffers.
       (setq enable-recursive-minibuffers t)
-
+      ;;
       ;; Emacs 28 and newer: hide commands in M-x that do not work in the current mode.
       ;; (setq read-extended-command-predicate #'command-completion-default-include-p)
-
+      ;;
       ;; Add prompt indicator to `completing-read-multiple'.
       ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
       (defun crm-indicator (args)
@@ -61,7 +195,7 @@ a framework for minibuffer completion
                       (car args))
               (cdr args)))
       (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-
+      ;;
       ;; Do not allow the cursor in the minibuffer prompt
       (setq minibuffer-prompt-properties
             '(read-only t cursor-intangible t face minibuffer-prompt))
@@ -110,10 +244,10 @@ https://github.com/minad/consult
 
 #+BEGIN_SRC elisp :noweb yes
   (defun m/consult ()
-    <<consult-block>>)
+    <<consult-below>>)
 #+END_SRC
 
-#+NAME: consult-block
+#+NAME: consult-below
 #+begin_src emacs-lisp :tangle no
   
   (use-package consult
@@ -236,41 +370,410 @@ https://github.com/minad/consult
 
 ** Corfu
 
+In-buffer completion with a small popup.
+
+https://github.com/minad/corfu
+
+#+begin_src emacs-lisp
+
+  ;; Docs: use M-SPC for separator
+  (defun m/corfu ()
+    (use-package corfu
+      :demand t
+      :bind (:map corfu-map
+  		;; ("C-j" . corfu-next)
+  		;; ("C-k" . corfu-previous)
+  		("TAB" . corfu-insert)
+  		([tab] . corfu-insert)	; TODO: why repeat??
+  		("RET" . nil)
+  		;; ("C-f" . corfu-insert)
+  		)
+      :custom
+      (corfu-cycle t)		    ; cycle bottom/top
+      (corfu-auto t)		    ; ?
+      (corfu-preview-current nil)	    ; dont insert text while searching
+      ;; (corfu-quit-at-boundary t)
+      (corfu-quit-no-match t)		; quit if no matches
+      
+      :config
+      (global-corfu-mode 1)
+      
+      (defun corfu-enable-in-minibuffer ()
+        "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+        (when (where-is-internal #'completion-at-point (list (current-local-map)))
+  	;; (setq-local corfu-auto nil) ;; Enable/disable auto completion
+  	(setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
+                      corfu-popupinfo-delay nil)
+  	(corfu-mode 1)))
+      (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer)))
+
+#+end_src
+
 ** Embark
+
+Perform an action on a thing at point
+
+https://github.com/oantolin/embark
+
+#+begin_src emacs-lisp
+
+  (defun m/embark ()
+    (use-package embark
+      :bind
+      (("C-." . embark-act)
+       ("C-;" . embark-dwim)
+       ;; ("C-h B" . embark-bindings)
+       )
+      :init
+      ;; use embark for showing command prefix help
+      (setq prefix-help-command #'embark-prefix-help-command)
+      
+      ;; Show the Embark target at point via Eldoc. You may adjust the
+      ;; Eldoc strategy, if you want to see the documentation from
+      ;; multiple providers. Beware that using this can be a little
+      ;; jarring since the message shown in the minibuffer can be more
+      ;; than one line, causing the modeline to move up and down:
+
+      ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+      ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+      :config
+      ;; Hide the mode line of the Embark live/completions buffers
+      (add-to-list 'display-buffer-alist
+  		 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                     nil
+                     (window-parameters (mode-line-format . none))))))
+
+#+end_src
+
+*** Embark-Consult
+
+Consult integration for Embark
+
+https://github.com/oantolin/embark
+
+#+begin_src emacs-lisp
+
+  (defun m/embark-consult ()
+    (use-package embark-consult
+      :after (embark consult)
+      :hook
+      (embark-collect-mode . consult-preview-at-point-mode)))
+
+#+end_src
 
 ** Marginalia
 
+Useful annotations in minibuffer completions
+
+https://github.com/minad/marginalia
+
+#+begin_src emacs-lisp
+
+  (defun m/marginalia ()
+    (use-package marginalia
+      :bind
+      (:map minibuffer-local-map     ("M-A" . marginalia-cycle))
+      (:map completion-list-mode-map ("M-A" . marginalia-cycle))
+      :init
+      (marginalia-mode 1)))		; force-load immediately
+
+#+end_src
+
 ** Orderless
+
+fzf-like minibuffer completion, complete phrases in any order
+
+https://github.com/oantolin/orderless
+
+#+begin_src emacs-lisp
+
+  (defun m/orderless ()
+    (use-package orderless
+      :custom
+      ;; Configure a custom style dispatcher (see the Consult wiki)
+      ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
+      ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+      (completion-styles '(orderless basic))
+      (completion-category-defaults nil)
+      (completion-category-overrides '((file (styles partial-completion))))))
+
+#+end_src
 
 ** Yasnippet
 
+#+begin_src emacs-lisp
+
+  (defun m/yasnippet ()
+    ;; TODO: this is set up for eglot only, not lsp-mode
+
+    ;; https://stackoverflow.com/questions/72601990/how-to-show-suggestions-for-yasnippets-when-using-eglot
+    ;; TODO: move elsewhere?:
+    (use-package yasnippet
+      :diminish yas-minor-mode
+      :hook (prog-mode . yas-minor-mode)
+      :config
+      (yas-reload-all))
+
+    (use-package yasnippet-snippets
+      :after yasnippet)
+
+    ;; yasnippet completion-at-point support
+    (use-package yasnippet-capf
+      :after cape yasnippet
+      :config
+      ;; enable yasnippet-capf everywhere
+      (progn
+        (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+      ;; integrate yasnippet-capf with eglot completion
+      ;; (progn
+      ;;   (defun mi/eglot-capf-with-yasnippet ()
+      ;;     (setq-local completion-at-point-functions
+      ;;                 (list 
+      ;; 		   (cape-capf-super
+      ;; 		    #'yasnippet-capf
+      ;; 		    #'eglot-completion-at-point))))
+      ;;   (with-eval-after-load 'eglot
+      ;;     (add-hook 'eglot-managed-mode-hook #'mi/eglot-capf-with-yasnippet)))
+      ))
+
+#+end_src
+
 * IDE
+
+** LSP essentials
+
+#+begin_src emacs-lisp
+
+  (defun m/lsp-essentials ()
+    (use-package-local compile
+      :custom
+      (compilation-scroll-output t))
+
+    (use-package flycheck
+      :defer t))
+
+#+end_src
 
 ** LSP Servers
 
 *** eglot
 
+#+begin_src emacs-lisp
+
+  (defun m/eglot ()
+    (use-package eglot
+      :defer t))
+
+#+end_src
+
 *** lsp-mode
+
+#+begin_src emacs-lisp
+
+  (defun m/lsp-mode ()
+    (use-package lsp-mode
+      :defer t
+      :commands (lsp lsp-deferred)
+      ;; bind "C-c l" to lsp-command-map
+      :custom (lsp-keymap-prefix "C-c l")
+      :general-config
+      (neko/leader-definer
+        "l" lsp-command-map)
+      ;; lsp-command-map which-key integration
+      :hook (lsp-mode . lsp-enable-which-key-integration))
+    
+    ;; TODO: move this to corfu ?
+    ;; if corfu is installed
+    ;; (https://github.com/minad/corfu/wiki#configuring-corfu-for-lsp-mode)
+    (use-package lsp-mode
+      :defer t
+      :after corfu
+      :hook (lsp-completion-mode . my/lsp-mode-setup-completion)
+      :init
+      (defvar my/lsp-mode-setup-completion-type '(flex))
+      (with-eval-after-load 'orderless
+        (setq my/lsp-mode-setup-completion-type '(orderless)))
+      (defun my/lsp-mode-setup-completion ()
+        (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+              my/lsp-mode-setup-completion-type))
+      :custom (lsp-completion-provider :none)))
+
+#+end_src
 
 ** Languages
 
+*** lang essentials
+
+#+begin_src emacs-lisp
+
+  (defun m/lang-essentials ()
+    (use-package-local elec-pair
+      :config
+      ;; disable "<" pair expansion
+      (add-hook 'org-mode-hook
+                (lambda ()
+  		(setq-local electric-pair-inhibit-predicate
+                              `(lambda (c)
+                                 (if (char-equal c ?<)
+  				   t
+  				 (,electric-pair-inhibit-predicate c))))))
+      ;; global
+      (electric-pair-mode 1)))
+
+#+end_src
+
 *** elisp
+
+#+begin_src emacs-lisp
+
+  (defun m/lang-elisp ()
+    (use-package rainbow-delimiters
+      :hook emacs-lisp-mode))
+
+#+end_src
 
 *** java
 
-*** lisp
+**** java (eglot)
+
+#+begin_src emacs-lisp
+
+  (defun m/lang-java-eglot ()
+    (use-package eglot-java
+      :defer t))
+
+#+end_src
+
+**** java (lsp-mode)
+
+#+begin_src emacs-lisp
+
+  (defun m/lang-java-lsp-mode ()
+    (use-package lsp-java
+      :config
+      (add-hook 'java-mode-hook #'lsp)))
+  
+#+end_src
+
+*** lisp for advanced lispers
+
+#+begin_src emacs-lisp
+
+  (defun m/lang-lisp-advanced ()
+    (use-package paredit
+      :hook emacs-lisp-mode scheme-mode ; TODO: do this better
+      ))
+
+#+end_src
 
 *** markdown
 
+#+begin_src emacs-lisp
+
+  (defun m/lang-markdown ()
+    (use-package markdown-mode
+      :mode (("README\\.md\\'" . gfm-mode)
+             ("\\.md\\'" . markdown-mode))
+      :config
+      (defun neko/setup-markdown-mode ()
+        ;; (visual-fill-column-mode 1)
+        (display-line-numbers-mode 0))
+      
+      ;; (setq markdown-command "marked")
+      (add-hook 'markdown-mode-hook #'neko/setup-markdown-mode)
+      (setq markdown-fontify-code-blocks-natively t)))
+
+#+end_src
+
 *** rust
 
+https://robert.kra.hn/posts/rust-emacs-setup/
+https://github.com/emacs-rustic/rustic
+
+#+begin_src emacs-lisp
+
+  (defun m/lang-rustic ()
+    (use-package rustic
+      :defer t
+      :custom
+      (rustic-cargo-use-last-stored-arguments t) ; ?
+      :config
+      ;; (setq rustic-lsp-client 'lsp-mode)
+      (setq rustic-format-on-save nil)))
+
+#+end_src
+
 *** scheme
+
+#+begin_src emacs-lisp
+  (defun m/lang-scheme ()
+    (use-package rainbow-delimiters
+      :hook scheme-mode)
+    
+    (use-package-local scheme-mode
+      :mode "\\.sld\\'")
+
+    (use-package geiser
+      :defer t
+      :custom
+      (geiser-default-implementation 'guile)
+      (geiser-active-implementations '(guile))
+      (geiser-implementations-alist '(((regexp "\\.scm$") guile))))
+
+    (use-package geiser-guile
+      :after geiser)
+    )
+
+#+end_src
 
 * Org
 
 ** org
 
+#+begin_src emacs-lisp
+
+  (defun m/org ()
+    (defun mimi/org-insert-subheading-respect-content ()
+      "Insert new subheading after the current heading's body.
+  If in a list, inserts a new sublist after the current list."
+      (interactive)
+      (org-meta-return)
+      (org-metaright))
+
+    (use-package org
+      :custom
+      (org-hide-emphasis-markers t) ; hide formatting chars (* / ~ = etc)
+      ;; (org-src-preserve-indentation t) ; no space at front of code blocks
+      (org-startup-indented t) ; indent headings and its body
+      (org-startup-folded 'showall) ; default folding mode
+      :bind
+      (:map org-mode-map
+  	  ("C-M-<return>" . mimi/org-insert-subheading-respect-content)))
+
+    (use-package-local org-tempo
+      :after org
+      :general 
+      (neko/leader-definer
+        "o" '(:ignore t :which-key "org"))  :config
+      ;; TODO: move most of these elsewhere, userside?
+      ;; maybe in each prog-lang, `(eval-after-load 'org-tempo add to list)`
+      (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+      (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))))
+
+#+end_src
+
 ** org-agenda
+
+#+begin_src emacs-lisp
+
+  (defun m/org-agenda ()
+    (use-package-local org-agenda
+      :after org
+      :general
+      (neko/leader-definer
+        "oa" 'org-agenda)))
+
+#+end_src
 
 * Keyboard
 
@@ -280,13 +783,417 @@ https://github.com/minad/consult
 
 *** Meow
 
+#+begin_src emacs-lisp
+
+  (defun m/meow ()
+    (use-package meow))
+
+#+end_src
+
+**** meow-qwerty
+
+#+begin_src emacs-lisp
+
+  (defun m/meow-qwerty ()
+    (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+    (meow-motion-overwrite-define-key
+     '("j" . meow-next)
+     '("k" . meow-prev)
+     '("<escape>" . ignore))
+    (meow-leader-define-key
+     ;; SPC j/k will run the original command in MOTION state.
+     '("j" . "H-j")
+     '("k" . "H-k")
+     ;; Use SPC (0-9) for digit arguments.
+     '("1" . meow-digit-argument)
+     '("2" . meow-digit-argument)
+     '("3" . meow-digit-argument)
+     '("4" . meow-digit-argument)
+     '("5" . meow-digit-argument)
+     '("6" . meow-digit-argument)
+     '("7" . meow-digit-argument)
+     '("8" . meow-digit-argument)
+     '("9" . meow-digit-argument)
+     '("0" . meow-digit-argument)
+     '("/" . meow-keypad-describe-key)
+     '("?" . meow-cheatsheet))
+    (meow-normal-define-key
+     '("0" . meow-expand-0)
+     '("9" . meow-expand-9)
+     '("8" . meow-expand-8)
+     '("7" . meow-expand-7)
+     '("6" . meow-expand-6)
+     '("5" . meow-expand-5)
+     '("4" . meow-expand-4)
+     '("3" . meow-expand-3)
+     '("2" . meow-expand-2)
+     '("1" . meow-expand-1)
+     '("-" . negative-argument)
+     '(";" . meow-reverse)
+     '("," . meow-inner-of-thing)
+     '("." . meow-bounds-of-thing)
+     '("[" . meow-beginning-of-thing)
+     '("]" . meow-end-of-thing)
+     '("a" . meow-append)
+     '("A" . meow-open-below)
+     '("b" . meow-back-word)
+     '("B" . meow-back-symbol)
+     '("c" . meow-change)
+     '("d" . meow-delete)
+     '("D" . meow-backward-delete)
+     '("e" . meow-next-word)
+     '("E" . meow-next-symbol)
+     '("f" . meow-find)
+     '("g" . meow-cancel-selection)
+     '("G" . meow-grab)
+     '("h" . meow-left)
+     '("H" . meow-left-expand)
+     '("i" . meow-insert)
+     '("I" . meow-open-above)
+     '("j" . meow-next)
+     '("J" . meow-next-expand)
+     '("k" . meow-prev)
+     '("K" . meow-prev-expand)
+     '("l" . meow-right)
+     '("L" . meow-right-expand)
+     '("m" . meow-join)
+     '("n" . meow-search)
+     '("o" . meow-block)
+     '("O" . meow-to-block)
+     '("p" . meow-yank)
+     '("q" . meow-quit)
+     '("Q" . meow-goto-line)
+     '("r" . meow-replace)
+     '("R" . meow-swap-grab)
+     '("s" . meow-kill)
+     '("t" . meow-till)
+     '("u" . meow-undo)
+     '("U" . meow-undo-in-selection)
+     '("v" . meow-visit)
+     '("w" . meow-mark-word)
+     '("W" . meow-mark-symbol)
+     '("x" . meow-line)
+     '("X" . meow-goto-line)
+     '("y" . meow-save)
+     '("Y" . meow-sync-grab)
+     '("z" . meow-pop-selection)
+     '("'" . repeat)
+     '("<escape>" . ignore))
+    
+    (meow-global-mode 1))
+
+#+end_src
+
+**** meow-dvp
+
+#+begin_src emacs-lisp
+  
+  (defun m/meow-dvp ()
+    (setq meow-cheatsheet-layout meow-cheatsheet-layout-dvp)
+    (meow-motion-overwrite-define-key
+     ;; custom keybinding for motion state
+     '("<escape>" . ignore)
+     '("t" . "p") ;; improved solution? (access Motion "t" with "SPC t")
+     )
+    (meow-leader-define-key
+     '("t" . "H-t")
+     ;; '("p" . "H-p")
+     ;; '("u" . ctl-x-map)
+     '("1" . meow-digit-argument)
+     '("2" . meow-digit-argument)
+     '("3" . meow-digit-argument)
+     '("4" . meow-digit-argument)
+     '("5" . meow-digit-argument)
+     '("6" . meow-digit-argument)
+     '("7" . meow-digit-argument)
+     '("8" . meow-digit-argument)
+     '("9" . meow-digit-argument)
+     '("0" . meow-digit-argument)
+     '("/" . meow-keypad-describe-key)
+     '("?" . meow-cheatsheet))
+    (meow-normal-define-key
+     ;; make S-<num> easier to hit with DVP by using symbols.
+     '("*" . meow-expand-0)
+     '("=" . meow-expand-9)
+     '("!" . meow-expand-8)
+     '("[" . meow-expand-7)
+     '("]" . meow-expand-6)
+     '("{" . meow-expand-5)
+     '("+" . meow-expand-4)
+     '("}" . meow-expand-3)
+     '(")" . meow-expand-2)
+     '("(" . meow-expand-1)
+     '("1" . digit-argument)
+     '("2" . digit-argument)
+     '("3" . digit-argument)
+     '("4" . digit-argument)
+     '("5" . digit-argument)
+     '("6" . digit-argument)
+     '("7" . digit-argument)
+     '("8" . digit-argument)
+     '("9" . digit-argument)
+     '("0" . digit-argument)
+     ;; symbols
+     '("-" . negative-argument)
+     '(";" . meow-reverse)
+     '(":" . meow-goto-line) ;; moved from "Q" and "E"
+     '("," . meow-inner-of-thing)
+     '("." . meow-bounds-of-thing)
+     '("<" . meow-beginning-of-thing)
+     '(">" . meow-end-of-thing)
+     ;; basic letters
+     '("a" . meow-append)
+     '("A" . meow-open-below)
+     '("b" . meow-back-word)
+     '("B" . meow-back-symbol)
+     '("c" . meow-change)
+     ;; '("d" . ri/meow-delete-or-kill)
+     '("d" . meow-delete) ; i want "d" to delete char after meow-prev/next-word, so dont use former
+     '("D" . meow-backward-delete)
+     '("e" . meow-line)
+     ;; '("E" . meow-goto-line) ;; removed, since ":" for it works
+     '("f" . meow-find)
+     '("F" . meow-search) ;; moved from "s" ("s" is used for movement)
+     '("g" . meow-cancel-selection)
+     '("G" . meow-grab)
+     ;; H Directional key moved to the bottom
+     '("i" . meow-insert)
+     '("I" . meow-open-above)
+     '("j" . meow-join)
+     '("k" . meow-kill)
+     '("l" . meow-till)
+     ;; '("m" . meow-mark-word) ;; swap with w, next-word (because "b"/"m" is easy for mvmnt)
+     ;; '("M" . meow-mark-symbol) ;; swap with W, next-symbol (because "b"/"m" is easy for mvmnt)
+     '("m" . meow-next-word)   ;; moved from "w", mark-word
+     '("M" . meow-next-symbol) ;; moved from "W", mark-symbol
+     ;; N Directional key moved to the bottom
+     '("o" . meow-block)
+     '("O" . meow-to-block)
+     '("p" . meow-prev)
+     '("P" . meow-prev-expand)
+     '("q" . meow-quit)
+     '("Q" . ri/quit-temp-window)
+     ;; '("Q" . meow-goto-line) ;; move to " : "
+     '("r" . meow-replace)
+     '("R" . meow-swap-grab)
+     ;; '("s" . meow-search) ;; move to F, replace with directional keys
+     ;; S Directional key moved to the bottom
+     ;; T Directional key moved to the bottom
+     '("u" . meow-undo)
+     '("U" . meow-undo-in-selection)
+     '("v" . meow-visit)
+     ;; '("w" . meow-next-word) ;; swap with m, mark-word/symbol
+     ;; '("W" . meow-next-symbol)
+     '("w" . meow-mark-word)   ;; moved from "m", mark-word
+     '("W" . meow-mark-symbol) ;; moved from "M", mark-symbol
+     '("x" . meow-save)
+     '("X" . meow-sync-grab)
+     '("y" . meow-yank)
+     '("z" . meow-pop-selection)
+     '("'" . repeat)
+     '("/" . ri/scroll-down-half-page) ;; new keys
+     '("?" . ri/scroll-up-half-page)   ;; new keys
+     '("<escape>" .  keyboard-escape-quit)
+
+     ;; Directional keys:
+
+     ;; <-  ^  v  ->
+     '("h" . meow-left)
+     '("H" . meow-left-expand)
+     '("t" . meow-prev)
+     '("T" . meow-prev-expand)
+     '("n" . meow-next)
+     '("N" . meow-next-expand)
+     '("s" . meow-right)
+     '("S" . meow-right-expand)
+
+     ;; ^  <-  v  ->
+     ;; '("h" . meow-prev)
+     ;; '("H" . meow-prev-expand)
+     ;; '("t" . meow-left)
+     ;; '("T" . meow-left-expand)
+     ;; '("n" . meow-next)
+     ;; '("N" . meow-next-expand)
+     ;; '("s" . meow-right)
+     ;; '("S" . meow-right-expand)
+
+     ;; ^  /  <-  ->  v
+     ;; '("h" . meow-left)
+     ;; '("H" . meow-left-expand)
+     ;; '("t" . meow-right)
+     ;; '("T" . meow-right-expand)
+     ;; '("n" . meow-prev)
+     ;; '("N" . meow-prev-expand)
+     )
+    
+    (meow-global-mode 1))
+
+#+end_src
+
 * UI
 
-** line
+** theme
 
-** modeline
+#+begin_src emacs-lisp :noweb yes
+  (defun m/theme ()
+    <<theme-below>>)
+#+end_src
+
+#+NAME: theme-below
+#+begin_src emacs-lisp :tangle no
+
+  ;;; Install themes
+
+  ;; (use-package doom-themes)
+  (use-package kaolin-themes)
+  (use-package ef-themes)
+
+  ;;; Function: `load-theme' but fixed theme-bleeding issue.
+
+  (defun +load-theme (theme &optional no-confirm no-enable)
+    "Prevent `load-theme' from having theme bleeding issues."
+    (interactive
+     (list
+      (intern (completing-read "Load custom theme: "
+  			     (mapcar #'symbol-name
+  				     (custom-available-themes))))
+      nil nil))
+    ;; disable all enabled themes
+    (mapc #'disable-theme custom-enabled-themes)
+    ;; enable theme
+    (if (custom-theme-p theme)
+        (enable-theme theme)
+      (load-theme theme :no-confirm))
+    ;; remove fringes
+    (set-face-attribute 'fringe nil
+                        :foreground (face-foreground 'default)
+                        :background (face-background 'default)))
+
+  ;;; Function: sets a random theme.
+
+  (defun neko/set-random-theme ()
+    (interactive)
+    (let* ((available-themes (custom-available-themes))
+  	 (current-theme (car custom-enabled-themes))
+           (themes-except-current (remove current-theme available-themes))
+  	 (chosen-theme (nth (random (length themes-except-current))
+  			    themes-except-current)))
+      ;; disable all enabled themes
+      (mapc #'disable-theme custom-enabled-themes)
+      ;; enable randomly chosen theme
+      (if (custom-theme-p chosen-theme)
+  	(enable-theme chosen-theme)
+        (load-theme chosen-theme :no-confirm))
+      ;; remove fringes
+      (set-face-attribute 'fringe nil
+                        :foreground (face-foreground 'default)
+                        :background (face-background 'default))
+      ;; mesg
+      (message "Enabled theme: %s" chosen-theme)))
+
+  ;;; Leader-key binds:
+
+  (neko/leader-definer
+   "T" '(:ignore t :which-key "Themes")
+   "Tt" '(+load-theme :which-key "load-theme")
+   "Tr" '(neko/set-random-theme :which-key "set-random-theme")
+   )
+
+  ;;; (Note: actually setting a theme should be done after loading this file).
+
+#+end_src
+
+** transparency
+
+#+begin_src emacs-lisp
+
+  (defun m/transparency ()
+    (defun mimi/native-transparency-supported? ()
+      (if (version<= "29" emacs-version)
+  	t
+        (message "Native transparency is not supported.")
+        nil))
+
+    (defun mimi/toggle-transparency ()
+      (interactive)
+      (when (mimi/native-transparency-supported?)
+        (let ((alpha (frame-parameter nil 'alpha-background)))
+  	(set-frame-parameter
+  	 nil 'alpha-background
+  	 (if (eql (cond ((numberp alpha) alpha)
+  			((numberp (cdr alpha)) (cdr alpha))
+  			;; Also handle undocumented (<active> <inactive>) form.
+  			((numberp (cadr alpha)) (cadr alpha)))
+  		  100)
+               neko-transparency-value
+  	   100)))))
+
+    (defun mimi/set-transparency (value)
+      "Sets the transparency of the frame window. 0=transparent/100=opaque"
+      (interactive "nTransparency Value 0 - 100 opaque: ")
+      (when (mimi/native-transparency-supported?)
+        (set-frame-parameter (selected-frame) 'alpha-background value))))
+
+#+end_src
+
+** line numbers
+
+#+begin_src emacs-lisp
+
+  (defun m/line-numbers ()
+    ;; list of programming modes to disable line-numbers on
+    (defvar neko/display-line-numbers-exclude '())
+
+    ;; enable line-numbers on programming modes
+    (add-hook 'prog-mode-hook
+  	    (lambda ()
+  	      (unless (memq major-mode neko/display-line-numbers-exclude)
+  		(display-line-numbers-mode 1)))))
+
+#+end_src
+
+** line wrap
+
+#+begin_src emacs-lisp
+
+  (defun m/line-wrap ()
+    (global-visual-line-mode 1) 
+    (diminish 'visual-line-mode) ; hide "Wrap" in mode-line
+    )
+
+#+end_src
+
+** mode-line
+
+#+begin_src emacs-lisp
+
+  (defun m/mode-line ()
+    ;; show column # on modeline
+    (column-number-mode 1))
+
+#+end_src
 
 ** scroll
+#+begin_src emacs-lisp
+
+  (defun m/scroll ()
+    ;; Improve scroll
+    (use-package emacs
+      :custom
+      ;; (auto-window-vscroll nil) ; TODO: what does this do?
+      (scroll-preserve-screen-position t) ; keep point in same position while scrolling
+      (scroll-conservatively 101) ; dont move cursor to center while scrolling
+      (scroll-margin 2)		; scroll margin of one line
+      (mouse-wheel-scroll-amount
+       '(2				; faster vscroll speed
+         ((shift) . hscroll)		; S-<scroll> for hscroll
+         ((meta) . nil)			; M-<scroll> for PgUp/PgDn
+         ((control) . text-scale)		; C-<scroll> for zoom
+         ((control meta) . global-text-scale))) ; C-M-<scroll> for global zoom
+      (mouse-wheel-scroll-amount-horizontal 2)  ; faster hscroll speed
+      ))
+
+#+end_src
 
 * Tweaks
 
@@ -294,4 +1201,80 @@ https://github.com/minad/consult
 
 ** Helpful
 
+#+begin_src emacs-lisp
+
+  (defun m/helpful ()
+    (use-package helpful
+      :custom
+      (counsel-describe-function-function #'helpful-callable)
+      (counsel-describe-variable-function #'helpful-variable)
+      :bind
+      ([remap describe-function] . helpful-callable)
+      ([remap describe-symbol] . helpful-symbol)
+      ([remap describe-variable] . helpful-variable)
+      ([remap describe-command] . helpful-command)
+      ([remap describe-key] . helpful-key)
+      ("C-h h" . helpful-at-point)
+      ("C-h H" . view-hello-file)	       ; command originally at "C-h h"
+      ("C-h M" . which-key-show-major-mode)
+      ("C-h E" . describe-keymap)))
+
+#+end_src
+
+* Programs
+
+** terminal
+
+https://abode.karthinks.com/share/eat-modes.png
+
+*** eat
+
+#+begin_src emacs-lisp
+
+  (defun m/term-eat ()
+    (use-package eat
+      :defer t
+      :config
+      (setq eat-term-name "xterm-256color")
+      (setq eat-kill-buffer-on-exit t)
+      :general
+      (neko/leader-definer
+        "a a" 'eat)))
+  
+#+end_src
+
+** git client
+
+#+begin_src emacs-lisp
+
+  (defun m/magit ()
+    (use-package magit
+      ;; :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+      :defer t
+      :general
+      (neko/leader-definer
+        "v" 'magit)))
+#+end_src
+
 * misc
+
+** server
+
+#+begin_src emacs-lisp
+
+  (defun m/server ()
+    (use-package server
+      :config
+      ;; start server at first startup
+      (defun ne/start-server-if-not-running ()
+        (unless (or (processp server-process)
+  		  (server-running-p))
+  	(server-start)
+  	(message "Emacsclient Server started!")))
+      (add-hook 'after-init-hook #'ne/start-server-if-not-running))
+
+    (neko/leader-definer
+      "q" 'delete-frame
+      "Q" 'save-buffers-kill-emacs))
+
+#+end_src
