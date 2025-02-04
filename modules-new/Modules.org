@@ -1188,3 +1188,9 @@ https://abode.karthinks.com/share/eat-modes.png
       "q" 'delete-frame
       "Q" 'save-buffers-kill-emacs))
 #+end_src
+
+* ending
+
+#+begin_src emacs-lisp
+  (provide 'neko-modules)
+#+end_src
