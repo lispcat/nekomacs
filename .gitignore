@@ -18,8 +18,8 @@
 !snippets/
 !snippets/**
 
-!modules-new/
-!modules-new/**
+!modules.old/
+!modules.old/**
 
 !local/
 

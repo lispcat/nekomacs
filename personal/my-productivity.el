@@ -70,7 +70,18 @@
   :config
   (org-super-agenda-mode 1)
   (setq org-agenda-custom-commands
-	`(("m" "Main View"
+	`(("a" "clean agenda"
+	   ((agenda
+	     nil
+	     ((org-super-agenda-groups
+	       '(;; just a cleaner agenda view
+		 (:discard (:property "FRACTION"))
+		 (:discard (:priority<= "C"))
+		 (:name "Agenda"
+			:time-grid t
+			:anything t)
+		 ))))))
+	  ("m" "Main View"
 	   ((agenda
 	     nil
 	     ((org-agenda-span 'day)

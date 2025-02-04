@@ -1,77 +1,65 @@
-;;; Userside modules config  -*- lexical-binding: t; -*-
 
-;;;;;; Completion ;;;;;;
+;;; Emacs
 
-(+require 'neko-vertico)
-(+require 'neko-vertico-cape)
-(+require 'neko-vertico-consult) ;; TODO: try disabling consult and see what some default keybinds like C-. & C-; do?
-(+require 'neko-vertico-corfu)
-(+require 'neko-vertico-embark)
-(+require 'neko-vertico-marginalia)
-(+require 'neko-vertico-orderless)
-(+require 'neko-vertico-yasnippet)
+(m/essential-tweaks)
+(m/dired)
+(m/buffers)
+(m/files)
+(m/history)
+(m/windows)
+(m/helpful)
 
-;;;;;; Enhancements ;;;;;;
+;;; Completion
 
-(+require 'neko-enhancements)
+(m/vertico)
+(m/cape)
+(m/consult)
+(m/corfu)
+(m/embark)
+(m/embark-consult)
+(m/marginalia)
+(m/orderless)
+(m/yasnippet)
 
-;;;;;; Files ;;;;;;
+;;; IDE
 
-(+require 'neko-files)
-(+require 'neko-dired)
-(+require 'neko-file-tweaks)
-(+require 'neko-buffers)
+(m/ide-essentials)
 
-;;;;;; IDE ;;;;;;
+(m/lsp-mode)
+(m/eglot)
 
-(+require 'neko-ide)
-(+require 'neko-ide-lsp-mode)
+(m/lang-essentials)
+(m/lang-elisp)
+(m/lang-lisp-advanced)
+(m/lang-markdown)
+(m/lang-rust)
+(m/lang-scheme)
 
-;;;;;; Keybinds ;;;;;;
+;;; Org
 
-(+require 'neko-meow-dvp)
-;; (+require 'neko-meow-qwerty) ;; for meow qwerty binds
+(m/org)
+(m/org-agenda)
 
-;;;;;; Languages ;;;;;;
+;;; Keyboard
 
-(+require 'neko-lang)
-(+require 'neko-lang-elisp)
-(+require 'neko-lang-lisp-adv)
-(+require 'neko-lang-markdown)
-(+require 'neko-lang-scheme)
-(+require 'neko-lang-rust)
+(m/meow)
+;; (m/meow-qwerty)
+(m/meow-dvp)
 
-;;;;;; Org ;;;;;;
+;;; UI
 
-(+require 'neko-org)
-(+require 'neko-org-agenda)
-;; - what about if multiple use-package's in that file/module? force load?
-;; - `use-package emacs` for misc configs? and just add `:after`?
-;; - also create a `+with-eval-after-load-all` macro for convenience?
+(m/theme)
+(m/transparency)
+(m/line-numbers)
+(m/line-wrap)
+(m/mode-line)
+(m/scroll)
 
-;;;;;; prettify ;;;;;;
+;;; Programs
 
-(+require 'neko-themes)
-(+require 'neko-transparency)
+(m/term-eat)
+(m/magit)
 
-;;;;;; Programs ;;;;;;
+;;; Misc
 
-(+require 'neko-magit)
-;; (+require 'neko-vterm) ; obsolete
-(+require 'neko-eat)
-
-;;;;;; Special ;;;;;;
-
-(+require 'neko-server)
-
-;;;;;; Tweaks ;;;;;;
-
-(+require 'neko-sane-defs)
-
-;;;;;; UI ;;;;;;
-
-(+require 'neko-line)
-(+require 'neko-modeline)
-(+require 'neko-scroll)
-(+require 'neko-windows)
-
+(m/server)
