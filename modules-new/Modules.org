@@ -44,12 +44,12 @@ put focus on making it very segmented and all over the place. piece by piece. bu
       (add-hook 'dired-mode-hook 'dired-hide-details-mode)
       ;; use trash if trash executable is found
       (when (executable-find "trash")
-	(setq delete-by-moving-to-trash t))
+        (setq delete-by-moving-to-trash t))
       :general
       (neko/leader-definer
-	"d" '(:ignore t :which-key "dired")
-	"dd" 'find-file
-	"dj" 'dired-jump)))
+        "d" '(:ignore t :which-key "dired")
+        "dd" 'find-file
+        "dj" 'dired-jump)))
 #+end_src
 
 ** Buffers
@@ -195,17 +195,17 @@ a framework for minibuffer completion
       ;; Add prompt indicator to `completing-read-multiple'.
       ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
       (defun crm-indicator (args)
-	(cons (format "[CRM%s] %s"
-		      (replace-regexp-in-string
-		       "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-		       crm-separator)
-		      (car args))
-	      (cdr args)))
+        (cons (format "[CRM%s] %s"
+  		    (replace-regexp-in-string
+  		     "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+  		     crm-separator)
+  		    (car args))
+  	    (cdr args)))
       (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
       ;;
       ;; Do not allow the cursor in the minibuffer prompt
       (setq minibuffer-prompt-properties
-	    '(read-only t cursor-intangible t face minibuffer-prompt))
+  	  '(read-only t cursor-intangible t face minibuffer-prompt))
       (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)))
 #+end_src
 
@@ -251,80 +251,80 @@ https://github.com/minad/consult
 
     (use-package consult
       :bind (;; C-c bindings in `mode-specific-map'
-	     ("C-c M-x" . consult-mode-command)
-	     ;; ("C-c )" . consult-kmacro)
+  	   ("C-c M-x" . consult-mode-command)
+  	   ;; ("C-c )" . consult-kmacro)
 
-	     ;; C-x bindings in `ctl-x-map'
-	     ("C-x M-:" . consult-complex-command) ;; repeat-complex-command
-	     ("C-x b" . consult-buffer)	       ;; switch-to-buffer
-	     ("C-x 4 b" . consult-buffer-other-window) ;; switch-to-buffer-other-window
-	     ("C-x 5 b" . consult-buffer-other-frame) ;; switch-to-buffer-other-frame
-	     ("C-x t b" . consult-buffer-other-tab)	;; switch-to-buffer-other-tab
-	     ("C-x r b" . consult-bookmark)		;; bookmark-jump
-	     ("C-x p b" . consult-project-buffer) ;; project-switch-to-buffer
-	     ("C-x p C-b" . consult-project-buffer) ;; project-switch-to-buffer
+  	   ;; C-x bindings in `ctl-x-map'
+  	   ("C-x M-:" . consult-complex-command) ;; repeat-complex-command
+  	   ("C-x b" . consult-buffer)	       ;; switch-to-buffer
+  	   ("C-x 4 b" . consult-buffer-other-window) ;; switch-to-buffer-other-window
+  	   ("C-x 5 b" . consult-buffer-other-frame) ;; switch-to-buffer-other-frame
+  	   ("C-x t b" . consult-buffer-other-tab)	;; switch-to-buffer-other-tab
+  	   ("C-x r b" . consult-bookmark)		;; bookmark-jump
+  	   ("C-x p b" . consult-project-buffer) ;; project-switch-to-buffer
+  	   ("C-x p C-b" . consult-project-buffer) ;; project-switch-to-buffer
 
-	     ;; Custom M-# bindings for fast register access
-	     ("M-#" . consult-register-store)
-	     ;; ("C-M-#" . consult-register)
-	     ("C-M-#" . consult-register-load)
+  	   ;; Custom M-# bindings for fast register access
+  	   ("M-#" . consult-register-store)
+  	   ;; ("C-M-#" . consult-register)
+  	   ("C-M-#" . consult-register-load)
 
-	     ;; Other custom bindings
-	     ("M-y" . consult-yank-pop) ;; yank-pop
-	     ([remap Info-search] . consult-info)
+  	   ;; Other custom bindings
+  	   ("M-y" . consult-yank-pop) ;; yank-pop
+  	   ([remap Info-search] . consult-info)
 
-	     ;; M-g bindings in `goto-map'
-	     ("M-g e" . consult-compile-error)
-	     ("M-g f" . consult-flymake) ;; Alternative: consult-flycheck
-	     ("M-g g" . consult-goto-line)	 ;; goto-line
-	     ("M-g M-g" . consult-goto-line) ;; goto-line
-	     ("M-g o" . consult-outline) ;; Alternative: consult-org-heading
-	     ("M-g m" . consult-mark)
-	     ("M-g k" . consult-global-mark)
-	     ("M-g i" . consult-imenu)
-	     ("M-g I" . consult-imenu-multi)
-	     ("M-g O" . consult-org-heading)
+  	   ;; M-g bindings in `goto-map'
+  	   ("M-g e" . consult-compile-error)
+  	   ("M-g f" . consult-flymake) ;; Alternative: consult-flycheck
+  	   ("M-g g" . consult-goto-line)	 ;; goto-line
+  	   ("M-g M-g" . consult-goto-line) ;; goto-line
+  	   ("M-g o" . consult-outline) ;; Alternative: consult-org-heading
+  	   ("M-g m" . consult-mark)
+  	   ("M-g k" . consult-global-mark)
+  	   ("M-g i" . consult-imenu)
+  	   ("M-g I" . consult-imenu-multi)
+  	   ("M-g O" . consult-org-heading)
 
-	     ;; M-s bindings in `search-map'
-	     ("M-s d" . consult-find) ;; Alternative: consult-fd
-	     ("M-s c" . consult-locate)
-	     ("M-s g" . consult-grep)
-	     ("M-s G" . consult-git-grep)
-	     ("M-s r" . consult-ripgrep)
-	     ("M-s l" . consult-line)
-	     ("M-s L" . consult-line-multi)
-	     ("M-s k" . consult-keep-lines)
-	     ("M-s u" . consult-focus-lines)
-	     ("M-s M" . consult-man)	; T for terminal
-	     ("M-s I" . consult-info)
+  	   ;; M-s bindings in `search-map'
+  	   ("M-s d" . consult-find) ;; Alternative: consult-fd
+  	   ("M-s c" . consult-locate)
+  	   ("M-s g" . consult-grep)
+  	   ("M-s G" . consult-git-grep)
+  	   ("M-s r" . consult-ripgrep)
+  	   ("M-s l" . consult-line)
+  	   ("M-s L" . consult-line-multi)
+  	   ("M-s k" . consult-keep-lines)
+  	   ("M-s u" . consult-focus-lines)
+  	   ("M-s M" . consult-man)	; T for terminal
+  	   ("M-s I" . consult-info)
 
-	     ;; Isearch integration
-	     ("M-s e" . consult-isearch-history)
-	     :map isearch-mode-map
-	     ("M-e" . consult-isearch-history)   ;; isearch-edit-string
-	     ("M-s e" . consult-isearch-history) ;; isearch-edit-string
-	     ("M-s l" . consult-line) ;; Needed by: consult-line to detect isearch
-	     ("M-s L" . consult-line-multi)	;; Needed by: consult-line to detect isearch
+  	   ;; Isearch integration
+  	   ("M-s e" . consult-isearch-history)
+  	   :map isearch-mode-map
+  	   ("M-e" . consult-isearch-history)   ;; isearch-edit-string
+  	   ("M-s e" . consult-isearch-history) ;; isearch-edit-string
+  	   ("M-s l" . consult-line) ;; Needed by: consult-line to detect isearch
+  	   ("M-s L" . consult-line-multi)	;; Needed by: consult-line to detect isearch
 
-	     ;; Minibuffer history
-	     :map minibuffer-local-map
-	     ("M-s" . consult-history) ;; next-matching-history-element
-	     ("M-r" . consult-history) ;; previous-matching-history-element
-	     )
+  	   ;; Minibuffer history
+  	   :map minibuffer-local-map
+  	   ("M-s" . consult-history) ;; next-matching-history-element
+  	   ("M-r" . consult-history) ;; previous-matching-history-element
+  	   )
       :general
       (neko/leader-definer
-	"s" search-map))
+        "s" search-map))
 
     ;; used to go to a file in a bookmarked dir n stuff (one ex)
     (use-package consult-dir
       :general
       (neko/leader-definer
-	"fd" 'consult-dir)
+        "fd" 'consult-dir)
 
       :bind (("C-x C-d" . consult-dir)	; default?
-	     :map vertico-map
-	     ("C-x C-d" . consult-dir)
-	     ("C-x C-j" . consult-dir-jump-file))
+  	   :map vertico-map
+  	   ("C-x C-d" . consult-dir)
+  	   ("C-x C-j" . consult-dir-jump-file))
       ;; :custom
       ;; (consult-dir-project-list-function nil)
       )
@@ -342,25 +342,25 @@ https://github.com/minad/consult
       "Eval BODY, then if FEATURE is not loaded, eval BODY again after FEATURE loaded."
       (declare (indent defun))
       (let ((f (cadr feature)))
-	`(progn
-	   ;; always eval now
-	   ,@body
-	   ;; if feature not loaded, eval again after load feature
-	   ,(unless (featurep f)
-	      `(eval-after-load ',f
-		 (lambda () ,@body))))))
+        `(progn
+  	 ;; always eval now
+  	 ,@body
+  	 ;; if feature not loaded, eval again after load feature
+  	 ,(unless (featurep f)
+  	    `(eval-after-load ',f
+  	       (lambda () ,@body))))))
 
     (mi/eval-now-and-after-load 'neko-themes
       (neko/leader-definer
-	"Tt" 'consult-theme))
+        "Tt" 'consult-theme))
 
     (mi/eval-now-and-after-load 'neko-buffers
       (neko/leader-definer
-	"bb" 'consult-buffer))
+        "bb" 'consult-buffer))
 
     (mi/eval-now-and-after-load 'neko-dired
       (neko/leader-definer
-	"fr" 'consult-recent-file))
+        "fr" 'consult-recent-file))
 
     (neko/leader-definer
       "fm" 'consult-bookmark)
@@ -379,13 +379,13 @@ https://github.com/minad/corfu
     (use-package corfu
       :demand t
       :bind (:map corfu-map
-		  ;; ("C-j" . corfu-next)
-		  ;; ("C-k" . corfu-previous)
-		  ("TAB" . corfu-insert)
-		  ([tab] . corfu-insert)	; TODO: why repeat??
-		  ("RET" . nil)
-		  ;; ("C-f" . corfu-insert)
-		  )
+  		;; ("C-j" . corfu-next)
+  		;; ("C-k" . corfu-previous)
+  		("TAB" . corfu-insert)
+  		([tab] . corfu-insert)	; TODO: why repeat??
+  		("RET" . nil)
+  		;; ("C-f" . corfu-insert)
+  		)
       :custom
       (corfu-cycle t)		    ; cycle bottom/top
       (corfu-auto t)		    ; ?
@@ -397,12 +397,12 @@ https://github.com/minad/corfu
       (global-corfu-mode 1)
 
       (defun corfu-enable-in-minibuffer ()
-	"Enable Corfu in the minibuffer if `completion-at-point' is bound."
-	(when (where-is-internal #'completion-at-point (list (current-local-map)))
-	  ;; (setq-local corfu-auto nil) ;; Enable/disable auto completion
-	  (setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
-		      corfu-popupinfo-delay nil)
-	  (corfu-mode 1)))
+        "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+        (when (where-is-internal #'completion-at-point (list (current-local-map)))
+  	;; (setq-local corfu-auto nil) ;; Enable/disable auto completion
+  	(setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
+  		    corfu-popupinfo-delay nil)
+  	(corfu-mode 1)))
       (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer)))
 #+end_src
 
@@ -435,9 +435,9 @@ https://github.com/oantolin/embark
       :config
       ;; Hide the mode line of the Embark live/completions buffers
       (add-to-list 'display-buffer-alist
-		   '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-		     nil
-		     (window-parameters (mode-line-format . none))))))
+  		 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+  		   nil
+  		   (window-parameters (mode-line-format . none))))))
 #+end_src
 
 *** Embark-Consult
@@ -511,7 +511,7 @@ https://github.com/oantolin/orderless
       :config
       ;; enable yasnippet-capf everywhere
       (progn
-	(add-to-list 'completion-at-point-functions #'yasnippet-capf))
+        (add-to-list 'completion-at-point-functions #'yasnippet-capf))
       ;; integrate yasnippet-capf with eglot completion
       ;; (progn
       ;;   (defun mi/eglot-capf-with-yasnippet ()
@@ -560,7 +560,7 @@ https://github.com/oantolin/orderless
       :custom (lsp-keymap-prefix "C-c l")
       :general-config
       (neko/leader-definer
-	"l" lsp-command-map)
+        "l" lsp-command-map)
       ;; lsp-command-map which-key integration
       :hook (lsp-mode . lsp-enable-which-key-integration))
 
@@ -574,10 +574,10 @@ https://github.com/oantolin/orderless
       :init
       (defvar my/lsp-mode-setup-completion-type '(flex))
       (with-eval-after-load 'orderless
-	(setq my/lsp-mode-setup-completion-type '(orderless)))
+        (setq my/lsp-mode-setup-completion-type '(orderless)))
       (defun my/lsp-mode-setup-completion ()
-	(setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-	      my/lsp-mode-setup-completion-type))
+        (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+  	    my/lsp-mode-setup-completion-type))
       :custom (lsp-completion-provider :none)))
 #+end_src
 
@@ -591,12 +591,12 @@ https://github.com/oantolin/orderless
       :config
       ;; disable "<" pair expansion
       (add-hook 'org-mode-hook
-		(lambda ()
-		  (setq-local electric-pair-inhibit-predicate
-			      `(lambda (c)
-				 (if (char-equal c ?<)
-				     t
-				   (,electric-pair-inhibit-predicate c))))))
+  	      (lambda ()
+  		(setq-local electric-pair-inhibit-predicate
+  			    `(lambda (c)
+  			       (if (char-equal c ?<)
+  				   t
+  				 (,electric-pair-inhibit-predicate c))))))
       ;; global
       (electric-pair-mode 1)))
 #+end_src
@@ -643,11 +643,11 @@ https://github.com/oantolin/orderless
   (defun m/lang-markdown ()
     (use-package markdown-mode
       :mode (("README\\.md\\'" . gfm-mode)
-	     ("\\.md\\'" . markdown-mode))
+  	   ("\\.md\\'" . markdown-mode))
       :config
       (defun neko/setup-markdown-mode ()
-	;; (visual-fill-column-mode 1)
-	(display-line-numbers-mode 0))
+        ;; (visual-fill-column-mode 1)
+        (display-line-numbers-mode 0))
 
       ;; (setq markdown-command "marked")
       (add-hook 'markdown-mode-hook #'neko/setup-markdown-mode)
@@ -713,13 +713,13 @@ https://github.com/emacs-rustic/rustic
       (org-startup-folded 'showall) ; default folding mode
       :bind
       (:map org-mode-map
-	    ("C-M-<return>" . mimi/org-insert-subheading-respect-content)))
+  	  ("C-M-<return>" . mimi/org-insert-subheading-respect-content)))
 
     (use-package-local org-tempo
       :after org
       :general 
       (neko/leader-definer
-	"o" '(:ignore t :which-key "org"))  :config
+        "o" '(:ignore t :which-key "org"))  :config
       ;; TODO: move most of these elsewhere, userside?
       ;; maybe in each prog-lang, `(eval-after-load 'org-tempo add to list)`
       (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
@@ -734,7 +734,7 @@ https://github.com/emacs-rustic/rustic
       :after org
       :general
       (neko/leader-definer
-	"oa" 'org-agenda)))
+        "oa" 'org-agenda)))
 #+end_src
 
 * Keyboard
@@ -1005,42 +1005,42 @@ https://github.com/emacs-rustic/rustic
       "Prevent `load-theme' from having theme bleeding issues."
       (interactive
        (list
-	(intern (completing-read "Load custom theme: "
-				 (mapcar #'symbol-name
-					 (custom-available-themes))))
-	nil nil))
+        (intern (completing-read "Load custom theme: "
+  			       (mapcar #'symbol-name
+  				       (custom-available-themes))))
+        nil nil))
       ;; disable all enabled themes
       (mapc #'disable-theme custom-enabled-themes)
       ;; enable theme
       (if (custom-theme-p theme)
-	  (enable-theme theme)
-	(load-theme theme :no-confirm))
+  	(enable-theme theme)
+        (load-theme theme :no-confirm))
       ;; remove fringes
       (set-face-attribute 'fringe nil
-			  :foreground (face-foreground 'default)
-			  :background (face-background 'default)))
+  			:foreground (face-foreground 'default)
+  			:background (face-background 'default)))
 
     ;;; Function: sets a random theme.
 
     (defun neko/set-random-theme ()
       (interactive)
       (let* ((available-themes (custom-available-themes))
-	     (current-theme (car custom-enabled-themes))
-	     (themes-except-current (remove current-theme available-themes))
-	     (chosen-theme (nth (random (length themes-except-current))
-				themes-except-current)))
-	;; disable all enabled themes
-	(mapc #'disable-theme custom-enabled-themes)
-	;; enable randomly chosen theme
-	(if (custom-theme-p chosen-theme)
-	    (enable-theme chosen-theme)
-	  (load-theme chosen-theme :no-confirm))
-	;; remove fringes
-	(set-face-attribute 'fringe nil
-			    :foreground (face-foreground 'default)
-			    :background (face-background 'default))
-	;; mesg
-	(message "Enabled theme: %s" chosen-theme)))
+  	   (current-theme (car custom-enabled-themes))
+  	   (themes-except-current (remove current-theme available-themes))
+  	   (chosen-theme (nth (random (length themes-except-current))
+  			      themes-except-current)))
+        ;; disable all enabled themes
+        (mapc #'disable-theme custom-enabled-themes)
+        ;; enable randomly chosen theme
+        (if (custom-theme-p chosen-theme)
+  	  (enable-theme chosen-theme)
+  	(load-theme chosen-theme :no-confirm))
+        ;; remove fringes
+        (set-face-attribute 'fringe nil
+  			  :foreground (face-foreground 'default)
+  			  :background (face-background 'default))
+        ;; mesg
+        (message "Enabled theme: %s" chosen-theme)))
 
     ;;; Leader-key binds:
 
@@ -1060,29 +1060,29 @@ https://github.com/emacs-rustic/rustic
   (defun m/transparency ()
     (defun mimi/native-transparency-supported? ()
       (if (version<= "29" emacs-version)
-	  t
-	(message "Native transparency is not supported.")
-	nil))
+  	t
+        (message "Native transparency is not supported.")
+        nil))
 
     (defun mimi/toggle-transparency ()
       (interactive)
       (when (mimi/native-transparency-supported?)
-	(let ((alpha (frame-parameter nil 'alpha-background)))
-	  (set-frame-parameter
-	   nil 'alpha-background
-	   (if (eql (cond ((numberp alpha) alpha)
-			  ((numberp (cdr alpha)) (cdr alpha))
-			  ;; Also handle undocumented (<active> <inactive>) form.
-			  ((numberp (cadr alpha)) (cadr alpha)))
-		    100)
-	       neko-transparency-value
-	     100)))))
+        (let ((alpha (frame-parameter nil 'alpha-background)))
+  	(set-frame-parameter
+  	 nil 'alpha-background
+  	 (if (eql (cond ((numberp alpha) alpha)
+  			((numberp (cdr alpha)) (cdr alpha))
+  			;; Also handle undocumented (<active> <inactive>) form.
+  			((numberp (cadr alpha)) (cadr alpha)))
+  		  100)
+  	     neko-transparency-value
+  	   100)))))
 
     (defun mimi/set-transparency (value)
       "Sets the transparency of the frame window. 0=transparent/100=opaque"
       (interactive "nTransparency Value 0 - 100 opaque: ")
       (when (mimi/native-transparency-supported?)
-	(set-frame-parameter (selected-frame) 'alpha-background value))))
+        (set-frame-parameter (selected-frame) 'alpha-background value))))
 #+end_src
 
 ** line numbers
@@ -1094,9 +1094,9 @@ https://github.com/emacs-rustic/rustic
 
     ;; enable line-numbers on programming modes
     (add-hook 'prog-mode-hook
-	      (lambda ()
-		(unless (memq major-mode neko/display-line-numbers-exclude)
-		  (display-line-numbers-mode 1)))))
+  	    (lambda ()
+  	      (unless (memq major-mode neko/display-line-numbers-exclude)
+  		(display-line-numbers-mode 1)))))
 #+end_src
 
 ** line wrap
@@ -1128,10 +1128,10 @@ https://github.com/emacs-rustic/rustic
       (scroll-margin 2)		; scroll margin of one line
       (mouse-wheel-scroll-amount
        '(2				; faster vscroll speed
-	 ((shift) . hscroll)		; S-<scroll> for hscroll
-	 ((meta) . nil)			; M-<scroll> for PgUp/PgDn
-	 ((control) . text-scale)		; C-<scroll> for zoom
-	 ((control meta) . global-text-scale))) ; C-M-<scroll> for global zoom
+         ((shift) . hscroll)		; S-<scroll> for hscroll
+         ((meta) . nil)			; M-<scroll> for PgUp/PgDn
+         ((control) . text-scale)		; C-<scroll> for zoom
+         ((control meta) . global-text-scale))) ; C-M-<scroll> for global zoom
       (mouse-wheel-scroll-amount-horizontal 2)  ; faster hscroll speed
       ))
 #+end_src
@@ -1153,7 +1153,7 @@ https://abode.karthinks.com/share/eat-modes.png
       (setq eat-kill-buffer-on-exit t)
       :general
       (neko/leader-definer
-	"a a" 'eat)))
+        "a a" 'eat)))
 #+end_src
 
 ** git client
@@ -1165,7 +1165,7 @@ https://abode.karthinks.com/share/eat-modes.png
       :defer t
       :general
       (neko/leader-definer
-	"v" 'magit)))
+        "v" 'magit)))
 #+end_src
 
 * misc
@@ -1178,10 +1178,10 @@ https://abode.karthinks.com/share/eat-modes.png
       :config
       ;; start server at first startup
       (defun ne/start-server-if-not-running ()
-	(unless (or (processp server-process)
-		    (server-running-p))
-	  (server-start)
-	  (message "Emacsclient Server started!")))
+        (unless (or (processp server-process)
+  		  (server-running-p))
+  	(server-start)
+  	(message "Emacsclient Server started!")))
       (add-hook 'after-init-hook #'ne/start-server-if-not-running))
 
     (neko/leader-definer
