@@ -112,6 +112,24 @@
     ))
 ;; Windows:1 ends here
 
+;; [[file:Modules.org::*Helpful][Helpful:1]]
+(defun m/helpful ()
+  (use-package helpful
+    :custom
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    ([remap describe-function] . helpful-callable)
+    ([remap describe-symbol] . helpful-symbol)
+    ([remap describe-variable] . helpful-variable)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-key] . helpful-key)
+    ("C-h h" . helpful-at-point)
+    ("C-h H" . view-hello-file)	       ; command originally at "C-h h"
+    ("C-h M" . which-key-show-major-mode)
+    ("C-h E" . describe-keymap)))
+;; Helpful:1 ends here
+
 ;; [[file:Modules.org::*Vertico][Vertico:1]]
 (defun m/vertico ()
   ;; ? : corfu, kind-icon, wgrep?, consult-dir, cape
@@ -429,15 +447,15 @@
     ))
 ;; Yasnippet:1 ends here
 
-;; [[file:Modules.org::*LSP essentials][LSP essentials:1]]
-(defun m/lsp-essentials ()
+;; [[file:Modules.org::*IDE essentials][IDE essentials:1]]
+(defun m/ide-essentials ()
   (use-package-local compile
     :custom
     (compilation-scroll-output t))
 
   (use-package flycheck
     :defer t))
-;; LSP essentials:1 ends here
+;; IDE essentials:1 ends here
 
 ;; [[file:Modules.org::*eglot][eglot:1]]
 (defun m/eglot ()
@@ -475,7 +493,7 @@
     :custom (lsp-completion-provider :none)))
 ;; lsp-mode:1 ends here
 
-;; [[file:Modules.org::*lang essentials][lang essentials:1]]
+;; [[file:Modules.org::*essentials][essentials:1]]
 (defun m/lang-essentials ()
   (use-package-local elec-pair
     :config
@@ -489,7 +507,7 @@
 				 (,electric-pair-inhibit-predicate c))))))
     ;; global
     (electric-pair-mode 1)))
-;; lang essentials:1 ends here
+;; essentials:1 ends here
 
 ;; [[file:Modules.org::*elisp][elisp:1]]
 (defun m/lang-elisp ()
@@ -533,7 +551,7 @@
 ;; markdown:1 ends here
 
 ;; [[file:Modules.org::*rust][rust:1]]
-(defun m/lang-rustic ()
+(defun m/lang-rust ()
   (use-package rustic
     :defer t
     :custom
@@ -975,24 +993,6 @@ If in a list, inserts a new sublist after the current list."
     (mouse-wheel-scroll-amount-horizontal 2)  ; faster hscroll speed
     ))
 ;; scroll:1 ends here
-
-;; [[file:Modules.org::*Helpful][Helpful:1]]
-(defun m/helpful ()
-  (use-package helpful
-    :custom
-    (counsel-describe-function-function #'helpful-callable)
-    (counsel-describe-variable-function #'helpful-variable)
-    :bind
-    ([remap describe-function] . helpful-callable)
-    ([remap describe-symbol] . helpful-symbol)
-    ([remap describe-variable] . helpful-variable)
-    ([remap describe-command] . helpful-command)
-    ([remap describe-key] . helpful-key)
-    ("C-h h" . helpful-at-point)
-    ("C-h H" . view-hello-file)	       ; command originally at "C-h h"
-    ("C-h M" . which-key-show-major-mode)
-    ("C-h E" . describe-keymap)))
-;; Helpful:1 ends here
 
 ;; [[file:Modules.org::*eat][eat:1]]
 (defun m/term-eat ()

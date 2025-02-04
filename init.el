@@ -41,10 +41,13 @@
 (when (file-exists-p custom-file)
   (+load custom-file))
 
+(load (concat neko-root-dir "modules-new/neko-modules.el"))
+(load (concat neko-personal-dir "/nekomimi/modules-new.el"))
+
 ;;; load user-side modules.el file
-(let ((file neko-modules-config))
-  (when (file-exists-p file)
-    (+load file)))
+;; (let ((file neko-modules-config))
+;;   (when (file-exists-p file)
+;;     (+load file)))
 
 ;;; load all in personal-dir recursively and lexigraphically
 ;;; (excludes special-config-dir and things beginning with "_").

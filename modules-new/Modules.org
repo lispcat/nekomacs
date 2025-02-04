@@ -152,6 +152,28 @@ put focus on making it very segmented and all over the place. piece by piece. bu
 
 #+end_src
 
+** Helpful
+
+#+begin_src emacs-lisp
+
+  (defun m/helpful ()
+    (use-package helpful
+      :custom
+      (counsel-describe-function-function #'helpful-callable)
+      (counsel-describe-variable-function #'helpful-variable)
+      :bind
+      ([remap describe-function] . helpful-callable)
+      ([remap describe-symbol] . helpful-symbol)
+      ([remap describe-variable] . helpful-variable)
+      ([remap describe-command] . helpful-command)
+      ([remap describe-key] . helpful-key)
+      ("C-h h" . helpful-at-point)
+      ("C-h H" . view-hello-file)	       ; command originally at "C-h h"
+      ("C-h M" . which-key-show-major-mode)
+      ("C-h E" . describe-keymap)))
+
+#+end_src
+
 * Completion
 
 ** Vertico
@@ -540,11 +562,11 @@ https://github.com/oantolin/orderless
 
 * IDE
 
-** LSP essentials
+** IDE essentials
 
 #+begin_src emacs-lisp
 
-  (defun m/lsp-essentials ()
+  (defun m/ide-essentials ()
     (use-package-local compile
       :custom
       (compilation-scroll-output t))
@@ -554,7 +576,7 @@ https://github.com/oantolin/orderless
 
 #+end_src
 
-** LSP Servers
+** Lsp Servers
 
 *** eglot
 
@@ -602,7 +624,7 @@ https://github.com/oantolin/orderless
 
 ** Languages
 
-*** lang essentials
+*** essentials
 
 #+begin_src emacs-lisp
 
@@ -692,7 +714,7 @@ https://github.com/emacs-rustic/rustic
 
 #+begin_src emacs-lisp
 
-  (defun m/lang-rustic ()
+  (defun m/lang-rust ()
     (use-package rustic
       :defer t
       :custom
@@ -1192,32 +1214,6 @@ https://github.com/emacs-rustic/rustic
          ((control meta) . global-text-scale))) ; C-M-<scroll> for global zoom
       (mouse-wheel-scroll-amount-horizontal 2)  ; faster hscroll speed
       ))
-
-#+end_src
-
-* Tweaks
-
-** essential
-
-** Helpful
-
-#+begin_src emacs-lisp
-
-  (defun m/helpful ()
-    (use-package helpful
-      :custom
-      (counsel-describe-function-function #'helpful-callable)
-      (counsel-describe-variable-function #'helpful-variable)
-      :bind
-      ([remap describe-function] . helpful-callable)
-      ([remap describe-symbol] . helpful-symbol)
-      ([remap describe-variable] . helpful-variable)
-      ([remap describe-command] . helpful-command)
-      ([remap describe-key] . helpful-key)
-      ("C-h h" . helpful-at-point)
-      ("C-h H" . view-hello-file)	       ; command originally at "C-h h"
-      ("C-h M" . which-key-show-major-mode)
-      ("C-h E" . describe-keymap)))
 
 #+end_src
 
