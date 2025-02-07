@@ -1,9 +1,10 @@
 
 ;; TODO: add to guide: "(" to show details
-(use-package-local dired
+(use-package dired
+  :local t
   :custom
   (dired-listing-switches "-Ahl --group-directories-first -X") ; -o is -l without groups
-  (dired-auto-revert-buffer t) ; auto update file changes
+  (dired-auto-revert-buffer t)          ; auto update file changes
   :config
   ;; hide details by default
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)

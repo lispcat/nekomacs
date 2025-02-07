@@ -1,7 +1,7 @@
 
 ;; custom use-package keywords
 (+require 'use-package--benchmark)
-;; (+require 'use-package--local) ; TODO: Broken
+(+require 'use-package--local)
 
 ;; use-module configuration macro
 (+require 'use-package--module)

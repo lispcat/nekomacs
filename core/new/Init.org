@@ -1,5 +1,19 @@
 #+title: Init
 
+* Table of Contents :TOC_4:
+- [[#notes][notes:]]
+- [[#example-working-setup][Example working setup]]
+- [[#sane-defaults][sane-defaults]]
+- [[#install-package-manager][install-package-manager]]
+- [[#install-use-package][install-use-package]]
+  - [[#keyword---benchmark][keyword - benchmark]]
+  - [[#use-package-local-macro][use-package-local macro]]
+- [[#no-littering][no-littering]]
+- [[#module-dependencies][module dependencies]]
+- [[#post-init][post-init]]
+- [[#module-loading-macros][module-loading-macros]]
+- [[#new-universal-use-package-keyword][new universal use-package keyword]]
+
 * notes:
 
 - i can greatly simplify this by segmenting everything. dont try to make it an all-in-one working solution. create several example init functions var setups.
@@ -9,39 +23,30 @@
 
 #+begin_src emacs-lisp
   (setq neko/init-functions
-        '(init/sane-defs
-          init/pkg-manager-straight
-          init/use-package-straight
-          init/use-package-xtras
+        '(init/sane-defaults
+          init/install-pkg-manager-straight
+          init/install-use-package-with-straight
+          init/use-package-extras
           init/no-littering
-          init/modules-dependencies
+          init/module-dependencies
           init/post-init
           init/module-loading-macros
           ))
 #+end_src
 
-* good defs
+* sane-defaults
 
 #+begin_src emacs-lisp
-  (defun init/sane-defs ()
+  (defun init/sane-defaults ()
     (when (featurep 'native-compile)
       (setq native-comp-async-report-warnings-errors nil) ; Silence compiler warnings
       ))
 #+end_src
 
-* package manager
+* install-package-manager
 
 #+begin_src emacs-lisp
-  (defun init/pkg-manager ()
-    (pcase neko-package-manager
-      ('straight (init/pkg-manager--straight))
-      ('package  (init/pkg-manager--package))
-      ('elpaca   (init/pkg-manager--elpaca))))
-#+end_src
-
-** straight
-#+begin_src emacs-lisp
-  (defun init/pkg-manager--straight ()
+  (defun init/install-pkg-manager-straight ()
     (defvar bootstrap-version)
     (let ((bootstrap-file
            (expand-file-name
@@ -57,24 +62,27 @@
           (goto-char (point-max))
           (eval-print-last-sexp)))
       (load bootstrap-file nil 'nomessage)))
+
+  (defun init/install-pkg-manager-package ()
+    (require 'package)
+    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+    (package-initialize)
+    (unless package-archive-contents
+      (package-refresh-contents)))
 #+end_src
 
-* use-package
+* install-use-package
 
 #+begin_src emacs-lisp
-  (defun init/use-package ()
-    (pcase neko-package-manager
-      ('straight
-       (progn (unless (package-installed-p 'use-package)
-                (straight-use-package 'use-package))
-              (setq straight-use-package-by-default t)))
-      ('package
-       (progn (unless (package-installed-p 'use-package)
-                (package-install 'use-package))
-              (require 'use-package)))
-      (_
-       (message "Warning: neko-package-manager \"%s\" may be invalid"
-                neko-package-manager))))
+  (defun init/install-use-package-with-straight ()
+    (unless (package-installed-p 'use-package)
+      (straight-use-package 'use-package))
+    (setq straight-use-package-by-default t))
+  
+  (defun init/install-use-package-with-package ()
+    (unless (package-installed-p 'use-package)
+      (package-install 'use-package))
+    (require 'use-package))
 #+end_src
 
 ** keyword - benchmark
@@ -355,4 +363,19 @@
         (1 font-lock-keyword-face)
         (2 font-lock-constant-face nil t)))))
 
+#+end_src
+
+* new universal use-package keyword
+
+COMPLETED IN LOCAL & FETCH.
+
+#+begin_src emacs-lisp
+  (progn
+    (message "DEBUG: Name: %s" name)
+    (message "DEBUG: Keyword: %s" keyword)
+    (message "DEBUG: Arg: %s" arg)
+    (message "DEBUG: Rest: %s" rest)
+    (message "DEBUG: filteredRest: %s" filtered-rest)
+    (message "DEBUG: State: %s" state)
+    (message "DEBUG: Body: %s" body))
 #+end_src
