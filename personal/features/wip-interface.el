@@ -15,6 +15,11 @@
     (when (buffer-modified-p (current-buffer))
       (save-buffer)))
 
+  (defun ri/kbd-escape ()
+    "When run, exit meow insert mode, exit snippet, then save buffer."
+    (interactive)
+    (execute-kbd-macro (kbd "<escape>")))
+
   (defvar ri/meow-insert-default-modes
     '(vterm-mode
       eshell-mode)
@@ -29,7 +34,7 @@
 
   ;; set some keys for insert-mode
   (meow-define-keys 'insert
-    '("C-g" . meow-insert-exit)
+    '("C-g" . ri/kbd-escape)
     ;; '("C-g" . "<escape>")
     '("C-M-g" . ri/meow-exit-all-and-save))
 

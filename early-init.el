@@ -67,6 +67,13 @@
 ;; transparency
 (defvar neko-transparency-value 100) ; (100 = no transparency).
 
+;; which init functions to load
+(defvar neko/init-functions
+  '(init/no-littering
+    init/install-pkg-manager-straight
+    init/modules-dependencies
+    init/post-init))
+
 ;;; User-side functions:
 
 ;; enable transparency at startup (TODO: would this fuck up later set-frame-parameter?)
@@ -87,6 +94,7 @@
 ;;; Load startup-config.el and early-config.el:
 
 (defmacro +safe-progn (&rest body)
+  (declare (indent defun))
   `(condition-case-unless-debug e ; soft error handling if loading fails
        (progn ,@body)
      (error (display-warning (make-symbol file)
@@ -95,11 +103,13 @@
 (let* ((file "startup-config.el")
        (path (file-name-concat neko-root-dir file)))
   (if (file-exists-p path)
-      (+safe-progn (load path))
+      (+safe-progn
+        (load path))
     (message "Warning: %s \"%s\" not found" file path)))
 
 (let* ((file "early-config.el")
        (path (file-name-concat neko-personal-dir file)))
   (if (file-exists-p path)
-      (+safe-progn (load path))
+      (+safe-progn
+        (load path))
     (message "Warning: %s \"%s\" not found" file path)))

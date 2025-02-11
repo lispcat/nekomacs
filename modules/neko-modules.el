@@ -602,7 +602,7 @@
 (defun m/org ()
   (defun neko/org-insert-subheading-respect-content ()
     "Insert new subheading after the current heading's body.
-If in a list, inserts a new sublist after the current list."
+  If in a list, inserts a new sublist after the current list."
     (interactive)
     (org-meta-return)
     (org-metaright))
@@ -884,7 +884,7 @@ If in a list, inserts a new sublist after the current list."
   (use-package kaolin-themes)
   (use-package ef-themes)
 
-  ;;; Function: `load-theme' but fixed theme-bleeding issue.
+    ;;; Function: `load-theme' but fixed theme-bleeding issue.
 
   (defun +load-theme (theme &optional no-confirm no-enable)
     "Prevent `load-theme' from having theme bleeding issues."
@@ -905,7 +905,7 @@ If in a list, inserts a new sublist after the current list."
                         :foreground (face-foreground 'default)
                         :background (face-background 'default)))
 
-  ;;; Function: sets a random theme.
+    ;;; Function: sets a random theme.
 
   (defun neko/set-random-theme ()
     (interactive)
@@ -927,7 +927,7 @@ If in a list, inserts a new sublist after the current list."
       ;; mesg
       (message "Enabled theme: %s" chosen-theme)))
 
-  ;;; Leader-key binds:
+    ;;; Leader-key binds:
 
   (neko/leader-definer
     "T" '(:ignore t :which-key "Themes")
@@ -935,7 +935,7 @@ If in a list, inserts a new sublist after the current list."
     "Tr" '(neko/set-random-theme :which-key "set-random-theme")
     )
 
-  ;;; (Note: actually setting a theme should be done after loading this file).
+    ;;; (Note: actually setting a theme should be done after loading this file).
   )
 ;; theme:1 ends here
 

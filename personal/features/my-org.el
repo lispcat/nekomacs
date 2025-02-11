@@ -30,13 +30,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package org
-  :local t
+(use-package org :local t
   :config
   (setq org-directory "~/Notes/org")
   (setq org-tags-column -55)
   (setq org-src-preserve-indentation t)
-
+  (setq org-return-follows-link t)
+  (setq org-src-window-setup 'current-window)
   ;; set org font sizes
   (dolist (pair '((org-document-title :height 1.9 :weight bold)
                   (org-level-1 :height 1.7 :weight bold)
@@ -237,7 +237,7 @@ It makes sense to do so if `org-cdlatex-mode' is active and if the cursor is
 ;; (defun my/setup-latex-completion ()
 ;;   (setq-local completion-at-point-functions
 ;;               (list (cape-super-capf
-                     
+
 ;;                      #'cape-tex
 ;;                      #'cape-dict)))
 ;;   ;; Optional: Configure Corfu for immediate activation in LaTeX contexts
@@ -268,3 +268,7 @@ It makes sense to do so if `org-cdlatex-mode' is active and if the cursor is
 
 
 
+
+
+(use-package orglink
+  :hook prog-mode)
