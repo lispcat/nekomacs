@@ -57,7 +57,7 @@
     (aw-keys '(?a ?s ?d ?f ?j ?k ?l)) ; TODO: Note: override for non-qwerty!
     ;; (aw-dispatch-always t)
     :bind
-    ("M-o" . ace-window)	; Improved window switching with "M-o"
+    ("M-o" . ace-window)        ; Improved window switching with "M-o"
     )
   (neko/leader-definer
     "w" '(:ignore t :which-key "window")
@@ -442,7 +442,7 @@
     ;; (progn
     ;;   (defun mi/eglot-capf-with-yasnippet ()
     ;;     (setq-local completion-at-point-functions
-    ;;                 (list 
+    ;;                 (list
     ;; 		   (cape-capf-super
     ;; 		    #'yasnippet-capf
     ;; 		    #'eglot-completion-at-point))))
@@ -828,7 +828,7 @@ If in a list, inserts a new sublist after the current list."
    '("'" . repeat)
    '("/" . ri/scroll-down-half-page) ;; new keys
    '("?" . ri/scroll-up-half-page)   ;; new keys
-   '("<escape>" .  keyboard-escape-quit)
+   '("<escape>" . ignore)
 
    ;; Directional keys:
 
@@ -970,7 +970,7 @@ If in a list, inserts a new sublist after the current list."
 
 ;; [[file:Modules.org::*line wrap][line wrap:1]]
 (defun m/line-wrap ()
-  (global-visual-line-mode 1) 
+  (global-visual-line-mode 1)
   (diminish 'visual-line-mode) ; hide "Wrap" in mode-line
   )
 ;; line wrap:1 ends here

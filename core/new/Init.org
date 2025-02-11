@@ -129,7 +129,7 @@
 #+begin_src emacs-lisp
   (defun init/use-package-xtra-local ()
     (progn
-      
+
       (+defvar use-module-localizing-keywords
         '((straight . :straight)
           (package  . :ensure)

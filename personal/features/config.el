@@ -73,7 +73,6 @@
     (magit-run-git "apply" "--reject" "--whitespace=fix" "--recount"
 		   (expand-file-name file))))
 
-
 ;; avy
 (use-package avy
   :bind ("C-c j" . avy-goto-char))
@@ -85,7 +84,19 @@
   :bind (("M-$" . jinx-correct)
 	 ("C-M-$" . jinx-languages)))
 
-
 ;; origami ?
 
 (use-package origami)
+
+
+;; whitespace mode
+
+(use-package whitespace
+  :config
+  (defun my/prog-mode-whitespace ()
+    (setq whitespace-style '(face trailing tabs tab-mark))
+    (whitespace-mode 1))
+  :hook ((prog-mode . my/prog-mode-whitespace)
+         (org-mode  . my/prog-mode-whitespace)
+         (text-mode . my/prog-mode-whitespace)))
+

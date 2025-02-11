@@ -79,7 +79,7 @@
 	 "\\(^\\|/\\)" "[aA]rchived?" "\\(/\\|$\\)" "\\|"
 	 "\\(^\\|/\\)" "[eE]xcluded?" "\\(/\\|$\\)" "\\|"
 	 "\\(^\\|/\\)" "_.*"          "\\(/\\|$\\)"))
-  
+
   ;; when renaming, don't prompt for modify-file-name
   (setq denote-rename-confirmations '(rewrite-front-matter))
 
@@ -96,13 +96,13 @@
   (add-hook 'text-mode-hook #'denote-fontify-links-mode-maybe)
 
   ;; other
-  
+
   (defun my/denote-directory-jump ()
     (interactive)
     (dired denote-directory))
 
   ;; org-capture
-  
+
   (with-eval-after-load 'org-capture
     (add-to-list 'org-capture-templates
 		 '("n" "New note (with Denote)" plain
@@ -132,7 +132,7 @@
   ;;     (message "Not in an org-mode buffer")))
 
   ;; journal
-  
+
   (require 'denote-journal-extras)
   (setq denote-journal-extras-directory
 	(expand-file-name "journal" denote-directory)))
@@ -158,6 +158,32 @@
 	     "nf" 'consult-notes
 	     "ng" 'consult-notes-search-in-all-notes)
   :config
+  ;; denote keywords "_" fix
+  (progn
+    (setq consult-notes-denote-display-keywords-indicator "_")
+    (defun consult-notes-denote--display-keywords (keywords)
+      (format "%18s" (if keywords
+                         (concat
+		          consult-notes-denote-display-keywords-indicator
+		          (mapconcat 'identity keywords "_"))
+                       ""))))
+  ;; custom printing format
+  (progn
+    (defun my/consult-notes--file-dir-annotate (name dir cand)
+      "Annotate file CAND with its directory DIR, size, and modification time."
+      (let* ((file  (concat (file-name-as-directory dir) cand))
+             (dirs  (abbreviate-file-name dir))
+             (attrs (file-attributes file))
+             (fsize (file-size-human-readable (file-attribute-size attrs)))
+             (ftime (consult-notes--time (file-attribute-modification-time attrs))))
+        (message "DEBUGGGGG: %s %s %s" file name dirs)
+        (put-text-property 0 (length name)  'face 'consult-notes-name name)
+        (put-text-property 0 (length dirs)  'face 'consult-notes-name dirs)
+        (put-text-property 0 (length fsize) 'face 'consult-notes-size fsize)
+        (put-text-property 0 (length ftime) 'face 'consult-notes-time ftime)
+        (format "%7s %8s  %12s  %8s" name fsize ftime dirs)))
+    (setq consult-notes-file-dir-annotate-function #'my/consult-notes--file-dir-annotate))
+  ;; enable for denote after load denote
   (with-eval-after-load 'denote
     (consult-notes-denote-mode 1)))
 
@@ -167,7 +193,7 @@
   :general
   (neko/leader-definer
     "ne" '(:ignore t :which-key "explore")
-    
+
     ;; random walks
     "new" '(:ignore t :which-key "random walks")
     "newl" '(denote-explore-random-link :which-key "random link")

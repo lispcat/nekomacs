@@ -40,6 +40,7 @@
 	  ("@creative" . ?c)
 	  ("@art" . ?a)
 	  ("@programming" . ?p)
+	  ("@today" . ?T)
 	  ;; ("@calls" . ?l)
 	  ;; Devices
 	  ("@phone" . ?P)
@@ -63,7 +64,9 @@
 		      "% s"))
 	  (todo   . " %i ")
 	  (tags   . " %i %-12:c")
-	  (search . " %i %-12:c"))))
+	  ;; (search . " %i %-12:c")
+	  (search . " %c")
+          )))
 
 (use-package org-super-agenda
   :after org org-agenda
@@ -82,8 +85,21 @@
 			:anything t)
 		 ))))))
 	  ("m" "Main View"
-	   ((agenda
-	     nil
+	   (;;; TODO: use org-ql to get all entries that are appropriate, then throw into agenda view!!!
+            ;; (search
+            ;;  "@today"
+            ;;  (;; vars
+            ;;   (org-agenda-span 'day)
+              
+            ;;   (org-super-agenda-groups
+            ;;    '((:name "Today's Tasks"
+            ;;             ;; :auto-parent t
+            ;;             :auto-outline-path t
+            ;;             :children todo
+            ;;             :discard (:not (:date today))
+            ;;             )))))
+            (agenda
+	     ""
 	     ((org-agenda-span 'day)
 	      (org-super-agenda-groups
 	       '(

@@ -33,6 +33,7 @@
 (use-package-local org
   :config
   (setq org-directory "~/Notes/org")
+  (setq org-tags-column -55)
 
   ;; set org font sizes
   (dolist (pair '((org-document-title :height 1.9 :weight bold)
