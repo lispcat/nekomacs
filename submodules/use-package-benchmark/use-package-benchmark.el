@@ -59,8 +59,11 @@ ACTION can be either \\='require or \\='load, which prepends FEATURE with either
 (add-to-list 'use-package-keywords :benchmark)
 
 ;; add ":benchmark" to the default list of use-package keywords
-(add-to-list 'use-package-defaults
-             '(:benchmark '(t) use-package-benchmark-by-default))
+;; (add-to-list 'use-package-defaults
+;;              '(:benchmark '(t) use-package-benchmark-by-default))
+(setq use-package-defaults
+      (cons '(:benchmark '(t) use-package-benchmark-by-default)
+            use-package-defaults))
 
 ;;; end
 (provide 'use-package-benchmark)

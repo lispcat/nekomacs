@@ -53,7 +53,6 @@
 (defvar neko-personal-dir (concat neko-root-dir "personal/"))
 (defvar neko-local-dir (concat neko-root-dir "local/"))
 
-
 (setq custom-file (concat neko-local-dir "custom-vars.el"))
 
 ;;; User-side variables:
@@ -61,7 +60,7 @@
 ;; package manager
 (defvar neko-package-manager 'straight)
 ;; benchmark
-(defvar neko-benchmark nil)
+(defvar use-package-benchmark-by-default nil)
 ;; increase gc freq after init
 (defvar neko-after-init-gc-cons-threshold (* 2 1000 1000))
 ;; transparency

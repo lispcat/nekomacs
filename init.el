@@ -1,5 +1,7 @@
 ;;
 
+(message "DEBUG: start of init")
+
 ;; gc
 (add-hook 'after-init-hook
           (lambda ()
@@ -26,17 +28,32 @@
 (add-to-list 'load-path (concat neko-root-dir "submodules/use-package-universal"))
 (add-to-list 'load-path (concat neko-root-dir "submodules/use-package-benchmark"))
 
+(message "DEBUG: added load-paths")
+
 ;;; set user-emacs-directory to local dir
 (setq user-emacs-directory neko-local-dir)
 
-;;; load module-loading macros (+require, +load, ...)
+;; load module-loading macros (+require, +load, ...)
 (require 'module-loading-macros)
 
 ;;; load core files (lexigraphically load all core files that are
 ;;; prefixed by two numbers.)
 
+(message "DEBUG: before neko-init")
+
+;; (+safe-progn
+;;   (require 'neko-init))
+
+(message "DEBUG: after neko-init")
+
 ;; (dolist (f neko/init-functions)
-;;   (funcall f))
+;;   (funcall f)
+;;   (message "DEBUG: called %s" f))
+
+;; (init/no-littering)
+;; (init/install-pkg-manager-straight)
+;; (init/modules-dependencies)
+;; (init/post-init)
 
 (let* ((dir neko-core-dir)
        (paths (sort (directory-files dir t "^[0-9][0-9]-.*$") #'string<)))
@@ -44,15 +61,20 @@
     (when (file-regular-p path) ; Only load regular files, not directories
       (let ((file-stem-as-symbol (intern (file-name-base path))))
         (when (require file-stem-as-symbol nil t) ; non-nil if exists
-          (+require file-stem-as-symbol))))))
+          (require file-stem-as-symbol))))))
 
 ;;; load custom-file
 (when (file-exists-p custom-file)
   (+safe-progn
     (load custom-file)))
 
-;;; loads all the functions for the modules
-(+require 'neko-modules)
+(message "DEBUG: before 'neko-modules")
+
+;; loads all the functions for the modules
+(+safe-progn
+  (require 'neko-modules))
+
+(message "DEBUG: after 'neko-modules")
 
 ;;; loads main.el
 (let ((file (file-name-concat neko-personal-dir "main.el")))

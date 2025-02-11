@@ -1,4 +1,6 @@
 
+(message "DEBUG: enter main.el")
+
 ;;; Emacs
 
 (m/essential-tweaks)
@@ -73,4 +75,5 @@
        (paths (directory-files-recursively dir "^[^_].*\\.el$")))
   (dolist (path paths)
     (let ((file-as-str path))
-      (+load file-as-str))))
+      (+safe-progn
+        (load file-as-str)))))
