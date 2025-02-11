@@ -2,6 +2,7 @@
 *
 
 !.gitignore
+!.gitmodules
 !LICENSE
 
 !docs/
@@ -17,6 +18,8 @@
 !personal-template/**
 !snippets/
 !snippets/**
+!submodules/
+!submodules/**
 
 !modules.old/
 !modules.old/**
