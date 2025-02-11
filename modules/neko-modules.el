@@ -840,7 +840,7 @@
    '("'" . repeat)
    '("/" . ri/scroll-down-half-page) ;; new keys
    '("?" . ri/scroll-up-half-page)   ;; new keys
-   '("<escape>" . ignore)
+   ;; '("<escape>" . ignore)
 
    ;; Directional keys:
 
