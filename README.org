@@ -114,6 +114,8 @@ https://github.com/thinkhuman/writingwithemacs
 
 - [ ] image-slicing, hook to reslice image after org-download image!!!
 
+- [ ] switch to core-new. idea: for init/modules-dependencies, move this over to a source file instead of a function, so that use-package general function will eval with no issue?
+
 * Organization
 
 instead of depending on a crazy procedure to change variables in the future, what about just load a specific file? would GREATLY simplify.
