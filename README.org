@@ -62,32 +62,22 @@ It's composed of the following parts (loaded in order):
 
 ** Ideas/todo
 
-: "s" search-map
-: "bs" 'save-buffer
-(and also ~"S" 'save-buffer~)
-
-and instead of
-: "sn" 'consult-notes
-do
-: (define-key 'search-map (kbd "n") #'consult-notes)
-
-^
-actually, lets just use ~"sn" 'consult-notes~ for everything. ~M-s~ is barely even used for anything useful anyways.
-
+- [X] "s" search-map
+- [X] "bs" 'save-buffer
+- [ ] (and also ~"S" 'save-buffer~)
 
 instead of ~neko/~, use ~neko-~, so it looks and feels more like a package rather than an abstraction layer.
 
-
-~(nekowrap~: literally just progn but with soft-error handling.
+~(+progn~: literally just progn but with soft-error handling.
 - instead of having a modules file, just throw in the requires by hand into files of your own choosing.
 - this'll make it so my module system is more scattered and sporadic, and letting the end user use modules not as a whole thing, but as big snippets to smoothen out and get sane defaults that work nicely.
 - and in my docs, i can have a listing of all the submodules of modules that add extra extra functionality, like java-eglot.el. And i can write an interactive function to search throught modules and jump to definitions!!!!!!
 
 
-get rid of modules fil, use config.el in dir (or maybe a file for each dir and call it config-code.el
+- [ ] get rid of modules fil, use config.el in dir (or maybe a file for each dir and call it config-code.el
 
 
-create an examples dir, and make it so you can pass an arg to load the example (in case you bork your config).
+- [ ] create an examples dir, and make it so you can pass an arg to load the example (in case you bork your config).
 also create a backups dir, that you can load into with arg and argument. have _backups dir (underscore to exclude).
 
 
@@ -97,33 +87,32 @@ also create a backups dir, that you can load into with arg and argument. have _b
 :   (tab-bar-mode 1))
 
 
-- casual-dired
-- casual-ibuffer : C-c b l : select and delete a bunch of buffers (incredible buffer managerment!!!) (kill all help buffers)
-- have a neko-casual-dired.el below neko-dired.el
-- casual-info
-- casual-calc
-- RE-BUILDER
-- casual-agenda
-
+- [ ] casual-dired
+- [ ] casual-ibuffer : C-c b l : select and delete a bunch of buffers (incredible buffer managerment!!!) (kill all help buffers)
+- [ ] have a neko-casual-dired.el below neko-dired.el
+- [ ] casual-info
+- [ ] casual-calc
+- [ ] RE-BUILDER
+- [ ] casual-agenda
 
 for finding files in a project: project-dired... or consult-buffer + =p SPC=. (very helpful)
 
 
-have big core config files instead of smaller chunks, then wrap each use-package statement in a function of a predictable naming scheme, and create a macro that given a name, runs the function.
+- [X] have big core config files instead of smaller chunks, then wrap each use-package statement in a function of a predictable naming scheme, and create a macro that given a name, runs the function.
 
-have tangle block for the +require expression (to config-example.el)
+- [X] have tangle block for the +require expression (to config-example.el)
 
 very good resources
 https://github.com/jonnay/emagicians-starter-kit
 https://github.com/thinkhuman/writingwithemacs
 
-for early-init.el and init.el, use funcalls for setup? simplify? instead of having a bunch of files to load for init?
+- [X] for early-init.el and init.el, use funcalls for setup? simplify? instead of having a bunch of files to load for init?
 
-in personal-dir, load only one file main.el (also have early-config.el in personal-dir. load modules from here. expect the end user to create subdirs dirs to organize their setup.
+- [X] in personal-dir, load only one file main.el (also have early-config.el in personal-dir. load modules from here. expect the end user to create subdirs dirs to organize their setup.
 
-instead of require'ing every core module at startup, turn everything into a little function, so you can choose which set of functions to evaluate during early-config. (an alist of functions to call).
+- [X] instead of require'ing every core module at startup, turn everything into a little function, so you can choose which set of functions to evaluate during early-config. (an alist of functions to call).
 
-image-slicing, hook to reslice image after org-download image!!!
+- [ ] image-slicing, hook to reslice image after org-download image!!!
 
 * Organization
 

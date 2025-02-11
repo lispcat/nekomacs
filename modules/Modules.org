@@ -6,6 +6,7 @@
 - [[#new][new]]
   - [[#ideas][ideas]]
 - [[#emacs][Emacs]]
+  - [[#todo][TODO]]
   - [[#essential-tweaks][essential tweaks]]
   - [[#buffers][Buffers]]
   - [[#history][History]]
@@ -76,6 +77,8 @@ put focus on making it very segmented and all over the place. piece by piece. bu
 
 * Emacs
 
+** TODO
+
 ** essential tweaks
 
 #+begin_src emacs-lisp
@@ -87,7 +90,7 @@ put focus on making it very segmented and all over the place. piece by piece. bu
     ;; Shorten yes/no prompts to y/n
     (defalias 'yes-or-no-p 'y-or-n-p)
 
-    ;; By default, emacs thinks two spaces after a period == a sentence.
+    ;; By default, emacs thinks two spaces after a period equals a sentence.
     ;; The change below changes that to just one space.
     (setq sentence-end-double-space nil))
 #+end_src
@@ -602,12 +605,15 @@ https://github.com/oantolin/orderless
     (setq-default indent-tabs-mode nil)
     (setq tab-always-indent 'complete) ; test
 
-    (use-package-local compile
+    (use-package compile
+      :local t
       :custom
       (compilation-scroll-output t))
 
     (use-package flycheck
-      :defer t))
+      :defer t
+      :config
+      (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
 #+end_src
 
 ** Lsp Servers

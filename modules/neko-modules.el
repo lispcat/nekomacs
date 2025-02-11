@@ -7,7 +7,7 @@
   ;; Shorten yes/no prompts to y/n
   (defalias 'yes-or-no-p 'y-or-n-p)
 
-  ;; By default, emacs thinks two spaces after a period == a sentence.
+  ;; By default, emacs thinks two spaces after a period equals a sentence.
   ;; The change below changes that to just one space.
   (setq sentence-end-double-space nil))
 ;; essential tweaks:1 ends here
@@ -456,12 +456,15 @@
   (setq-default indent-tabs-mode nil)
   (setq tab-always-indent 'complete) ; test
 
-  (use-package-local compile
+  (use-package compile
+    :local t
     :custom
     (compilation-scroll-output t))
 
   (use-package flycheck
-    :defer t))
+    :defer t
+    :config
+    (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
 ;; IDE essentials:1 ends here
 
 ;; [[file:Modules.org::*eglot][eglot:1]]

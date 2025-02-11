@@ -211,7 +211,7 @@
 	`(("t" "Tasks")
 	  ("td" "Todo with deadline" entry
 	   (file ,(my/get-org-agenda-denote-file "agenda"))
-	   "* TODO %^{Task}\nDEADLINE: %^{Deadline}t\n%?\n"
+	   "* TODO %^{Task}\nDEADLINE: %^{Deadline}\n%?\n"
 	   :empty-lines 1
 	   :immediate-finish nil)
 	  ("tp" "Task" entry
