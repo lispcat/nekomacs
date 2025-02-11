@@ -11,7 +11,8 @@
   (defun ri/meow-exit-all-and-save ()
     "When run, exit meow insert mode, exit snippet, then save buffer."
     (interactive)
-    (execute-kbd-macro (kbd "<escape>"))
+    ;; (execute-kbd-macro (kbd "<escape>"))
+    (meow-insert-exit)
     (when (buffer-modified-p (current-buffer))
       (save-buffer)))
 
