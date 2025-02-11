@@ -15,7 +15,8 @@
 ;; [[file:Modules.org::*Buffers][Buffers:1]]
 (defun m/buffers ()
   ;; revert buffer when its file is changed on the filesystem
-  (use-package-local autorevert
+  (use-package autorevert
+    :local t
     :diminish autorevert-mode
     :init
     (global-auto-revert-mode 1)
@@ -36,14 +37,17 @@
 ;; [[file:Modules.org::*History][History:1]]
 (defun m/history ()
   ;; remember recent files
-  (use-package-local recentf
+  (use-package recentf
+    :local t
     :hook (emacs-startup . recentf-mode))
   ;; go to previous location in file when reopening
-  (use-package-local saveplace
+  (use-package saveplace
+    :local t
     :config
     (save-place-mode 1))
   ;; persist minibuffer history over restarts
-  (use-package-local savehist
+  (use-package savehist
+    :local t
     :config
     (savehist-mode 1)))
 ;; History:1 ends here
@@ -80,7 +84,8 @@
 ;; [[file:Modules.org::*Dired][Dired:1]]
 (defun m/dired ()
   ;; TODO: add to guide: "(" to show details
-  (use-package-local dired
+  (use-package dired
+    :local t
     :custom
     (dired-listing-switches "-Ahl --group-directories-first -X") ; -o is -l without groups
     (dired-auto-revert-buffer t) ; auto update file changes
@@ -505,7 +510,8 @@
 
 ;; [[file:Modules.org::*essentials][essentials:1]]
 (defun m/lang-essentials ()
-  (use-package-local elec-pair
+  (use-package elec-pair
+    :local t
     :config
     ;; disable "<" pair expansion
     (add-hook 'org-mode-hook
@@ -576,7 +582,8 @@
   (use-package rainbow-delimiters
     :hook scheme-mode)
 
-  (use-package-local scheme-mode
+  (use-package scheme-mode
+    :local t
     :mode "\\.sld\\'")
 
   (use-package geiser
@@ -612,7 +619,8 @@ If in a list, inserts a new sublist after the current list."
                 ("C-M-<return>"
                  . neko/org-insert-subheading-respect-content)))
 
-  (use-package-local org-tempo
+  (use-package org-tempo
+    :local t
     :after org
     :config
     ;; TODO: move most of these elsewhere, userside?
@@ -623,7 +631,8 @@ If in a list, inserts a new sublist after the current list."
 
 ;; [[file:Modules.org::*org-agenda][org-agenda:1]]
 (defun m/org-agenda ()
-  (use-package-local org-agenda
+  (use-package org-agenda
+    :local t
     :after org
     :general
     (neko/leader-definer

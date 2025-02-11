@@ -30,7 +30,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package-local org
+(use-package org
+  :local t
   :config
   (setq org-directory "~/Notes/org")
   (setq org-tags-column -55)
@@ -57,7 +58,8 @@
 	  "✿"
 	  )))
 
-(use-package-local org-tempo
+(use-package org-tempo
+  :local t
   :after org
   :config
   (add-to-list 'org-structure-template-alist '("py" . "src python"))

@@ -4,11 +4,12 @@
   :hook prog-mode)
 
 ;; project.el mods
-(use-package-local project
+(use-package project
+  :local t
   :general-config
   (neko/leader-definer
     "p" project-prefix-map)
-  
+
   :config
   (defun project-compile-interactive ()
     (declare (interactive-only compile))
