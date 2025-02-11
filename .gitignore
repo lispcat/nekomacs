@@ -24,6 +24,10 @@
 !modules.old/
 !modules.old/**
 
+!core.old/
+!core.old/**
+
+
 !local/
 
 !early-init.el

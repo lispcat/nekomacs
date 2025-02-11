@@ -22,7 +22,7 @@
   ;; (progn
   ;;   (defun mi/eglot-capf-with-yasnippet ()
   ;;     (setq-local completion-at-point-functions
-  ;;                 (list 
+  ;;                 (list
   ;; 		   (cape-capf-super
   ;; 		    #'yasnippet-capf
   ;; 		    #'eglot-completion-at-point))))
