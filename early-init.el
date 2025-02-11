@@ -13,29 +13,33 @@
 ;; dont run byte-compiled code if outdated to .el file
 (setq load-prefer-newer t)
 
+;; Silence compiler warnings
+(when (featurep 'native-compile)
+  (setq native-comp-async-report-warnings-errors nil))
+
 ;; remove unneeded UI elements
 (setq default-frame-alist
-      '((tool-bar-lines . 0) ; disable tool bar
-	(menu-bar-lines . 0) ; disable menu bar
-	(vertical-scroll-bars) ; disable vertical scroll bar
-	(left-fringe . 0)   ; set left fringe (def: 8) (then: 10)
-	(right-fringe . 0) ; set right fringe (def: 8) (then: 10)
-	(drag-internal-border . t)
-	(internal-border-width . 13) ; box border around buffer+modeline (creates gap) (prev: 15)
-        (fullscreen . maximized) ; TODO: ???
-	))
-(setq tool-bar-mode nil			; disable tool bar
-      menu-bar-mode nil			; disable menu bar
-      scroll-bar-mode nil		; disable vertical scroll bar
+      '((tool-bar-lines . 0)    ; disable tool bar
+        (menu-bar-lines . 0)    ; disable menu bar
+        (vertical-scroll-bars)  ; disable vertical scroll bar
+        (left-fringe . 0)       ; set left fringe (def: 8) (then: 10)
+        (right-fringe . 0)      ; set right fringe (def: 8) (then: 10)
+        (drag-internal-border . t)
+        (internal-border-width . 13) ; box border around buffer+modeline (creates gap) (prev: 15)
+        (fullscreen . maximized)     ; TODO: ???
+        ))
+(setq tool-bar-mode nil                         ; disable tool bar
+      menu-bar-mode nil                         ; disable menu bar
+      scroll-bar-mode nil               ; disable vertical scroll bar
       )
 
 ;; prevent toolbar setup from running (optimization)
 (advice-add 'tool-bar-setup :override #'ignore)
 ;; undo previous change so user can manually enable tool-bar later
 (add-hook 'emacs-startup-hook
-	  (lambda ()
-	    (advice-remove 'tool-bar-setup #'ignore)
-	    (when tool-bar-mode (tool-bar-setup))))
+          (lambda ()
+            (advice-remove 'tool-bar-setup #'ignore)
+            (when tool-bar-mode (tool-bar-setup))))
 
 ;;; Paths:
 
@@ -85,8 +89,8 @@
 (defmacro +safe-progn (&rest body)
   `(condition-case-unless-debug e ; soft error handling if loading fails
        (progn ,@body)
-    (error (display-warning (make-symbol file)
-			    (error-message-string e) :error))))
+     (error (display-warning (make-symbol file)
+                             (error-message-string e) :error))))
 
 (let* ((file "startup-config.el")
        (path (file-name-concat neko-root-dir file)))

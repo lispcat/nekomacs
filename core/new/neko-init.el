@@ -1,42 +1,11 @@
-#+title: Init
-#+property: header-args :tangle neko-init.el :comments link
+;; [[file:Init.org::*sane-defaults][sane-defaults:1]]
+(defun init/sane-defaults ()
+  (when (featurep 'native-compile)
+    (setq native-comp-async-report-warnings-errors nil) ; Silence compiler warnings
+    ))
+;; sane-defaults:1 ends here
 
-* Table of Contents :TOC_4:
-- [[#notes][notes:]]
-- [[#example-working-setup][Example working setup]]
-- [[#install-a-package-manager][install a package manager]]
-- [[#install-use-package-unless-already-installed][install use-package unless already installed]]
-  - [[#keyword---benchmark][keyword - benchmark]]
-  - [[#use-package-local-macro][use-package-local macro]]
-- [[#no-littering][no-littering]]
-- [[#module-dependencies][module dependencies]]
-- [[#post-init][post-init]]
-- [[#module-loading-macros][module-loading-macros]]
-- [[#new-universal-use-package-keyword][new universal use-package keyword]]
-
-* notes:
-
-- i can greatly simplify this by segmenting everything. dont try to make it an all-in-one working solution. create several example init functions var setups.
-- TODO: no longer need neko-package-manager variable
-
-* Example working setup
-
-#+begin_src emacs-lisp :tangle no
-(setq neko/init-functions
-      '(init/sane-defaults
-        init/install-pkg-manager-straight
-        init/install-use-package-with-straight
-        init/use-package-extras
-        init/no-littering
-        init/module-dependencies
-        init/post-init
-        init/module-loading-macros
-        ))
-#+end_src
-
-* install a package manager
-
-#+begin_src emacs-lisp
+;; [[file:Init.org::*install-package-manager][install-package-manager:1]]
 (defun init/install-pkg-manager-straight ()
   (defvar bootstrap-version)
   (let ((bootstrap-file
@@ -60,11 +29,9 @@
   (package-initialize)
   (unless package-archive-contents
     (package-refresh-contents)))
-#+end_src
+;; install-package-manager:1 ends here
 
-* install use-package unless already installed
-
-#+begin_src emacs-lisp
+;; [[file:Init.org::*install-use-package][install-use-package:1]]
 (defun init/install-use-package-with-straight ()
   (unless (package-installed-p 'use-package)
     (straight-use-package 'use-package))
@@ -74,49 +41,46 @@
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
   (require 'use-package))
-#+end_src
+;; install-use-package:1 ends here
 
-** keyword - benchmark
-
-#+begin_src emacs-lisp
+;; [[file:Init.org::*keyword - benchmark][keyword - benchmark:1]]
 (defun init/use-package-kwd-benchmark ()
-  (require 'benchmark)
-  (require 'use-package-core) ;; does this suffice?
+  (progn
+    (require 'benchmark)
+    (require 'use-package-core) ;; does this suffice?
 
   ;;; variable to enable keyword by default:
 
-  ;; (defcustom use-package-benchmark-by-default t
-  ;;   "Non-nil enables benchmarking on all use-package invocations."
-  ;;   :type 'boolean
-  ;;   :group 'use-package)
+    ;; (defcustom use-package-benchmark-by-default t
+    ;;   "Non-nil enables benchmarking on all use-package invocations."
+    ;;   :type 'boolean
+    ;;   :group 'use-package)
 
   ;;; add use-package ":benchmark" keyword:
 
-  (defalias 'use-package-normalize/:benchmark 'use-package-normalize-predicate)
+    (defalias 'use-package-normalize/:benchmark 'use-package-normalize-predicate)
 
-  (defun use-package-handler/:benchmark (name _keyword arg rest state)
-    "Wrap the `use-package` declaration in `benchmark-progn` when `:benchmark t` is used."
-    (let ((body (use-package-process-keywords name rest state)))
-      (if arg
-          `((+benchmark-action ',name 'use-package
-              ,@body))
-        body)))
+    (defun use-package-handler/:benchmark (name _keyword arg rest state)
+      "Wrap the `use-package` declaration in `benchmark-progn` when `:benchmark t` is used."
+      (let ((body (use-package-process-keywords name rest state)))
+        (if arg
+            `((+benchmark-action ',name 'use-package
+  	        ,@body))
+          body)))
 
-  (add-to-list 'use-package-keywords :benchmark)
+    (add-to-list 'use-package-keywords :benchmark)
 
-  ;; add ":benchmark" to the default list of use-package keywords
-  (setq use-package-defaults
-        (cons '(:benchmark
-                '(t)
-                ;; use-package-benchmark-by-default
-                neko-benchmark
-                )
-              use-package-defaults)))
-#+end_src
+    ;; add ":benchmark" to the default list of use-package keywords
+    (setq use-package-defaults
+          (cons '(:benchmark
+  	          '(t)
+  	          ;; use-package-benchmark-by-default
+  	          neko-benchmark
+  	          )
+  	        use-package-defaults))))
+;; keyword - benchmark:1 ends here
 
-** use-package-local macro
-
-#+begin_src emacs-lisp
+;; [[file:Init.org::*use-package-local macro][use-package-local macro:1]]
 (defun init/use-package-xtra-local ()
   (progn
 
@@ -128,12 +92,12 @@
 
     (defun use-module--generate-keywords ()
       (apply #'append
-             (mapcar (lambda (pair)
-                       (let ((feature (car pair))
-                             (keyword (cdr pair)))
-                         (when (featurep feature)
-                           `(,keyword nil))))
-                     use-module-localizing-keywords)))
+  	     (mapcar (lambda (pair)
+  		       (let ((feature (car pair))
+  			     (keyword (cdr pair)))
+  		         (when (featurep feature)
+  		           `(,keyword nil))))
+  		     use-module-localizing-keywords)))
 
     ;; (defmacro use-module (name &rest args)
     ;;       "A wrapper around use-package' that disables remotely fetching packages.
@@ -142,7 +106,7 @@
     ;;       (when (plist-member args :custom)
     ;;         (error "Cannot use :custom in use-module for %s. \
     ;; Long story, techincal reasons. Instead use :config and setq pls n tank u :3"
-    ;;                 name))
+    ;; 	       name))
     ;;       `(use-package ,name ;; TODO: add support for custom specified package manager
     ;;          ,@(use-module--generate-keywords)
     ;;          ,@args))
@@ -157,21 +121,17 @@
 
     ;; set up font-lock syntax highlighting
     ;; (font-lock-add-keywords 'emacs-lisp-mode
-    ;;                      '(("(\\(use-module\\)\\_>[ \t']*\\(\\(?:\\sw\\|\\s_\\)+\\)?"
-    ;;                         (1 font-lock-keyword-face)
-    ;;                         (2 font-lock-constant-face nil t))))
+    ;;     		    '(("(\\(use-module\\)\\_>[ \t']*\\(\\(?:\\sw\\|\\s_\\)+\\)?"
+    ;;     		       (1 font-lock-keyword-face)
+    ;;     		       (2 font-lock-constant-face nil t))))
     (font-lock-add-keywords 'emacs-lisp-mode
-                            '(("(\\(use-package-local\\)\\_>[ \t']*\\(\\(?:\\sw\\|\\s_\\)+\\)?"
-                               (1 font-lock-keyword-face)
-                               (2 font-lock-constant-face nil t))))
+  			    '(("(\\(use-package-local\\)\\_>[ \t']*\\(\\(?:\\sw\\|\\s_\\)+\\)?"
+  			       (1 font-lock-keyword-face)
+  			       (2 font-lock-constant-face nil t))))
     ))
-#+end_src
+;; use-package-local macro:1 ends here
 
-* no-littering
-
-- consider using a git submodule and loading this before pkg manager, without using use-package?
-
-#+begin_src emacs-lisp
+;; [[file:Init.org::*no-littering][no-littering:1]]
 (defun init/no-littering ()
   (use-package no-littering
     :demand t
@@ -196,11 +156,9 @@
               ("\\`/tmp\\([^/]*/\\)*\\(.*\\)\\'" "\\2")
               ("\\`/dev/shm\\([^/]*/\\)*\\(.*\\)\\'" "\\2")
               ("." ,auto-save-dir t))))))
-#+end_src
+;; no-littering:1 ends here
 
-* module dependencies
-
-#+begin_src emacs-lisp
+;; [[file:Init.org::*module dependencies][module dependencies:1]]
 (defun init/module-dependencies ()
   ;; todo: support evil leader key (has to be set in early-config?)
   (use-package general
@@ -218,23 +176,20 @@
     :diminish which-key-mode
     :config
     (setq which-key-idle-delay 0.3)
-    (which-key-mode 1)))
-#+end_src
+    (which-key-mode 1))
+  )
+;; module dependencies:1 ends here
 
-* post-init
-#+begin_src emacs-lisp
+;; [[file:Init.org::*post-init][post-init:1]]
 (defun init/post-init ()
   (add-hook 'emacs-startup-hook
             (lambda ()
               (message "*** Emacs loaded in %s seconds with %d garbage collections."
                        (emacs-init-time "%.2f")
                        gcs-done))))
-#+end_src
+;; post-init:1 ends here
 
-* module-loading-macros
-
-#+begin_src emacs-lisp
-
+;; [[file:Init.org::*module-loading-macros][module-loading-macros:1]]
   ;;; Benchmarking:
 
 (defmacro +benchmark-action (feature action &rest body)
@@ -351,14 +306,9 @@
                "\\(\\(?:\\sw\\|\\s_\\)+\\)?") ; match full symbol
       (1 font-lock-keyword-face)
       (2 font-lock-constant-face nil t)))))
+;; module-loading-macros:1 ends here
 
-#+end_src
-
-* new universal use-package keyword
-
-COMPLETED IN LOCAL & FETCH.
-
-#+begin_src emacs-lisp
+;; [[file:Init.org::*new universal use-package keyword][new universal use-package keyword:1]]
 (progn
   (message "DEBUG: Name: %s" name)
   (message "DEBUG: Keyword: %s" keyword)
@@ -367,4 +317,4 @@ COMPLETED IN LOCAL & FETCH.
   (message "DEBUG: filteredRest: %s" filtered-rest)
   (message "DEBUG: State: %s" state)
   (message "DEBUG: Body: %s" body))
-#+end_src
+;; new universal use-package keyword:1 ends here
