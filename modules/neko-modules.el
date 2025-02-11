@@ -429,7 +429,7 @@
   ;; TODO: move elsewhere?:
   (use-package yasnippet
     :diminish yas-minor-mode
-    :hook (prog-mode . yas-minor-mode)
+    ;; :hook (prog-mode . yas-minor-mode)
     :config
     (yas-reload-all))
 
