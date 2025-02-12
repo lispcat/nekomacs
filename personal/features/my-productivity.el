@@ -151,7 +151,7 @@
 
                  (:name "?"
                         :anything t)
-                 
+
                  )))))))))
 
 (defun my/org-clone-with-fraction (days time effort)
@@ -161,6 +161,7 @@
     (read-number "How many days to complete it over?: ")
     (read-number "How many minutes do you expect this task to take?: ")
     (read-number "On a scale of 1-10, how much effort will this take?: ")))
+  (setq days (1- days))
   ;; create clones
   (org-clone-subtree-with-time-shift days "-1d")
   (org-set-property "TIME" (format "%s" time))
