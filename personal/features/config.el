@@ -95,6 +95,7 @@
   :config
   (defun my/prog-mode-whitespace ()
     (setq whitespace-style '(face trailing tabs tab-mark))
+    ;; (setq whitespace-style '(trailing tabs tab-mark))
     (whitespace-mode 1))
   :hook ((prog-mode . my/prog-mode-whitespace)
          (org-mode  . my/prog-mode-whitespace)

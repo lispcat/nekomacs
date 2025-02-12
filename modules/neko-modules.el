@@ -341,16 +341,16 @@
                 ;; ("C-j" . corfu-next)
                 ;; ("C-k" . corfu-previous)
                 ("TAB" . corfu-insert)
-                ([tab] . corfu-insert)	; TODO: why repeat??
+                ([tab] . corfu-insert)  ; TODO: why repeat??
                 ("RET" . nil)
                 ;; ("C-f" . corfu-insert)
                 )
     :custom
-    (corfu-cycle t)		    ; cycle bottom/top
-    (corfu-auto t)		    ; ?
-    (corfu-preview-current nil)	    ; dont insert text while searching
+    (corfu-cycle t)                 ; cycle bottom/top
+    (corfu-auto t)                  ; ?
+    (corfu-preview-current nil)     ; dont insert text while searching
     ;; (corfu-quit-at-boundary t)
-    (corfu-quit-no-match t)		; quit if no matches
+    (corfu-quit-no-match t)             ; quit if no matches
 
     :config
     (global-corfu-mode 1)
@@ -428,34 +428,36 @@
   ;; TODO: this is set up for eglot only, not lsp-mode
 
   ;; https://stackoverflow.com/questions/72601990/how-to-show-suggestions-for-yasnippets-when-using-eglot
-  ;; TODO: move elsewhere?:
-  (use-package yasnippet :fetch t
-    :diminish yas-minor-mode
-    ;; :hook (prog-mode . yas-minor-mode)
-    :config
-    (yas-reload-all))
 
-  (use-package yasnippet-snippets :fetch t
-    :after yasnippet)
+  ;; TODO: move elsewhere?:
+  ;; (use-package yasnippet :fetch t
+  ;;   :diminish yas-minor-mode
+  ;;   :hook (prog-mode . yas-minor-mode)
+  ;;   :config
+  ;;   (yas-reload-all))
+
+  ;; (use-package yasnippet-snippets :fetch t
+  ;;   :after yasnippet)
 
   ;; yasnippet completion-at-point support
-  (use-package yasnippet-capf :fetch t
-    :after cape yasnippet
-    :config
-    ;; enable yasnippet-capf everywhere
-    (progn
-      (add-to-list 'completion-at-point-functions #'yasnippet-capf))
-    ;; integrate yasnippet-capf with eglot completion
-    ;; (progn
-    ;;   (defun mi/eglot-capf-with-yasnippet ()
-    ;;     (setq-local completion-at-point-functions
-    ;;                 (list
-    ;; 		   (cape-capf-super
-    ;; 		    #'yasnippet-capf
-    ;; 		    #'eglot-completion-at-point))))
-    ;;   (with-eval-after-load 'eglot
-    ;;     (add-hook 'eglot-managed-mode-hook #'mi/eglot-capf-with-yasnippet)))
-    ))
+  ;; (use-package yasnippet-capf :fetch t
+  ;;   :after cape yasnippet
+  ;;   :config
+  ;;   ;; enable yasnippet-capf everywhere
+  ;;   (progn
+  ;;     (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+  ;;   ;; integrate yasnippet-capf with eglot completion
+  ;;   ;; (progn
+  ;;   ;;   (defun mi/eglot-capf-with-yasnippet ()
+  ;;   ;;     (setq-local completion-at-point-functions
+  ;;   ;;                 (list
+  ;;   ;;                     (cape-capf-super
+  ;;   ;;                      #'yasnippet-capf
+  ;;   ;;                      #'eglot-completion-at-point))))
+  ;;   ;;   (with-eval-after-load 'eglot
+  ;;   ;;     (add-hook 'eglot-managed-mode-hook #'mi/eglot-capf-with-yasnippet)))
+  ;;   )
+  )
 ;; Yasnippet:1 ends here
 
 ;; [[file:Modules.org::*IDE essentials][IDE essentials:1]]
