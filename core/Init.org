@@ -130,7 +130,6 @@ before running this, ensure that use-package is set up and a package manager wil
 ;; libs
 (require 'use-package-universal) ; enable :fetch and :local keywords
 (require 'use-package-benchmark) ; benchmarking use-package invocations
-
 (require 'neko-defvar-improved)  ; provide `+defvar' macro
 
 ;; install necessary packages with use-package
