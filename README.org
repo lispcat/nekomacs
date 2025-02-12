@@ -74,7 +74,7 @@ instead of ~neko/~, use ~neko-~, so it looks and feels more like a package rathe
 - and in my docs, i can have a listing of all the submodules of modules that add extra extra functionality, like java-eglot.el. And i can write an interactive function to search throught modules and jump to definitions!!!!!!
 
 
-- [ ] get rid of modules fil, use config.el in dir (or maybe a file for each dir and call it config-code.el
+- [X] get rid of modules fil, use config.el in dir (or maybe a file for each dir and call it config-code.el
 
 
 - [ ] create an examples dir, and make it so you can pass an arg to load the example (in case you bork your config).
@@ -114,11 +114,13 @@ https://github.com/thinkhuman/writingwithemacs
 
 - [ ] image-slicing, hook to reslice image after org-download image!!!
 
-- [ ] switch to core-new. idea: for init/modules-dependencies, move this over to a source file instead of a function, so that use-package general function will eval with no issue?
+- [X] switch to core-new. idea: for init/modules-dependencies, move this over to a source file instead of a function, so that use-package general function will eval with no issue?
 
-  - [ ] actually, lets just switch to libraries for Init.org instead of functions, to ensure that all necessary use-package declarations are evaluated now (still confused...)
+  - [X] actually, lets just switch to libraries for Init.org instead of functions, to ensure that all necessary use-package declarations are evaluated now (still confused...)
 
-  - [ ] ok i get the issue now, when the source file is require'd, the macros are expanded. however, the macros are not available at function define time. everything needs to be evaled before hand.
+  - [X] ok i get the issue now, when the source file is require'd, the macros are expanded. however, the macros are not available at function define time. everything needs to be evaled before hand.
+
+- [ ] Rename all neko/ stuff in init to init/ ?
 
 * Organization
 
