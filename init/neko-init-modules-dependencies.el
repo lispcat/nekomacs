@@ -3,10 +3,12 @@
 
 ;; ensure that a package manager is installed
 (unless init/pkg-manager-installed
-  (warn (concat "In funcall `init/modules-dependencies', a package manager "
-                "is not installed (`init/pkg-manager-installed' is nil), "
-                "installing straight.el"))
-  (init/install-pkg-manager-straight))
+  (if (y-or-n-p (concat "In loading `neko-init-modules-dependencies', "
+                        "the `init/pkg-manager-installed' variable is nil."
+                        "Fall back to straght.el instead?"))
+      (init/install-pkg-manager-straight)
+    (error "The `init/pkg-manager-installed' was nil when loading `neko-init-modules-dependencies'.
+Consider tweaking the `neko/init-require' variable.")))
 
 ;; enable use-package
 ;; (straight-use-package 'use-package) ;; unnecessary
@@ -15,7 +17,6 @@
 ;; libs
 (require 'use-package-universal) ; enable :fetch and :local keywords
 (require 'use-package-benchmark) ; benchmarking use-package invocations
-
 (require 'neko-defvar-improved)  ; provide `+defvar' macro
 
 ;; install necessary packages with use-package
@@ -28,26 +29,18 @@
 ;;   :prefix "C-c")
 
 (use-package general
-  ;; :fetch t
+  :fetch t
   :demand t
   :config
-  ;; (require 'general)
-  (message "DEBUG: MEOWWW")
   (general-create-definer neko/leader-definer
     :prefix "C-c"))
 
-;; (straight-use-package 'diminish)
-
 (use-package diminish
-  ;; :fetch t
+  :fetch t
   :demand t)
 
-;; (straight-use-package 'which-key)
-;; (setq which-key-idle-delay 0.3)
-;; (which-key-mode 1)
-
 (use-package which-key
-  ;; :fetch t
+  :fetch t
   :demand t
   :diminish which-key-mode
   :config

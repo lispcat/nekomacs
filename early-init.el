@@ -48,7 +48,7 @@
    (file-name-directory
     (file-truename
      (or load-file-name buffer-file-name)))))
-(defvar neko-core-dir (concat neko-root-dir "core/"))
+(defvar neko-init-dir (concat neko-root-dir "init/"))
 (defvar neko-modules-dir (concat neko-root-dir "modules/"))
 (defvar neko-personal-dir (concat neko-root-dir "personal/"))
 (defvar neko-local-dir (concat neko-root-dir "local/"))

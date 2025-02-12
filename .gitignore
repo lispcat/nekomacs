@@ -8,8 +8,8 @@
 !docs/
 !docs/**
 
-!core/
-!core/**
+!init/
+!init/**
 !modules/
 !modules/**
 !personal/
