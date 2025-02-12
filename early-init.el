@@ -57,8 +57,6 @@
 
 ;;; User-side variables:
 
-;; package manager
-(defvar neko-package-manager 'straight)
 ;; benchmark
 (defvar use-package-benchmark-by-default nil)
 ;; increase gc freq after init
@@ -67,11 +65,13 @@
 (defvar neko-transparency-value 100) ; (100 = no transparency).
 
 ;; which init functions to load
-(defvar neko/init-functions
-  '(init/no-littering
-    init/install-pkg-manager-straight
-    init/modules-dependencies
-    init/post-init))
+(defvar neko/init-require--default
+  '(neko-init-no-littering
+    neko-init-pkg-mgr-straight
+    neko-init-modules-dependencies
+    neko-init-post-init))
+(defvar neko/init-require neko/init-require--default
+  "A list of libraries to load with `require' at init.")
 
 ;;; User-side functions:
 

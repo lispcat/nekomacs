@@ -1,5 +1,5 @@
 #+title: Init
-#+property: header-args :tangle neko-init.el :comments link
+#+property: header-args :comments link
 
 * Table of Contents :TOC_4:
 - [[#notes][notes]]
@@ -9,7 +9,6 @@
 - [[#install-a-package-manager][install a package manager]]
 - [[#necessary-for-modules][necessary for Modules]]
 - [[#post-init][post-init]]
-- [[#end][end]]
 
 * notes
 
@@ -23,123 +22,165 @@
 * Example working setup
 
 #+begin_src emacs-lisp :tangle no
-(setq neko/init-functions
+(setq neko/init-require
       '(
-        init/no-littering
-        init/install-pkg-manager-straight
-        init/modules-dependencies
-        init/post-init
+        neko-init-no-littering
+        neko-init-pkg-mgr-straight
+        neko-init-modules-dependencies
+        neko-init-post-init
         ))
 #+end_src
 
 * load no-littering
 
-#+begin_src emacs-lisp
-(defun init/no-littering ()
-  ;; load
-  (require 'no-littering)
+#+begin_src emacs-lisp :tangle neko-init-no-littering.el
+;; load
+(require 'no-littering)
 
-  ;; variables
-  (setq auto-save-default nil)       ; don't autosave all file buffers
-  (setq backup-by-copying t)         ; safer backups
-  (setq undo-tree-auto-save-history nil) ; TODO: is this value saved when undo-tree is loaded?
+;; variables
+(setq auto-save-default nil)       ; don't autosave all file buffers
+(setq backup-by-copying t)         ; safer backups
+(setq undo-tree-auto-save-history nil) ; TODO: is this value saved when undo-tree is loaded?
 
-  ;; Dont litter project folders with backup files
-  (let ((backup-dir (no-littering-expand-var-file-name "backup/")))
-    (make-directory backup-dir t)
-    (setq backup-directory-alist
-          `(("\\`/tmp/" . nil)
-            ("\\`/dev/shm/" . nil)
-            ("." . ,backup-dir))))
+;; Dont litter project folders with backup files
+(let ((backup-dir (no-littering-expand-var-file-name "backup/")))
+  (make-directory backup-dir t)
+  (setq backup-directory-alist
+        `(("\\`/tmp/" . nil)
+          ("\\`/dev/shm/" . nil)
+          ("." . ,backup-dir))))
 
-  ;; Tidy up auto-save files
-  (let ((auto-save-dir (no-littering-expand-var-file-name "auto-save/")))
-    (make-directory auto-save-dir t)
-    (setq auto-save-file-name-transforms
-          `(("\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'"
-             ,(concat (file-name-as-directory temporary-file-directory) "\\2") t)
-            ("\\`/tmp\\([^/]*/\\)*\\(.*\\)\\'" "\\2")
-            ("\\`/dev/shm\\([^/]*/\\)*\\(.*\\)\\'" "\\2")
-            ("." ,auto-save-dir t)))))
+;; Tidy up auto-save files
+(let ((auto-save-dir (no-littering-expand-var-file-name "auto-save/")))
+  (make-directory auto-save-dir t)
+  (setq auto-save-file-name-transforms
+        `(("\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'"
+           ,(concat (file-name-as-directory temporary-file-directory) "\\2") t)
+          ("\\`/tmp\\([^/]*/\\)*\\(.*\\)\\'" "\\2")
+          ("\\`/dev/shm\\([^/]*/\\)*\\(.*\\)\\'" "\\2")
+          ("." ,auto-save-dir t))))
+
+(provide 'neko-init-no-littering)
 #+end_src
 
 * install a package manager
 
-#+begin_src emacs-lisp
-(defvar init/pkg-manager-installed nil)
+: (setq init/pkg-manager-installed t)
 
-(defun init/install-pkg-manager-straight ()
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-         (expand-file-name
-          "straight/repos/straight.el/bootstrap.el"
-          (or (bound-and-true-p straight-base-dir)
-              user-emacs-directory)))
-        (bootstrap-version 7))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
-  ;; use-package ":straight t" by default
-  (setq straight-use-package-by-default t)
-  ;; indicate that a package manager has been installed
-  (setq init/pkg-manager-installed t))
+#+begin_src emacs-lisp :tangle neko-init-pkg-mgr-straight.el
+;;; --- install straight.el --- ;;;
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+;; use-package ":straight t" by default
+(setq straight-use-package-by-default t)
 
-(defun init/install-pkg-manager-package ()
-  (require 'package)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (package-initialize)
-  (unless package-archive-contents
-    (package-refresh-contents))
-  ;; use-package ":ensure t" by default
-  (setq use-package-always-ensure t)
-  ;; indicate that a package manager has been installed
-  (setq init/pkg-manager-installed t))
+;; indicate that a package manager has been installed
+(setq init/pkg-manager-installed t)
+
+(provide 'neko-init-pkg-mgr-straight)
+#+end_src
+
+#+begin_src emacs-lisp :tangle neko-init-pkg-mgr-package.el
+;;; --- set up package.el --- ;;;
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
+;; use-package ":ensure t" by default
+(setq use-package-always-ensure t)
+
+;; indicate that a package manager has been installed
+(setq init/pkg-manager-installed t)
+
+(provide 'neko-init-pkg-mgr-package)
 #+end_src
 
 * necessary for Modules
 
 before running this, ensure that use-package is set up and a package manager will be used in the backend by default
-#+begin_src emacs-lisp
-(defun init/modules-dependencies ()
-  ;; ensure that a package manager is installed
-  (unless init/pkg-manager-installed
-    (warn (concat "In funcall `init/modules-dependencies', a package manager "
-                  "is not installed (`init/pkg-manager-installed' is nil), "
-                  "installing straight.el"))
-    (init/install-pkg-manager-straight))
+#+begin_src emacs-lisp :tangle neko-init-modules-dependencies.el
+;;; --- do the bare minimum that's required for the modules --- ;;;
 
-  ;; enable use-package
-  ;; (straight-use-package 'use-package) ;; unnecessary
-  (require 'use-package)
+;; ensure that a package manager is installed
+(unless init/pkg-manager-installed
+  (warn (concat "In funcall `init/modules-dependencies', a package manager "
+                "is not installed (`init/pkg-manager-installed' is nil), "
+                "installing straight.el"))
+  (init/install-pkg-manager-straight))
 
-  ;; libs
-  (require 'use-package-universal) ; enable :fetch and :local keywords
-  (require 'use-package-benchmark) ; benchmarking use-package invocations
+;; enable use-package
+;; (straight-use-package 'use-package) ;; unnecessary
+(require 'use-package)
 
-  (require 'neko-defvar-improved)  ; provide `+defvar' macro
+;; libs
+(require 'use-package-universal) ; enable :fetch and :local keywords
+(require 'use-package-benchmark) ; benchmarking use-package invocations
 
-  ;; install necessary packages with use-package
-  (require 'neko-modules-dependencies))
+(require 'neko-defvar-improved)  ; provide `+defvar' macro
+
+;; install necessary packages with use-package
+
+;; --- Packages: ---
+
+;; todo: support evil leader key (has to be set in early-config?)
+;; (straight-use-package 'general)
+;; (general-create-definer neko/leader-definer
+;;   :prefix "C-c")
+
+(use-package general
+  ;; :fetch t
+  :demand t
+  :config
+  ;; (require 'general)
+  (message "DEBUG: MEOWWW")
+  (general-create-definer neko/leader-definer
+    :prefix "C-c"))
+
+;; (straight-use-package 'diminish)
+
+(use-package diminish
+  ;; :fetch t
+  :demand t)
+
+;; (straight-use-package 'which-key)
+;; (setq which-key-idle-delay 0.3)
+;; (which-key-mode 1)
+
+(use-package which-key
+  ;; :fetch t
+  :demand t
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 0.3)
+  (which-key-mode 1))
+
+
+(provide 'neko-init-modules-dependencies)
 #+end_src
 
 * post-init
 
-#+begin_src emacs-lisp
-(defun init/post-init ()
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (message "*** Emacs loaded in %s seconds with %d garbage collections."
-                       (emacs-init-time "%.2f")
-                       gcs-done))))
-#+end_src
+#+begin_src emacs-lisp :tangle neko-init-post-init.el
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "*** Emacs loaded in %s seconds with %d garbage collections."
+                     (emacs-init-time "%.2f")
+                     gcs-done)))
 
-* end
-
-#+begin_src emacs-lisp
-(provide 'neko-init)
+(provide 'neko-init-post-init)
 #+end_src

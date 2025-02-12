@@ -37,17 +37,31 @@
 ;;; load core files (lexigraphically load all core files that are
 ;;; prefixed by two numbers.)
 
-(+safe-progn
-  (require 'neko-init))
+;; whether a package manager is installed
+(defvar init/pkg-manager-installed nil)
 
-;; (dolist (f neko/init-functions)
-;;   (funcall f)
-;;   (message "DEBUG: called %s" f))
+;; (+safe-progn
+;;   (require 'neko-init))
 
-(init/no-littering)
-(init/install-pkg-manager-straight)
-(init/modules-dependencies)
-(init/post-init)
+(defun neko/init-require-process ()
+  (dolist (lib neko/init-require)
+    (require lib)))
+
+(condition-case-unless-debug e
+    (neko/init-require-process)
+  (error
+   (if (not (yes-or-no-p (concat "Error in init when processing `neko/init-require':"
+                                 "\n" (error-message-string e) "\n"
+                                 "Re-try with `neko/init-require--default'?")))
+       (signal (car e) (cdr e))
+     (setq neko/init-require neko/init-require--default)
+     (neko/init-require-process))))
+
+
+;; (init/no-littering)
+;; (init/install-pkg-manager-straight)
+;; (init/modules-dependencies)
+;; (init/post-init)
 
 ;; (let* ((dir neko-core-dir)
 ;;        (paths (sort (directory-files dir t "^[0-9][0-9]-.*$") #'string<)))
