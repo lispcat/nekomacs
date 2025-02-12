@@ -73,9 +73,6 @@
     (magit-run-git "apply" "--reject" "--whitespace=fix" "--recount"
 		   (expand-file-name file))))
 
-;; avy
-(use-package avy
-  :bind ("C-c j" . avy-goto-char))
 
 
 ;; spellchecking

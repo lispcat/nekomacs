@@ -49,6 +49,8 @@
 ;; (m/meow-qwerty)
 (m/meow-dvp)
 
+(m/avy)
+
 ;;; UI
 
 (m/theme)

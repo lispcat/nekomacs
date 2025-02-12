@@ -49,6 +49,7 @@
     - [[#meow][Meow]]
       - [[#meow-qwerty][meow-qwerty]]
       - [[#meow-dvp][meow-dvp]]
+  - [[#avy][avy]]
 - [[#ui][UI]]
   - [[#theme][theme]]
   - [[#transparency][transparency]]
@@ -1069,6 +1070,17 @@ https://github.com/emacs-rustic/rustic
    )
 
   (meow-global-mode 1))
+#+end_src
+
+** avy
+
+#+begin_src emacs-lisp
+(defun m/theme ()
+  ;; avy
+  (use-package avy
+    :general
+    (neko/leader-definer
+      "j" 'avy-goto-char)))
 #+end_src
 
 * UI

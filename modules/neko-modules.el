@@ -875,6 +875,15 @@
   (meow-global-mode 1))
 ;; meow-dvp:1 ends here
 
+;; [[file:Modules.org::*avy][avy:1]]
+(defun m/theme ()
+  ;; avy
+  (use-package avy
+    :general
+    (neko/leader-definer
+      "j" 'avy-goto-char)))
+;; avy:1 ends here
+
 ;; [[file:Modules.org::*theme][theme:1]]
 (defun m/theme ()
   ;; Install themes
