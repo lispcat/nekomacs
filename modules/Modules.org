@@ -50,6 +50,7 @@
       - [[#meow-qwerty][meow-qwerty]]
       - [[#meow-dvp][meow-dvp]]
   - [[#avy][avy]]
+  - [[#spellcheck][spellcheck]]
 - [[#ui][UI]]
   - [[#theme][theme]]
   - [[#transparency][transparency]]
@@ -1081,6 +1082,17 @@ https://github.com/emacs-rustic/rustic
     :general
     (neko/leader-definer
       "j" 'avy-goto-char)))
+#+end_src
+
+** spellcheck
+
+#+begin_src emacs-lisp
+(defun m/spellcheck ()
+  ;; spellchecking
+  (use-package jinx
+    :hook (org-mode markdown-mode text-mode)
+    :bind (("M-$" . jinx-correct)
+           ("C-M-$" . jinx-languages))))
 #+end_src
 
 * UI

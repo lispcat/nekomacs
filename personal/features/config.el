@@ -74,13 +74,6 @@
 		   (expand-file-name file))))
 
 
-
-;; spellchecking
-(use-package jinx
-  :hook (org-mode markdown-mode text-mode)
-  :bind (("M-$" . jinx-correct)
-	 ("C-M-$" . jinx-languages)))
-
 ;; origami ?
 
 (use-package origami)

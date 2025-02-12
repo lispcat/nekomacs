@@ -50,6 +50,7 @@
 (m/meow-dvp)
 
 (m/avy)
+(m/spellcheck)
 
 ;;; UI
 

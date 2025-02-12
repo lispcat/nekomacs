@@ -884,6 +884,15 @@
       "j" 'avy-goto-char)))
 ;; avy:1 ends here
 
+;; [[file:Modules.org::*spellcheck][spellcheck:1]]
+(defun m/spellcheck ()
+  ;; spellchecking
+  (use-package jinx
+    :hook (org-mode markdown-mode text-mode)
+    :bind (("M-$" . jinx-correct)
+           ("C-M-$" . jinx-languages))))
+;; spellcheck:1 ends here
+
 ;; [[file:Modules.org::*theme][theme:1]]
 (defun m/theme ()
   ;; Install themes
