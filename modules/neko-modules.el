@@ -15,21 +15,23 @@
 ;; [[file:Modules.org::*Buffers][Buffers:1]]
 (defun m/buffers ()
   ;; revert buffer when its file is changed on the filesystem
-  (use-package autorevert
-    :local t
+  (use-package autorevert :local t
     :diminish autorevert-mode
     :init
     (global-auto-revert-mode 1)
     :custom
     (global-auto-revert-non-file-buffers t)
     (auto-revert-interval 5))
+
+  (defalias 'neko/last-selected-buffer 'mode-line-other-buffer)
+
   (neko/leader-definer
     "k" 'kill-current-buffer
     "b" '(:ignore t :which-key "buffer")
     "bk" 'kill-current-buffer
     "bn" 'next-buffer
     "bp" 'previous-buffer
-    "bo" '(mode-line-other-buffer :which-key "last-buffer")
+    "bo" '(neko/last-selected-buffer :which-key "last-buffer")
     "bb" 'switch-to-buffer
     "bs" 'save-buffer))
 ;; Buffers:1 ends here
@@ -37,16 +39,16 @@
 ;; [[file:Modules.org::*History][History:1]]
 (defun m/history ()
   ;; remember recent files
-  (use-package recentf
+  (use-package recentf :fetch t
     :local t
     :hook (emacs-startup . recentf-mode))
   ;; go to previous location in file when reopening
-  (use-package saveplace
+  (use-package saveplace :fetch t
     :local t
     :config
     (save-place-mode 1))
   ;; persist minibuffer history over restarts
-  (use-package savehist
+  (use-package savehist :fetch t
     :local t
     :config
     (savehist-mode 1)))
@@ -54,7 +56,7 @@
 
 ;; [[file:Modules.org::*Windows][Windows:1]]
 (defun m/windows ()
-  (use-package ace-window
+  (use-package ace-window :fetch t
     :custom
     (aw-scope 'frame)
     (aw-background nil)
@@ -63,6 +65,7 @@
     :bind
     ("M-o" . ace-window)        ; Improved window switching with "M-o"
     )
+
   (neko/leader-definer
     "w" '(:ignore t :which-key "window")
     "wd" 'delete-window
@@ -84,8 +87,7 @@
 ;; [[file:Modules.org::*Dired][Dired:1]]
 (defun m/dired ()
   ;; TODO: add to guide: "(" to show details
-  (use-package dired
-    :local t
+  (use-package dired :local t
     :custom
     (dired-listing-switches "-Ahl --group-directories-first -X") ; -o is -l without groups
     (dired-auto-revert-buffer t) ; auto update file changes
@@ -117,7 +119,7 @@
 
 ;; [[file:Modules.org::*Helpful][Helpful:1]]
 (defun m/helpful ()
-  (use-package helpful
+  (use-package helpful :fetch t
     :custom
     (counsel-describe-function-function #'helpful-callable)
     (counsel-describe-variable-function #'helpful-variable)
@@ -147,7 +149,7 @@
   ;;
   ;; a framework for minibuffer completion
   ;; (https://github.com/minad/vertico)
-  (use-package vertico
+  (use-package vertico :fetch t
     :init
     (vertico-mode 1)
     ;; :custom
@@ -157,7 +159,7 @@
     ;; (vertico-cycle t) ; Enable cycling for `vertico-next/previous'
     )
   ;; A few more useful configurations...
-  (use-package emacs
+  (use-package emacs :local t
     :init
     ;; Support opening new minibuffers from inside existing minibuffers.
     (setq enable-recursive-minibuffers t)
@@ -184,7 +186,7 @@
 
 ;; [[file:Modules.org::*Cape][Cape:1]]
 (defun m/cape ()
-  (use-package cape
+  (use-package cape :fetch t
     :demand t
     ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
     ;; Press C-c p ? to for help.
@@ -212,7 +214,7 @@
 ;; [[file:Modules.org::*Consult][Consult:1]]
 (defun m/consult ()
 
-  (use-package consult
+  (use-package consult :fetch t
     :bind (;; C-c bindings in `mode-specific-map'
            ("C-c M-x" . consult-mode-command)
            ;; ("C-c )" . consult-kmacro)
@@ -279,7 +281,7 @@
       "s" search-map))
 
   ;; used to go to a file in a bookmarked dir n stuff (one ex)
-  (use-package consult-dir
+  (use-package consult-dir :fetch t
     :general
     (neko/leader-definer
       "fd" 'consult-dir)
@@ -333,7 +335,7 @@
 ;; [[file:Modules.org::*Corfu][Corfu:1]]
 ;; Docs: use M-SPC for separator
 (defun m/corfu ()
-  (use-package corfu
+  (use-package corfu :fetch t
     :demand t
     :bind (:map corfu-map
                 ;; ("C-j" . corfu-next)
@@ -365,7 +367,7 @@
 
 ;; [[file:Modules.org::*Embark][Embark:1]]
 (defun m/embark ()
-  (use-package embark
+  (use-package embark :fetch t
     :bind
     (("C-." . embark-act)
      ("C-;" . embark-dwim)
@@ -393,7 +395,7 @@
 
 ;; [[file:Modules.org::*Embark-Consult][Embark-Consult:1]]
 (defun m/embark-consult ()
-  (use-package embark-consult
+  (use-package embark-consult :fetch t
     :after (embark consult)
     :hook
     (embark-collect-mode . consult-preview-at-point-mode)))
@@ -401,7 +403,7 @@
 
 ;; [[file:Modules.org::*Marginalia][Marginalia:1]]
 (defun m/marginalia ()
-  (use-package marginalia
+  (use-package marginalia :fetch t
     :bind
     (:map minibuffer-local-map     ("M-A" . marginalia-cycle))
     (:map completion-list-mode-map ("M-A" . marginalia-cycle))
@@ -411,7 +413,7 @@
 
 ;; [[file:Modules.org::*Orderless][Orderless:1]]
 (defun m/orderless ()
-  (use-package orderless
+  (use-package orderless :fetch t
     :custom
     ;; Configure a custom style dispatcher (see the Consult wiki)
     ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
@@ -427,17 +429,17 @@
 
   ;; https://stackoverflow.com/questions/72601990/how-to-show-suggestions-for-yasnippets-when-using-eglot
   ;; TODO: move elsewhere?:
-  (use-package yasnippet
+  (use-package yasnippet :fetch t
     :diminish yas-minor-mode
     ;; :hook (prog-mode . yas-minor-mode)
     :config
     (yas-reload-all))
 
-  (use-package yasnippet-snippets
+  (use-package yasnippet-snippets :fetch t
     :after yasnippet)
 
   ;; yasnippet completion-at-point support
-  (use-package yasnippet-capf
+  (use-package yasnippet-capf :fetch t
     :after cape yasnippet
     :config
     ;; enable yasnippet-capf everywhere
@@ -461,12 +463,11 @@
   (setq-default indent-tabs-mode nil)
   (setq tab-always-indent 'complete) ; test
 
-  (use-package compile
-    :local t
+  (use-package compile :local t
     :custom
     (compilation-scroll-output t))
 
-  (use-package flycheck
+  (use-package flycheck :fetch t
     :defer t
     :config
     (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
@@ -474,13 +475,13 @@
 
 ;; [[file:Modules.org::*eglot][eglot:1]]
 (defun m/eglot ()
-  (use-package eglot
+  (use-package eglot :fetch t
     :defer t))
 ;; eglot:1 ends here
 
 ;; [[file:Modules.org::*lsp-mode][lsp-mode:1]]
 (defun m/lsp-mode ()
-  (use-package lsp-mode
+  (use-package lsp-mode :fetch t
     :defer t
     :commands (lsp lsp-deferred)
     ;; bind "C-c l" to lsp-command-map
@@ -494,7 +495,7 @@
   ;; TODO: move this to corfu ?
   ;; if corfu is installed
   ;; (https://github.com/minad/corfu/wiki#configuring-corfu-for-lsp-mode)
-  (use-package lsp-mode
+  (use-package lsp-mode :fetch t
     :defer t
     :after corfu
     :hook (lsp-completion-mode . my/lsp-mode-setup-completion)
@@ -510,8 +511,7 @@
 
 ;; [[file:Modules.org::*essentials][essentials:1]]
 (defun m/lang-essentials ()
-  (use-package elec-pair
-    :local t
+  (use-package elec-pair :local t
     :config
     ;; disable "<" pair expansion
     (add-hook 'org-mode-hook
@@ -527,33 +527,33 @@
 
 ;; [[file:Modules.org::*elisp][elisp:1]]
 (defun m/lang-elisp ()
-  (use-package rainbow-delimiters
+  (use-package rainbow-delimiters :fetch t
     :hook emacs-lisp-mode))
 ;; elisp:1 ends here
 
 ;; [[file:Modules.org::*java (eglot)][java (eglot):1]]
 (defun m/lang-java-eglot ()
-  (use-package eglot-java
+  (use-package eglot-java :fetch t
     :defer t))
 ;; java (eglot):1 ends here
 
 ;; [[file:Modules.org::*java (lsp-mode)][java (lsp-mode):1]]
 (defun m/lang-java-lsp-mode ()
-  (use-package lsp-java
+  (use-package lsp-java :fetch t
     :config
     (add-hook 'java-mode-hook #'lsp)))
 ;; java (lsp-mode):1 ends here
 
 ;; [[file:Modules.org::*lisp for advanced lispers][lisp for advanced lispers:1]]
 (defun m/lang-lisp-advanced ()
-  (use-package paredit
+  (use-package paredit :fetch t
     :hook emacs-lisp-mode scheme-mode ; TODO: do this better
     ))
 ;; lisp for advanced lispers:1 ends here
 
 ;; [[file:Modules.org::*markdown][markdown:1]]
 (defun m/lang-markdown ()
-  (use-package markdown-mode
+  (use-package markdown-mode :fetch t
     :mode (("README\\.md\\'" . gfm-mode)
            ("\\.md\\'" . markdown-mode))
     :config
@@ -568,7 +568,7 @@
 
 ;; [[file:Modules.org::*rust][rust:1]]
 (defun m/lang-rust ()
-  (use-package rustic
+  (use-package rustic :fetch t
     :defer t
     :custom
     (rustic-cargo-use-last-stored-arguments t) ; ?
@@ -579,21 +579,20 @@
 
 ;; [[file:Modules.org::*scheme][scheme:1]]
 (defun m/lang-scheme ()
-  (use-package rainbow-delimiters
+  (use-package rainbow-delimiters :fetch t
     :hook scheme-mode)
 
-  (use-package scheme-mode
-    :local t
+  (use-package scheme-mode :local t
     :mode "\\.sld\\'")
 
-  (use-package geiser
+  (use-package geiser :fetch t
     :defer t
     :custom
     (geiser-default-implementation 'guile)
     (geiser-active-implementations '(guile))
     (geiser-implementations-alist '(((regexp "\\.scm$") guile))))
 
-  (use-package geiser-guile
+  (use-package geiser-guile :fetch t
     :after geiser)
   )
 ;; scheme:1 ends here
@@ -607,7 +606,7 @@
     (org-meta-return)
     (org-metaright))
 
-  (use-package org
+  (use-package org :fetch t
     :custom
     (org-hide-emphasis-markers t) ; hide formatting chars (* / ~ = etc)
     ;; (org-src-preserve-indentation t) ; no space at front of code blocks
@@ -619,8 +618,7 @@
                 ("C-M-<return>"
                  . neko/org-insert-subheading-respect-content)))
 
-  (use-package org-tempo
-    :local t
+  (use-package org-tempo :local t
     :after org
     :config
     ;; TODO: move most of these elsewhere, userside?
@@ -631,8 +629,7 @@
 
 ;; [[file:Modules.org::*org-agenda][org-agenda:1]]
 (defun m/org-agenda ()
-  (use-package org-agenda
-    :local t
+  (use-package org-agenda :local t
     :after org
     :general
     (neko/leader-definer
@@ -996,7 +993,7 @@
 ;; [[file:Modules.org::*scroll][scroll:1]]
 (defun m/scroll ()
   ;; Improve scroll
-  (use-package emacs
+  (use-package emacs :local t
     :custom
     ;; (auto-window-vscroll nil) ; TODO: what does this do?
     (scroll-preserve-screen-position t) ; keep point in same position while scrolling
@@ -1014,7 +1011,7 @@
 
 ;; [[file:Modules.org::*eat][eat:1]]
 (defun m/term-eat ()
-  (use-package eat
+  (use-package eat :fetch t
     :defer t
     :config
     (setq eat-term-name "xterm-256color")
@@ -1026,7 +1023,7 @@
 
 ;; [[file:Modules.org::*git client][git client:1]]
 (defun m/magit ()
-  (use-package magit
+  (use-package magit :fetch t
     ;; :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
     :defer t
     :general
@@ -1036,14 +1033,14 @@
 
 ;; [[file:Modules.org::*pdf reader][pdf reader:1]]
 (defun m/pdf-tools ()
-  (use-package pdf-tools
+  (use-package pdf-tools :fetch t
     :init
     (pdf-loader-install))) ; On demand loading, leads to faster startup time
 ;; pdf reader:1 ends here
 
 ;; [[file:Modules.org::*server][server:1]]
 (defun m/server ()
-  (use-package server
+  (use-package server :local t
     :config
     ;; start server at first startup
     (defun ne/start-server-if-not-running ()
