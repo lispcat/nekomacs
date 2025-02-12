@@ -5,9 +5,9 @@
   :local t
   :after dired
   :bind (:map dired-mode-map
-	      ("h" . dired-up-directory)
-	      ("s" . dired-find-file)
-	      ("r" . dired-sort-toggle-or-edit)))
+              ("h" . dired-up-directory)
+              ("s" . dired-find-file)
+              ("r" . dired-sort-toggle-or-edit)))
 
 (use-package ace-window
   :local t

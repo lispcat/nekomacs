@@ -34,9 +34,6 @@
   :config
   (setq org-directory "~/Notes/org")
   (setq org-tags-column -55)
-  (setq org-src-preserve-indentation t)
-  (setq org-return-follows-link t)
-  (setq org-src-window-setup 'current-window)
   ;; set org font sizes
   (dolist (pair '((org-document-title :height 1.9 :weight bold)
                   (org-level-1 :height 1.7 :weight bold)
@@ -49,15 +46,15 @@
   :hook org-mode
   :config
   (setq org-bullets-bullet-list
-	'("◉"
-	  "●"
-	  "○"
-	  "■"
-	  "□"
-	  "✦"
-	  "✧"
-	  "✿"
-	  )))
+        '("◉"
+          "●"
+          "○"
+          "■"
+          "□"
+          "✦"
+          "✧"
+          "✿"
+          )))
 
 (use-package org-tempo
   :local t
@@ -102,7 +99,7 @@
     :select #'point-marker
     :from (current-buffer)
     :where '(and (or (property "ANKI_NOTE_ID")
-		     (property "ANKI_NOTE_TYPE"))
+                     (property "ANKI_NOTE_TYPE"))
                  (not (priority)))))
 
 (defun my/org-get-point-summary-root ()
@@ -117,56 +114,56 @@ It also cleans up anki headings that don't have a priority value."
   (when (y-or-n-p "Update subtree of heading 'Summary' with headings with priority?")
     (let ((summary-predicate '(and (heading "Summary") (level 1))))
       (save-excursion
-	;; check anki connection
-	(anki-editor-api-check)
-	
-	;; anki-editor-delete-note-at-point for all anki headings without a priority
-	(let ((points-anki-but-not-priority
-	       (my/org-get-points-query '(and (or (property "ANKI_NOTE_ID")
-						  (property "ANKI_NOTE_TYPE"))
-					      (not (priority))))))
-	  (dolist (m (reverse points-anki-but-not-priority))
-	    (goto-char m)
-	    (when (org-find-property "ANKI_NOTE_ID")
-	      (anki-editor-delete-note-at-point))
-	    (when (org-find-property "ANKI_NOTE_TYPE")
-	      (org-delete-property "ANKI_NOTE_TYPE"))))
+        ;; check anki connection
+        (anki-editor-api-check)
 
-	;; clear summary heading
-	(if-let ((target (my/org-get-point-summary-root)))
-	    (progn
-	      (goto-char target)
-	      (forward-line)
-	      ;; If Summary exists, delete its contents
+        ;; anki-editor-delete-note-at-point for all anki headings without a priority
+        (let ((points-anki-but-not-priority
+               (my/org-get-points-query '(and (or (property "ANKI_NOTE_ID")
+                                                  (property "ANKI_NOTE_TYPE"))
+                                              (not (priority))))))
+          (dolist (m (reverse points-anki-but-not-priority))
+            (goto-char m)
+            (when (org-find-property "ANKI_NOTE_ID")
+              (anki-editor-delete-note-at-point))
+            (when (org-find-property "ANKI_NOTE_TYPE")
+              (org-delete-property "ANKI_NOTE_TYPE"))))
+
+        ;; clear summary heading
+        (if-let ((target (my/org-get-point-summary-root)))
+            (progn
+              (goto-char target)
+              (forward-line)
+              ;; If Summary exists, delete its contents
               (let ((start (point)))
-		(org-end-of-subtree)
-		(delete-region start (point))))
-	  ;; If Summary doesn't exist, create it
+                (org-end-of-subtree)
+                (delete-region start (point))))
+          ;; If Summary doesn't exist, create it
           (goto-char (point-max))
           (insert "* Summary"))
-	
-	;; set all priority headings to use anki default note type
-	(dolist (m (reverse (my/org-get-points-query '(priority))))
-	  (goto-char m)
-	  (anki-editor-set-note-type nil "Basic"))
-	
-	;; refile copy each heading to summary
-	;; no need to reverse list here
-	(dolist (m (my/org-get-points-query '(priority)))
-	  (goto-char m)
-	  (let ((org-refile-keep t)
-		(rfloc (list "Summary" (buffer-file-name) nil
-			     (my/org-get-point-summary-root))))
-	    (org-refile nil nil rfloc "Copy")
-	    (set-marker m nil)))
-	
-	;; delete anki properties below summary-pos
-	(let ((summary-marker (my/org-get-point-summary-root)))
-	  (delete-matching-lines ":ANKI_NOTE_TYPE:" summary-marker (point-max))
-	  (delete-matching-lines ":ANKI_NOTE_ID:" summary-marker (point-max)))
-	
-	;; done
-	(message "done")))))
+
+        ;; set all priority headings to use anki default note type
+        (dolist (m (reverse (my/org-get-points-query '(priority))))
+          (goto-char m)
+          (anki-editor-set-note-type nil "Basic"))
+
+        ;; refile copy each heading to summary
+        ;; no need to reverse list here
+        (dolist (m (my/org-get-points-query '(priority)))
+          (goto-char m)
+          (let ((org-refile-keep t)
+                (rfloc (list "Summary" (buffer-file-name) nil
+                             (my/org-get-point-summary-root))))
+            (org-refile nil nil rfloc "Copy")
+            (set-marker m nil)))
+
+        ;; delete anki properties below summary-pos
+        (let ((summary-marker (my/org-get-point-summary-root)))
+          (delete-matching-lines ":ANKI_NOTE_TYPE:" summary-marker (point-max))
+          (delete-matching-lines ":ANKI_NOTE_ID:" summary-marker (point-max)))
+
+        ;; done
+        (message "done")))))
 
 
 ;;; latex setup
@@ -242,8 +239,8 @@ It makes sense to do so if `org-cdlatex-mode' is active and if the cursor is
 ;;                      #'cape-dict)))
 ;;   ;; Optional: Configure Corfu for immediate activation in LaTeX contexts
 ;;   (setq-local corfu-auto t
-;; 	      corfu-auto-delay 0.2
-;; 	      corfu-auto-prefix 2))
+;;            corfu-auto-delay 0.2
+;;            corfu-auto-prefix 2))
 
 ;; ;; ;; Add to org-mode-hook
 ;; (add-hook 'org-mode-hook #'my/setup-latex-completion)
@@ -260,7 +257,6 @@ It makes sense to do so if `org-cdlatex-mode' is active and if the cursor is
 
 ;;; JUST ONE PROBLEM: meow mode cursor doesnt work.
 
-(add-to-list 'load-path (expand-file-name "vendor/image-slicing" neko-root-dir))
 (require 'image-slicing)
 (setq image-slicing-newline-trailing-text nil)
 (add-hook 'org-mode-hook #'image-slicing-mode)

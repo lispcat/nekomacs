@@ -13,8 +13,8 @@
   :defer t
   :config
   (setq eat-shell
-	(concat (or explicit-shell-file-name
-		    (getenv "ESHELL")
-		    shell-file-name)
-		" -c tmux")))
+        (concat (or explicit-shell-file-name
+                    (getenv "ESHELL")
+                    shell-file-name)
+                " -c tmux")))
 

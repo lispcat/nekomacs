@@ -795,9 +795,12 @@ https://github.com/emacs-rustic/rustic
   (use-package org :fetch t
     :custom
     (org-hide-emphasis-markers t) ; hide formatting chars (* / ~ = etc)
-    ;; (org-src-preserve-indentation t) ; no space at front of code blocks
-    (org-startup-indented t) ; indent headings and its body
-    (org-startup-folded 'showall) ; default folding mode
+    (org-startup-indented t)       ; indent headings and its body
+    (org-startup-folded 'showall)  ; default folding mode
+    (org-tags-column -60)          ; column where tags are indented to
+    (org-src-preserve-indentation t) ; remove annoying leading whitespace in code blocks
+    (org-return-follows-link t)      ; RET can open links
+    (org-src-window-setup 'current-window) ; edit code blocks in the same window
     :general (neko/leader-definer
                "o" '(:ignore t :which-key "org"))
     :bind (:map org-mode-map
@@ -1076,7 +1079,7 @@ https://github.com/emacs-rustic/rustic
 ** avy
 
 #+begin_src emacs-lisp
-(defun m/theme ()
+(defun m/avy ()
   ;; avy
   (use-package avy
     :general
