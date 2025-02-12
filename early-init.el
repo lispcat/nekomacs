@@ -19,14 +19,14 @@
 
 ;; remove unneeded UI elements
 (setq default-frame-alist
-      '((tool-bar-lines . 0)    ; disable tool bar
-        (menu-bar-lines . 0)    ; disable menu bar
-        (vertical-scroll-bars)  ; disable vertical scroll bar
-        (left-fringe . 0)       ; set left fringe (def: 8) (then: 10)
-        (right-fringe . 0)      ; set right fringe (def: 8) (then: 10)
+      '((tool-bar-lines . 0)            ; disable tool bar
+        (menu-bar-lines . 0)            ; disable menu bar
+        (vertical-scroll-bars)          ; disable vertical scroll bar
         (drag-internal-border . t)
         (internal-border-width . 13) ; box border around buffer+modeline (creates gap) (prev: 15)
         (fullscreen . maximized)     ; TODO: ???
+        (left-fringe)           ; set left fringe
+        (right-fringe)          ; set right fringe
         ))
 (setq tool-bar-mode nil                         ; disable tool bar
       menu-bar-mode nil                         ; disable menu bar

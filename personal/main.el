@@ -57,7 +57,8 @@
 (m/transparency)
 (m/line-numbers)
 (m/line-wrap)
-(m/mode-line)
+(m/mode-line-tweaks)
+(m/doom-modeline)
 (m/scroll)
 
 ;;; Programs

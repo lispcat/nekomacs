@@ -643,7 +643,14 @@
 
 ;; [[file:Modules.org::*Meow][Meow:1]]
 (defun m/meow ()
-  (use-package meow))
+  (use-package meow
+    :custom
+    (meow-replace-state-name-list
+     '((normal . "<N>")
+       (motion . "<M>")
+       (keypad . "<K>")
+       (insert . "<I>")
+       (beacon . "<B>")))))
 ;; Meow:1 ends here
 
 ;; [[file:Modules.org::*meow-qwerty][meow-qwerty:1]]
@@ -1007,11 +1014,20 @@
   )
 ;; line wrap:1 ends here
 
-;; [[file:Modules.org::*mode-line][mode-line:1]]
-(defun m/mode-line ()
+;; [[file:Modules.org::*mode-line tweaks][mode-line tweaks:1]]
+(defun m/mode-line-tweaks ()
   ;; show column # on modeline
   (column-number-mode 1))
-;; mode-line:1 ends here
+;; mode-line tweaks:1 ends here
+
+;; [[file:Modules.org::*doom-modeline][doom-modeline:1]]
+(defun m/doom-modeline ()
+  (use-package doom-modeline :fetch t
+    :init
+    (doom-modeline-mode 1)
+    :config
+    (doom-modeline-modal-icon nil)))
+;; doom-modeline:1 ends here
 
 ;; [[file:Modules.org::*scroll][scroll:1]]
 (defun m/scroll ()

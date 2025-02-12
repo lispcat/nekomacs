@@ -56,7 +56,8 @@
   - [[#transparency][transparency]]
   - [[#line-numbers][line numbers]]
   - [[#line-wrap][line wrap]]
-  - [[#mode-line][mode-line]]
+  - [[#mode-line-tweaks][mode-line tweaks]]
+  - [[#doom-modeline][doom-modeline]]
   - [[#scroll][scroll]]
 - [[#programs][Programs]]
   - [[#terminal][terminal]]
@@ -837,7 +838,14 @@ https://github.com/emacs-rustic/rustic
 
 #+begin_src emacs-lisp
 (defun m/meow ()
-  (use-package meow))
+  (use-package meow
+    :custom
+    (meow-replace-state-name-list
+     '((normal . "<N>")
+       (motion . "<M>")
+       (keypad . "<K>")
+       (insert . "<I>")
+       (beacon . "<B>")))))
 #+end_src
 
 **** meow-qwerty
@@ -1219,12 +1227,23 @@ https://github.com/emacs-rustic/rustic
   )
 #+end_src
 
-** mode-line
+** mode-line tweaks
 
 #+begin_src emacs-lisp
-(defun m/mode-line ()
+(defun m/mode-line-tweaks ()
   ;; show column # on modeline
   (column-number-mode 1))
+#+end_src
+
+** doom-modeline
+
+#+begin_src emacs-lisp
+(defun m/doom-modeline ()
+  (use-package doom-modeline :fetch t
+    :init
+    (doom-modeline-mode 1)
+    :config
+    (doom-modeline-modal-icon nil)))
 #+end_src
 
 ** scroll
