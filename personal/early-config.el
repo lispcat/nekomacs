@@ -1,5 +1,5 @@
 
 ;;;;;; Loads after early-init.el, before init.el ;;;;;;
 
-(setq neko-benchmark t)
+(setq use-package-benchmark-by-default t)
 
