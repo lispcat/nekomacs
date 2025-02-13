@@ -1026,7 +1026,7 @@
     :init
     (doom-modeline-mode 1)
     :config
-    (doom-modeline-modal-icon nil)))
+    (setq doom-modeline-modal-icon nil)))
 ;; doom-modeline:1 ends here
 
 ;; [[file:Modules.org::*scroll][scroll:1]]

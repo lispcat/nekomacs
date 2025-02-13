@@ -23,7 +23,7 @@
         (menu-bar-lines . 0)            ; disable menu bar
         (vertical-scroll-bars)          ; disable vertical scroll bar
         (drag-internal-border . t)
-        (internal-border-width . 13) ; box border around buffer+modeline (creates gap) (prev: 15)
+        ;; (internal-border-width . 13) ; box border around buffer+modeline (creates gap) (prev: 15)
         (fullscreen . maximized)     ; TODO: ???
         (left-fringe)           ; set left fringe
         (right-fringe)          ; set right fringe

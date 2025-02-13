@@ -1243,7 +1243,7 @@ https://github.com/emacs-rustic/rustic
     :init
     (doom-modeline-mode 1)
     :config
-    (doom-modeline-modal-icon nil)))
+    (setq doom-modeline-modal-icon nil)))
 #+end_src
 
 ** scroll
