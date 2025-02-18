@@ -1,6 +1,4 @@
 
-(message "DEBUG: enter main.el")
-
 ;;; Emacs
 
 (m/essential-tweaks)
@@ -46,8 +44,8 @@
 ;;; Keyboard
 
 (m/meow)
-;; (m/meow-qwerty)
-(m/meow-dvp)
+(m/meow-qwerty)
+;; (m/meow-dvp)
 (m/avy)
 (m/spellcheck)
 
@@ -71,17 +69,11 @@
 
 (m/server)
 
-;;; add stuff in vendor dir to load-path
-(let ((vendor-dir (file-name-concat neko-personal-dir "vendor/")))
-  (dolist (path (directory-files vendor-dir t))
-    (when (file-directory-p path)
-      (add-to-list 'load-path path))))
-
 ;;; load everything stuff from subdir ./features
 
-(let* ((dir (file-name-concat neko-personal-dir "features"))
-       (paths (directory-files-recursively dir "^[^_].*\\.el$")))
-  (dolist (path paths)
-    (let ((file-as-str path))
-      (+safe-progn
-        (load file-as-str)))))
+;; (when-let* ((dir (file-name-concat neko-personal-dir "features"))
+;;             (paths (directory-files-recursively dir "^[^_].*\\.el$")))
+;;   (dolist (path paths)
+;;     (let ((file-as-str path))
+;;       (+safe-progn
+;;         (load file-as-str)))))

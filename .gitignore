@@ -14,23 +14,12 @@
 !modules/**
 !personal/
 !personal/**
-!personal-template/
-!personal-template/**
-!snippets/
-!snippets/**
 !submodules/
 !submodules/**
-
-!modules.old/
-!modules.old/**
-
-!core.old/
-!core.old/**
 
 
 !local/
 
 !early-init.el
-!startup-config.el
 !init.el
 !README.org
