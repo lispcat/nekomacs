@@ -24,3 +24,10 @@
 
 ;; nix
 (use-package nix-mode)
+
+;; rustowl
+;; (straight-use-package
+;;  `(rustowlsp
+;;    :host github
+;;    :repo "cordx56/rustowl"
+;;    :files (:defaults "emacs/*")))

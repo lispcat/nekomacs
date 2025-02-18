@@ -71,7 +71,7 @@
     "Apply a patch FILE with `git apply --reject`."
     (interactive "fPatch file: ")
     (magit-run-git "apply" "--reject" "--whitespace=fix" "--recount"
-		   (expand-file-name file))))
+                   (expand-file-name file))))
 
 
 ;; origami ?
@@ -90,4 +90,6 @@
   :hook ((prog-mode . my/prog-mode-whitespace)
          (org-mode  . my/prog-mode-whitespace)
          (text-mode . my/prog-mode-whitespace)))
+
+
 

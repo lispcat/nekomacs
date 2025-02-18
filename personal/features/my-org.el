@@ -268,3 +268,11 @@ It makes sense to do so if `org-cdlatex-mode' is active and if the cursor is
 
 (use-package orglink
   :hook prog-mode)
+
+
+(use-package org
+  :after org
+  :config
+  (require 'org-habit)
+  (add-to-list 'org-modules 'org-habit t)
+  )

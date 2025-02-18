@@ -344,6 +344,8 @@
                 ([tab] . corfu-insert)  ; TODO: why repeat??
                 ("RET" . nil)
                 ;; ("C-f" . corfu-insert)
+                ("S-TAB" . corfu-next)
+                ("S-M-TAB" . corfu-previous)
                 )
     :custom
     (corfu-cycle t)                 ; cycle bottom/top
@@ -430,11 +432,11 @@
   ;; https://stackoverflow.com/questions/72601990/how-to-show-suggestions-for-yasnippets-when-using-eglot
 
   ;; TODO: move elsewhere?:
-  ;; (use-package yasnippet :fetch t
-  ;;   :diminish yas-minor-mode
-  ;;   :hook (prog-mode . yas-minor-mode)
-  ;;   :config
-  ;;   (yas-reload-all))
+  (use-package yasnippet :fetch t
+    :diminish yas-minor-mode
+    :hook (prog-mode . yas-minor-mode)
+    :config
+    (yas-reload-all))
 
   ;; (use-package yasnippet-snippets :fetch t
   ;;   :after yasnippet)
@@ -470,7 +472,7 @@
     (compilation-scroll-output t))
 
   (use-package flycheck :fetch t
-    :defer t
+    :hook prog-mode
     :config
     (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
 ;; IDE essentials:1 ends here
@@ -928,9 +930,10 @@
         (enable-theme theme)
       (load-theme theme :no-confirm))
     ;; remove fringes
-    (set-face-attribute 'fringe nil
-                        :foreground (face-foreground 'default)
-                        :background (face-background 'default)))
+    ;; (set-face-attribute 'fringe nil
+    ;;                     :foreground (face-foreground 'default)
+    ;;                     :background (face-background 'default))
+    )
 
     ;;; Function: sets a random theme.
 
@@ -948,9 +951,9 @@
           (enable-theme chosen-theme)
         (load-theme chosen-theme :no-confirm))
       ;; remove fringes
-      (set-face-attribute 'fringe nil
-                          :foreground (face-foreground 'default)
-                          :background (face-background 'default))
+      ;; (set-face-attribute 'fringe nil
+      ;;                     :foreground (face-foreground 'default)
+      ;;                     :background (face-background 'default))
       ;; mesg
       (message "Enabled theme: %s" chosen-theme)))
 
@@ -1025,8 +1028,9 @@
   (use-package doom-modeline :fetch t
     :init
     (doom-modeline-mode 1)
-    :config
-    (setq doom-modeline-modal-icon nil)))
+    ;; :config
+    ;; (setq doom-modeline-modal-icon nil)
+    ))
 ;; doom-modeline:1 ends here
 
 ;; [[file:Modules.org::*scroll][scroll:1]]

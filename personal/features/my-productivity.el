@@ -24,10 +24,13 @@
   :bind (:map org-agenda-mode-map
               (")" . 'org-agenda-todo))
   :config
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "NEXT(n)" "PROG(p)"
+                    "|"
+                    "DONE(d/!)")))
   (setq org-agenda-files
         (list "~/Notes/org/Inbox.org"
-              "~/Notes/denote/20250131T044005--agenda__agenda.org"
-              "~/Notes/denote/classes/20241215T083836--spring-classes__class_meta_todo.org"))
+              "~/Notes/denote/20250131T044005--agenda__agenda.org"))
   (setq org-tag-alist
         '(;; Places
           ("@home"   . ?H)
@@ -56,103 +59,102 @@
       (let ((val (org-entry-get nil "EFFORT")))
         (if (not val) ""
           (format "%s" (string-trim val))))))
+  (defun my/org-get-prop-days ()
+    (if (not (eq major-mode 'org-mode)) ""
+      (let ((val (org-entry-get nil "DAYS")))
+        (if (not val) ""
+          (format "%s" (string-trim val))))))
   (setq org-agenda-prefix-format
         `((agenda
            . ,(concat " %i "
                       "%?-12t"
-                      "%-6(my/org-get-prop-effort)"
-                      "[%-3(my/org-get-prop-time)]   " ; time prop
+                      "[%3(my/org-get-prop-effort)]   "
+                      ;; "%3(my/org-get-prop-effort)  "
                       "% s"))
           (todo   . " %i ")
           (tags   . " %i %-12:c")
           ;; (search . " %i %-12:c")
           (search . " %c")
-          )))
+          ))
+  ;; (setq org-agenda-sorting-strategy
+  ;;       ((agenda habit-down time-up urgency-down category-keep user-defined-up)
+  ;;        (todo urgency-down category-keep)
+  ;;        (tags urgency-down category-keep)
+  ;;        (search category-keep)))
+  )
+
+(->>
+ (progn
+
+   (defun my/org-get-ts (prop)
+     (when (eq major-mode 'org-mode)
+       (org-entry-get nil prop)))
+
+   (defun my/org-get-repeater-cookie (ts)
+     (when-let ((regex  org-ql-regexp-part-ts-repeaters)
+                (_match (string-match regex ts))
+                (cookie (match-string 0 ts)))
+       (string-trim cookie)))
+
+   (defun my/org-get-pre-repeater-cookie (ts)
+     (when-let ((regex  (concat "\\(.*\\)"
+                                org-ql-regexp-part-ts-repeaters))
+                (_match (string-match regex ts))
+                (cookie (match-string 1 ts)))
+       (string-trim cookie)))
+
+   (defun my/org--match-regex-string (str regex num)
+     (when (string-match regex str)
+       (string-trim (match-string num str))))
+
+   ;; (defun my/org-set-repeater-cookie (prop new-cookie)
+   ;;   (interactive
+   ;;    (list
+   ;;     (read-string "Name of timestamp property?: ")
+   ;;     (read-string "Cookie value to set?: ")))
+   ;;   (when-let ((_org? (eq major-mode 'org-mode))
+   ;;              (ts (org-entry-get nil prop)))
+   ;;     (if-let ((pre-cookie (my/org--match-regex-string
+   ;;                           ts
+   ;;                           (concat "\\(.*\\)"
+   ;;                                   org-ql-regexp-part-ts-repeaters)
+   ;;                           1))
+   ;;              (old-cookie (my/org--match-regex-string
+   ;;                           ts
+   ;;                           org-ql-regexp-part-ts-repeaters
+   ;;                           0))
+   ;;              (new-ts (concat pre-cookie " " new-cookie ">")))
+   ;;         (message "NEW1: %s" new-ts)
+   ;;         (org-entry-put nil prop new-ts)
+   ;;       (when-let ((ts-no-arrow
+   ;;                   (my/org--match-regex-string
+   ;;                    ts
+   ;;                    "\\(?:.*\\)>"
+   ;;                    0))
+   ;;                  (ts-new (concat ts-no-arrow " " new-cookie)))
+   ;;         (message "NEW2: %s" ts-new)
+   ;;         (org-entry-put nil prop ts-new)))))
+   )
+
+ (with-eval-after-load 'org-ql)
+ (with-eval-after-load 'org))
 
 (use-package org-super-agenda
   :after org org-agenda
   :config
   (org-super-agenda-mode 1)
   (setq org-agenda-custom-commands
-        `(("a" "clean agenda"
-           ((agenda
-             nil
-             ((org-super-agenda-groups
-               '(;; just a cleaner agenda view
-                 (:discard (:property "FRACTION"))
-                 (:discard (:priority<= "C"))
-                 (:name "Agenda"
-                        :time-grid t
-                        :anything t)
-                 ))))))
-          ("m" "Main View"
-           (;;; TODO: use org-ql to get all entries that are appropriate, then throw into agenda view!!!
-            ;; (search
-            ;;  "@today"
-            ;;  (;; vars
-            ;;   (org-agenda-span 'day)
-            
-            ;;   (org-super-agenda-groups
-            ;;    '((:name "Today's Tasks"
-            ;;             ;; :auto-parent t
-            ;;             :auto-outline-path t
-            ;;             :children todo
-            ;;             :discard (:not (:date today))
-            ;;             )))))
+        `(
+          ("a" "main agenda"
+           ((todo "PROG|NEXT")
             (agenda
              ""
-             ((org-agenda-span 'day)
-              (org-super-agenda-groups
-               '(
-                 ;; Done stuff
-                 
-                 (:name "Done"
-                        ;; :and (:todo "DONE" :date today)
-                        :and (:todo "DONE" :deadline future)
-                        :and (:todo "DONE" :scheduled future)
-                        :order 10)
-                 (:name "old"
-                        :and (:todo "DONE" :deadline past)
-                        :and (:todo "DONE" :scheduled past)
-                        :order 20)
-
-                 ;; past
-
-                 (:name "OVERDUE"
-                        :deadline past
-                        :scheduled past
-                        :transformer (--> it (propertize it 'face '(:foreground "salmon")))
-                        :order 1)
-
-                 ;; today: priorities
-
-                 (:name "HIGH PRIORITY"
-                        :and (:date today :priority>= "A")
-                        :order 2)
-                 (:name "low priority"
-                        :and (:date today :priority<= "C")
-                        :order 5)
-
-                 ;; today schedule and future
-                 
-                 (:name "Today"
-                        :time-grid t
-                        :date today
-                        :deadline today
-                        :scheduled today
-                        :order 3)
-                 (:discard (:property "FRACTION"))
-                 (:name "Future"
-                        :deadline future
-                        :scheduled future
-                        :order 4)
-
-                 ;; rest
-
-                 (:name "?"
-                        :anything t)
-
-                 )))))))))
+             ((org-agenda-show-future-repeats nil)
+              (org-agenda-start-on-weekday 1)
+              ;; (org-super-agenda-groups
+              ;;  '((:anything t)))
+              ))))
+          )))
 
 (defun my/org-clone-with-fraction (days time effort)
   "Clone subtree with time shifts, prefixing each subheading with fraction prefix."
@@ -214,7 +216,7 @@
         `(("t" "Tasks")
           ("td" "Todo with deadline" entry
            (file ,(my/get-org-agenda-denote-file "agenda"))
-           "* TODO %^{Task}\nDEADLINE: %^{Deadline}\n%?\n"
+           "* TODO %^{Task}\nDEADLINE: %^{Deadline}t\n%?\n"
            :empty-lines 1
            :immediate-finish nil)
           ("tp" "Task" entry

@@ -37,7 +37,7 @@ This module configures and provides primarily IDE-related packages.
   (use-package flycheck
     :defer t)
 
-  
+
   (provide 'neko-ide)
 
 #+end_src

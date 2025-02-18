@@ -1,5 +1,5 @@
-(use-package eglot
-  :defer t)
+  (use-package eglot
+    :defer t)
 
-
-(provide 'neko-ide-eglot)
+  
+  (provide 'neko-ide-eglot)

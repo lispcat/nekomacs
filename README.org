@@ -59,6 +59,7 @@ It's composed of the following parts (loaded in order):
 + C-c M-x is M-x but only for mode (HUGE)
 + C-M-SPC for selection (HUGE)
 + consult-ripgrep is very op
++ for new setup, create file for each C-c map bind? like one only for applications?
 
 ** Ideas/todo
 
