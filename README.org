@@ -1,14 +1,8 @@
-#+title: nekomimi
-
-* wip
-
-* Name ideas
-nekomimi
-neko-emacs (aka. nekomacs)
+#+title: neko-emacs
 
 * Why another emacs distribution?
 
-Besides creating a very nice personal configuration, I found myself frustrated with all the Emacs distributions out there that I've tried. Most of them have a very thick layer of abstraction over vanilla Emacs, which makes both debugging and understanding Emacs on a deeper level much harder to do. I also wanted an ideal Emacs distribution I could point to for friends wanting to try out Emacs---especially a distribution I understand every nook and cranny of. Which led me to turn my personal configuration into this distro.
+Besides creating a very nice personal configuration, I found myself frustrated with all the Emacs distributions out there that I've tried. Most of them have a very thick layer of abstraction over vanilla Emacs, which makes both debugging and understanding Emacs on a deeper level much harder to do. I also wanted an ideal Emacs distribution I could point to for friends wanting to try out Emacs---especially a distribution I understand every nook and cranny of. Which led me to turn my personal configuration into this Emacs distro.
 
 * Philosophy
 
@@ -16,34 +10,34 @@ Aims for this Emacs distro:
 - Modular
 - Simple
 - Hackable
-- Creates as little of a layer of abstraction as possible
-- "Just-works" out of the box, but can be easily and selectively stripped down to near-vanilla Emacs
+- Creates as little of a layer of abstraction over vanilla Emacs as possible
+- "Just-works" out of the box, but can be easily modified
 - Keep startup time relatively fast
 
 The pathway for most Emacs users (including myself) is starting off with a very "just-works" distro, then switching over to something more minimal, or vanilla Emacs entirely. I wanted to ease this transition as much as possible by making everything as modular and easily hackable as possible, allowing the user to get as close to vanilla Emacs as necessary while staying on this distribution. Think of it as something similar to a pre-made NixOS configuration, where you can easily blacklist, replace, or write and add your own modules to the config, making it so you can slowly tweak it into your own.
 
 * Installing
 
+#+begin_src shell
+[ -d "$HOME/.emacs.d" ] && mv ~/.emacs.d ~/.emacs.d.old
+git clone --depth 1 https://github.com/lispcat/nekomimi.git ~/.emacs.d
+emacs
+#+end_src
+
 * Documentation
 
-There is extensive documentation in the following files:
-- [[file:modules/README.org]] :: in-depth docs on each provided module
+There is extensive documentation on each module in the following file:
+- [[file:modules/Modules.org][Modules.org]]
 
 * Technical overview
 
-For more technical info, refer to [[file:Info.org][Info.org]]
+- [[file:early-init.el][early-init.el]] :: should not be edited, initializes variables.
+  - [[file:personal/early-config.el][personal/early-config.el]] :: to be edited, to overwrite settings in early-init.el.
+- [[file:init.el][init.el]] :: should not be edited, loads init files and user-side files
+  - [[file:init][init/*]] :: loaded by init.el, necessary or highly recommended to be loaded.
+  - [[file:personal/main.el][personal/main.el]] :: loaded by init.el, the main user-side configuration file.
 
-It's composed of the following parts (loaded in order):
-- [[file:early-init.el][early-init.el]] ::
-  Creates variables that are used later. Can be overwritten.
-- [[file:init.el][init.el]] ::
-  Updates the load-path, does some necessary things, and loads the following:
-  - [[file:core/][core/##-*]] ::
-    A series of files that sets up the package manager, use-package, hard dependencies, and etc. Must be loaded in a specific order.
-  - [[file:personal/nekomimi/modules.el][personal/nekomimi/modules.el]] ::
-    A user-side config file to specify which modules from [[file:modules/][modules/**]] should be loaded.
-  - [[file:personal/][personal/*]] ::
-    The user-side configuration directory. Any elisp files placed here will be loaded.
+- [[file:modules/neko-modules.el][modules/neko-modules.el]] :: contains a list of functions that provide each "module" to be loaded from personal/main.el.
 
 * Personal
 
@@ -122,68 +116,3 @@ https://github.com/thinkhuman/writingwithemacs
   - [X] ok i get the issue now, when the source file is require'd, the macros are expanded. however, the macros are not available at function define time. everything needs to be evaled before hand.
 
 - [ ] Rename all neko/ stuff in init to init/ ?
-
-* Organization
-
-instead of depending on a crazy procedure to change variables in the future, what about just load a specific file? would GREATLY simplify.
-instead of creating a components-exclude alist, just manually remove them.
-
-./local
-./personal
-./components
-
-1) early-init.el
-   + prevent package.el from loading
-   + set less garbage collection at startup
-   + set paths to important dirs:
-     - root
-     - components
-     - personal
-     - special-config
-     - local
-   + set important variables
-     - package-manager
-     - benchmark
-     - init-components
-     - after-init-gc-cons-threshold
-   + load ./personal/nekomimi/early-config.el to overwrite these variables
-2) init.el
-   + set new gc-cons-threshold for after init
-   + crash if unmet reqs
-   + recursively add all appropriate dirs to load-path
-     - components
-     - personal
-   + set user-emacs-directory to local-dir (to isolate emacs-generated files)
-   + Load necessary module loading macros.
-   + Load necessary components (sane defs, pkg-manager, use-package, no-littering, post-init, etc).
-   + Load customized variables file
-   + Load userside components config file
-   + Load all config files in personal-dir in lexigraphic order, with some exclusions
-3) init/necessary components:
-   1. modified loading macros
-   2. sane defaults
-   3. logging
-   4. package manager
-   5. use-package
-   6. no-littering*
-      READ THE FULL DOCS (SO CAN UNDERSTAND EVERYTHING)
-      ACTUALLY LETS USE NO-LITTERING [see this: `geiser-repl-history-filename'].
-      - compare the following settings to other emacs distros!
-        https://idiomdrottning.org/bad-emacs-defaults
-        below may be irrelevant now:
-      #+begin_src emacs-lisp
-        (setq backup-directory-alist `((".*" . ,(expand-file-name "backups/" user-emacs-directory))))
-        (setq auto-save-file-name-transforms `((".*" ,(expand-file-name "auto-save/" user-emacs-directory) t)))
-        (setq backup-by-copying t)
-        (setq delete-old-versions t) ;; maybe? need a module auto way of deleting backups?
-
-        ;; (setq tramp-persistency-file-name (expand-file-name "tramp" user-emacs-directory))
-        (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-        ;; (load custom-file 'noerror) ;; need?
-        (setq eshell-history-file-name (expand-file-name "eshell/history" user-emacs-directory))
-        (setq org-agenda-files (list (expand-file-name "org/agenda.org" user-emacs-directory)))
-        (setq org-id-locations-file (expand-file-name "org/org-id-locations" user-emacs-directory))
-        (setq url-history-file (expand-file-name "url/history" user-emacs-directory))
-      #+end_src
-   7. package dependencies (general.el, which-key, ...)
-   8. function dependencies (featurep-first, ...)

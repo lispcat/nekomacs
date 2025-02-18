@@ -3,10 +3,7 @@
 #+property: header-args :tangle neko-modules.el :comments link
 
 * Table of Contents :TOC_4:
-- [[#new][new]]
-  - [[#ideas][ideas]]
 - [[#emacs][Emacs]]
-  - [[#todo][TODO]]
   - [[#essential-tweaks][essential tweaks]]
   - [[#buffers][Buffers]]
   - [[#history][History]]
@@ -68,19 +65,7 @@
   - [[#server][server]]
 - [[#ending][ending]]
 
-* new
-
-this is where i will plan out how to restructure the modules system.
-
-put focus on making it very segmented and all over the place. piece by piece. build like legos for the end user.
-
-** ideas
-
-- combine Emacs & Tweaks category?
-
 * Emacs
-
-** TODO
 
 ** essential tweaks
 
