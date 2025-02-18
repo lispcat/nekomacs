@@ -16,7 +16,7 @@ Aims for this Emacs distro:
 
 The pathway for most Emacs users (including myself) is starting off with a very "just-works" distro, then switching over to something more minimal, or vanilla Emacs entirely. I wanted to ease this transition as much as possible by making everything as modular and easily hackable as possible, allowing the user to get as close to vanilla Emacs as necessary while staying on this distribution. Think of it as something similar to a pre-made NixOS configuration, where you can easily blacklist, replace, or write and add your own modules to the config, making it so you can slowly tweak it into your own.
 
-* Installing
+* Installation
 
 #+begin_src shell
 [ -d "$HOME/.emacs.d" ] && mv ~/.emacs.d ~/.emacs.d.old
